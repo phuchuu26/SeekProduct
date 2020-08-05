@@ -1,0 +1,26 @@
+
+
+
+<div style="margin-top: 15px;" class="row" *ngIf="showCard === true">
+  
+  <form>
+    <div class="form-group">
+      <label for="avatar">Stripe</label>
+      <label class="radio-inline" style="margin-left: 15px;"><input (change)="location($event)" value="0" type="radio" name="optradio" checked>Payment</label>
+      <label class="radio-inline" style="margin-left: 15px;"><input (change)="location($event)" value="1" type="radio" name="optradio">Bank</label>
+    </div>
+    <div *ngIf="local === 1">
+      <input style="margin-bottom: 15px;" class="form-control" ([ngModel])="account_holder_name" type="text" id="account_holder_name" [value]="account_holder_name" (keyup)="changeNumber($event)" placeholder="Account holder name">
+      <input style="margin-bottom: 15px;" class="form-control" ([ngModel])="country" type="text" id="country" [value]="country" (keyup)="changeNumber($event)" placeholder="Country (ex: US)">
+      <input style="margin-bottom: 15px;" class="form-control" ([ngModel])="currency" type="text" id="currency" [value]="currency" (keyup)="changeNumber($event)" placeholder="Currency (ex: usd)">
+      <input style="margin-bottom: 15px;" class="form-control" ([ngModel])="account_holder_type" type="text" id="account_holder_type" [value]="account_holder_type" (keyup)="changeNumber($event)" placeholder="Account holder type">
+      <input style="margin-bottom: 15px;" class="form-control" ([ngModel])="routing_number" type="number" id="routing_number" [value]="routing_number" (keyup)="changeNumber($event)" placeholder="Routing Number">
+      <input style="margin-bottom: 15px;" class="form-control" ([ngModel])="account_number" type="number" id="account_number" [value]="account_number" (keyup)="changeNumber($event)" placeholder="Account Number">
+    </div>
+    <ngx-stripe-card *ngIf="local === 0" [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
+  <button type="submit" (click)="local === 1 ? createBankToken() : createToken()">
+    CREATE TOKEN
+  </button>
+</form>
+</div>
+
