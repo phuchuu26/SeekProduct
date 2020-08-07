@@ -6,7 +6,6 @@
     .custom-control-input ~ .custom-control-label {
         cursor: pointer;
         font-size: $font-size-sm;
-        height: $custom-control-indicator-size;
     }
 
     .custom-control-input {
@@ -34,14 +33,5 @@
                 }
             }
         }
-    }
-}
-
-
-// Color variations
-
-@each $color, $value in $theme-colors {
-    .custom-checkbox-#{$color} {
-        @include custom-checkbox-variant($value);
     }
 }

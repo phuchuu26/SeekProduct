@@ -96,12 +96,3 @@
         position: relative;
     }
 }
-
-
-// Position the footer at the bottom of the page if the body is smaller than the window
-
-.footer-auto-bottom {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}

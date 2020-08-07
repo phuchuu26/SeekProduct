@@ -2,12 +2,10 @@
 	.modal-title {
 		color: color-yiq($background);
 	}
-
 	.modal-header,
 	.modal-footer {
 		border-color: rgba(color-yiq($background), .075);
 	}
-
 	.modal-content {
 		background-color: $background;
 		color: color-yiq($background);
@@ -17,8 +15,8 @@
 		}
 	}
 
-	.close {
-    	& > span:not(.sr-only) {
+	.close { 
+    	&>span:not(.sr-only) {
     		color: $white;
     	}
     }

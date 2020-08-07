@@ -5,10 +5,6 @@
 
 // General styles
 
-h1>a, h2>a, h3>a, h4>a, h5>a, h6>a {
-	color: inherit;
-}
-
 .heading {
 	letter-spacing: $heading-letter-spacing;
 	font-size: $heading-font-size;
@@ -53,13 +49,4 @@ h1>a, h2>a, h3>a, h4>a, h5>a, h6>a {
 			margin-right: auto;
 		}
 	}
-}
-
-// Surtitles
-
-.surtitle {
-	text-transform: uppercase;
-	color: $gray-600;
-	letter-spacing: 2px;
-	margin-bottom: 0;
 }
