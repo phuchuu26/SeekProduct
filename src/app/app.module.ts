@@ -13,7 +13,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 
-
+// import { CustomFormsModule } from 'ngx-custom-validators';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -22,7 +23,10 @@ import { ComponentsModule } from './components/components.module';
     ComponentsModule,
     NgbModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    // CustomFormsModule,
+    ReactiveFormsModule
+
   ],
   declarations: [
     AppComponent,
