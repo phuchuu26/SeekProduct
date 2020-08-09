@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { user } from 'src/app/models/user';
+import {SnotifyService} from 'ng-snotify';
+import { SnotifyPosition } from "ng-snotify";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,7 +12,8 @@ import { user } from 'src/app/models/user';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   constructor( private router: Router,
-    private server: ServerHttpService
+    private server: ServerHttpService,
+    private snotify: SnotifyService,
     ) {
 
   }
@@ -32,13 +35,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   });
   public save(){
 
-      this.server.login(this.submit()).subscribe((data)=>{
+      this.server.login(this.submit()).subscribe((  data )=>{
         this.server.tokenLogin = data;
-        this.router.navigate(["dashboard"]);
         console.log(this.server.tokenLogin);
-    });
-
-
+        if(data){
+          this.success(this.userForm.controls.email.value);
+        }
+        this.router.navigate(["dashboard"]);
+     },
+    (error)=>{
+      console.log(error);
+      this.failed();
+    }
+    );
 
     }
     public submit(){
@@ -51,5 +60,26 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
       return user as user;
     }
+
+    public success(a){
+      this.snotify.info(`Chào mừng ${a} đã đăng nhập thành công`, "Xác nhận", {
+        position: SnotifyPosition.rightTop,
+        timeout: 3000,
+        showProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+      });
+    }
+
+    public failed(){
+      this.snotify.error(`Đăng nhập thất bại `, "Xác nhận", {
+        position: SnotifyPosition.rightTop,
+        timeout: 3000,
+        showProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+      });
+    }
+
 
 }

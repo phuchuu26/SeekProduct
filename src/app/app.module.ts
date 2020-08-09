@@ -12,9 +12,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-
 // import { CustomFormsModule } from 'ngx-custom-validators';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -25,7 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     RouterModule,
     AppRoutingModule,
     // CustomFormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SnotifyModule
 
   ],
   declarations: [
@@ -33,7 +34,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     AdminLayoutComponent,
     AuthLayoutComponent
   ],
-  providers: [],
+  providers: [
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
+    SnotifyService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
