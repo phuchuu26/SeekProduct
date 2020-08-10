@@ -1,3 +1,4 @@
+import { profileUser } from './../../models/user';
 import { ServerHttpService } from './../../Services/server-http.service';
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -5,6 +6,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { user } from 'src/app/models/user';
 import {SnotifyService} from 'ng-snotify';
 import { SnotifyPosition } from "ng-snotify";
+import Swal from 'sweetalert2'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -36,15 +38,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   public save(){
 
       this.server.login(this.submit()).subscribe((  data )=>{
-        this.server.tokenLogin = data;
-        console.log(this.server.tokenLogin);
-        if(data){
-          this.success(this.userForm.controls.email.value);
+        this.server.tokenLogin = data.token;
+        // console.log(this.server.tokenLogin);
+        if(this.server.tokenLogin){
+          this.server.getProfile().subscribe((data1)=>{
+            // console.log(data1);
+            this.server.profileUser = data1;
+            // console.log(this.server.profileUser);
+            this.success(this.server.profileUser.first_name);
+          })
         }
         this.router.navigate(["dashboard"]);
+
      },
     (error)=>{
-      console.log(error);
+      // console.log(error);
       this.failed();
     }
     );
