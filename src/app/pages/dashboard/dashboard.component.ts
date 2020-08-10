@@ -8,6 +8,8 @@ import {
   chartExample1,
   chartExample2
 } from "../../variables/charts";
+import { ServerHttpService } from 'src/app/Services/server-http.service';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +24,10 @@ export class DashboardComponent implements OnInit {
   public clicked: boolean = true;
   public clicked1: boolean = false;
 
-  constructor() { }
+  constructor(
+    private http: ServerHttpService,
+    private httpClient: HttpClient
+  ) { }
 
   ngOnInit() {
 
@@ -50,12 +55,41 @@ export class DashboardComponent implements OnInit {
 			type: 'line',
 			options: chartExample1.options,
 			data: chartExample1.data
-		});
+    });
+    console.log(this.http.tokenLogin);
+    // if(this.http.tokenLogin){
+    //   this.http.getProfile().subscribe((data)=>{
+    //     console.log(data);
+    //   })
+
+    // }
+
+
+
+    // this.a();
   }
 
 
 
-
+  // public a(){
+  //   this.httpClient
+  //   .get<any>(
+  //     "https://seekproduct-api.misavu.net/api/auth/profile"
+  //     ,
+  //     {
+  //       headers: new HttpHeaders({
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //         Authorization:`JWT ${this.http.tokenLogin}`,
+  //       }),
+  //     }
+  //   )
+  //   .subscribe((result) => {
+  //     console.log(result);
+  //     // this.token = result;
+  //     console.log(this.http.tokenLogin);
+  //   });
+  // }
 
   public updateOptions() {
     this.salesChart.data.datasets[0].data = this.data;
