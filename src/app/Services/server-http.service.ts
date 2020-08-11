@@ -1,24 +1,26 @@
-import { Injectable } from '@angular/core';
-import { HttpErrorResponse, HttpHeaders, HttpClient } from '@angular/common/http';
-import { throwError, Observable } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { user, profileUser } from '../models/user';
+import { Injectable } from "@angular/core";
+import {
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpClient,
+} from "@angular/common/http";
+import { throwError, Observable } from "rxjs";
+import { catchError, map, tap } from "rxjs/operators";
+import { user, profileUser } from "../models/user";
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ServerHttpService {
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   public lastCallAPI: number;
-  public profileUser:profileUser;
-  public tokenLogin:string;
+  public profileUser: profileUser;
+  public tokenLogin: string;
   private REST_API_SERVER = "https://seekproduct-api.misavu.net/";
 
   private httpOptions = {
     headers: new HttpHeaders({
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
       // Authorization: 'my-auth-token',
       // Authorization: 'Basic ' + btoa('username:password'),
     }),
@@ -31,55 +33,101 @@ export class ServerHttpService {
   //   // .post<any>(url, object, this.httpOptions)
   //   .pipe(catchError(this.handleError));
   // };
-  public login(user:user): Observable<any>{
+  public login(user: user): Observable<any> {
     const url = `${this.REST_API_SERVER}user/login/`;
     this.lastCallAPI = new Date().getTime();
     return this.http
-    .post<any>(url, {email: user.email, password: user.password}, this.httpOptions)
-    .pipe(catchError(this.handleError));
-  };
-
-  public refreshToken(): Observable<any>{
-    const url = `${this.REST_API_SERVER}api-token-refresh/`;
-    return this.http
-    .post<any>(url,{token: this.tokenLogin},  this.httpOptions )
-    .pipe(catchError(this.handleError));
+      .post<any>(
+        url,
+        { email: user.email, password: user.password },
+        this.httpOptions
+      )
+      .pipe(
+        catchError(this.handleError),
+        tap((res) => {
+          if (res) {
+            localStorage.setItem("TOKEN", res.token);
+          }
+        })
+      );
   }
 
-  public getProfile(): Observable<profileUser>{
+  public refreshToken(): Observable<any> {
+    const url = `${this.REST_API_SERVER}api-token-refresh/`;
+    return this.http
+      .post<any>(url, { token: this.tokenLogin }, this.httpOptions)
+      .pipe(
+        catchError(this.handleError),
+        tap((res) => {
+          if (res) {
+            localStorage.setItem("TOKEN", res.token);
+          }
+        })
+      );
+  }
 
-
-    if(this.tokenLogin){
+  public getProfile(): Observable<profileUser> {
+    if (this.tokenLogin) {
       var httpOptions1 = {
         headers: new HttpHeaders({
           "Content-Type": "application/json",
           // Authorization: 'my-auth-token',
-          Authorization: 'JWT ' + this.tokenLogin,
+          Authorization: "JWT " + this.tokenLogin,
         }),
       };
       // this.httpOptions.headers.append('Authorization','JWT ' + this.tokenLogin);
     }
     const url = `${this.REST_API_SERVER}api/auth/profile`;
 
-    return this.http
-    // {headers: new HttpHeaders({'Authorization': 'JWT ' + this.tokenLogin})}
-    // this.httpOptions
-    .get<any>(url,httpOptions1 )
-    .pipe(catchError(this.handleError));
+    return (
+      this.http
+        // {headers: new HttpHeaders({'Authorization': 'JWT ' + this.tokenLogin})}
+        // this.httpOptions
+        .get<any>(url, httpOptions1)
+        .pipe(catchError(this.handleError),
+        tap((res)=>{
+          localStorage.setItem("USER",JSON.stringify(res));
+          // let a;
+          // a = localStorage.getItem("USER");
+          // console.log(JSON.parse(a));
+        })
+        )
+    );
   }
 
-  public  shouldCallAPIrefreshToken(){
+  public logout(){
+    const url=`${this.REST_API_SERVER}user/logout/`;
+    const httpOptionsChild = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        // Authorization: 'my-auth-token',
+        Authorization: 'JWT ' + this.tokenLogin
+      }),
+    };
+    // httpOptionsChild.headers.append('Authorization','JWT ' + this.tokenLogin);
+    return this.http
+    .get<any>(url, httpOptionsChild)
+    .pipe(catchError(this.handleError),
+    tap((res)=>{
+      console.log(res);
+      this.tokenLogin='';
+      localStorage.removeItem("TOKEN");
+      localStorage.removeItem("USER");
+
+    })
+   )
+  }
+
+  public shouldCallAPIrefreshToken() {
     const now = new Date().getTime();
-    if((now - this.lastCallAPI) > 600000){
-      this.refreshToken().subscribe((data)=>
-        this.tokenLogin = data.token
-      );
+    if (now - this.lastCallAPI > 600000) {
+      this.refreshToken().subscribe((data) => (this.tokenLogin = data.token));
       this.lastCallAPI = now;
     }
     // else{
     //   console.log('ko chay');
     // }
-}
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -95,5 +143,4 @@ export class ServerHttpService {
     // return an observable with a user-facing error message
     return throwError("Something bad happened; please try again later.");
   }
-
 }
