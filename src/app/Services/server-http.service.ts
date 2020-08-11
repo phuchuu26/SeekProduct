@@ -11,6 +11,7 @@ export class ServerHttpService {
     private http: HttpClient
   ) { }
 
+  public lastCallAPI: number;
   public profileUser:profileUser;
   public tokenLogin:string;
   private REST_API_SERVER = "https://seekproduct-api.misavu.net/";
@@ -32,11 +33,18 @@ export class ServerHttpService {
   // };
   public login(user:user): Observable<any>{
     const url = `${this.REST_API_SERVER}user/login/`;
+    this.lastCallAPI = new Date().getTime();
     return this.http
     .post<any>(url, {email: user.email, password: user.password}, this.httpOptions)
     .pipe(catchError(this.handleError));
   };
 
+  public refreshToken(): Observable<any>{
+    const url = `${this.REST_API_SERVER}api-token-refresh/`;
+    return this.http
+    .post<any>(url,{token: this.tokenLogin},  this.httpOptions )
+    .pipe(catchError(this.handleError));
+  }
 
   public getProfile(): Observable<profileUser>{
 
@@ -59,6 +67,19 @@ export class ServerHttpService {
     .get<any>(url,httpOptions1 )
     .pipe(catchError(this.handleError));
   }
+
+  public  shouldCallAPIrefreshToken(){
+    const now = new Date().getTime();
+    if((now - this.lastCallAPI) > 600000){
+      this.refreshToken().subscribe((data)=>
+        this.tokenLogin = data.token
+      );
+      this.lastCallAPI = now;
+    }
+    // else{
+    //   console.log('ko chay');
+    // }
+}
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

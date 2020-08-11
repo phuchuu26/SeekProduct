@@ -30,6 +30,12 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    setInterval(()=>{                           //<<<---using ()=> syntax
+      this.http.shouldCallAPIrefreshToken();
+ }, 1000);
+
+
+
 
     this.datasets = [
       [0, 20, 10, 30, 15, 40, 20, 60, 60],
