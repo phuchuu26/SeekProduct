@@ -6,7 +6,7 @@ import {
 } from "@angular/common/http";
 import { throwError, Observable } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
-import { user, profileUser } from "../models/user";
+import { user, profileUser, registerAccount } from "../models/user";
 @Injectable({
   providedIn: "root",
 })
@@ -116,6 +116,15 @@ export class ServerHttpService {
 
     })
    )
+  }
+  public register(data:registerAccount){
+    const url = `${this.REST_API_SERVER}api/auth/register/`;
+    return this.http
+    .post<any>(url, data, this.httpOptions)
+    .pipe(catchError(this.handleError),
+    tap((res)=>{
+      // console.log(res);
+    }))
   }
 
   public shouldCallAPIrefreshToken() {
