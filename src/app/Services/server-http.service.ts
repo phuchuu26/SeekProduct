@@ -46,9 +46,40 @@ export class ServerHttpService {
         catchError(this.handleError),
         tap((res) => {
           if (res) {
+            this.tokenLogin = res.token;
             localStorage.setItem("TOKEN", res.token);
           }
         })
+      );
+  }
+  public updateProfile(profileUser: profileUser): Observable<any> {
+    const url = `${this.REST_API_SERVER}api/auth/profile`;
+    const httpOptionsChild = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        // Authorization: 'my-auth-token',
+        Authorization: 'JWT ' + this.tokenLogin,
+      }),
+    };
+    return this.http
+      .put<any>(
+        url,
+        profileUser,
+        httpOptionsChild
+      )
+      .pipe(
+        catchError(this.handleError),
+        tap((res) => {
+          if (res) {
+            console.log(profileUser);
+            console.log(res);
+            localStorage.setItem("USER",JSON.stringify(profileUser));
+          }
+        },
+        (error)=>{
+          console.log(error);
+        }
+         )
       );
   }
 

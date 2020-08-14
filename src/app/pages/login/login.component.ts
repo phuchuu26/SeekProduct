@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             // console.log(data1);
             this.server.profileUser = data1;
             // console.log(this.server.profileUser);
-            this.success(this.server.profileUser.first_name);
+            this.success(this.server.profileUser.first_name,this.server.profileUser.last_name);
           })
         }
         this.router.navigate(["dashboard"]);
@@ -69,8 +69,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       return user as user;
     }
 
-    public success(a){
-      this.snotify.info(`Chào mừng ${a} đã đăng nhập thành công`, "Xác nhận", {
+    public success(a,b){
+      this.snotify.info(`Chào mừng ${a} ${b} đã đăng nhập thành công`, "Xác nhận", {
         position: SnotifyPosition.rightTop,
         timeout: 3000,
         showProgressBar: false,
