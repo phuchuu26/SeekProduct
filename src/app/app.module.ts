@@ -15,6 +15,7 @@ import { ComponentsModule } from './components/components.module';
 // import { CustomFormsModule } from 'ngx-custom-validators';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+import { UpdatePasswordComponent } from './pages/update-password/update-password.component';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -32,7 +33,8 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    UpdatePasswordComponent
   ],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
