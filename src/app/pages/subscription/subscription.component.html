@@ -1,0 +1,193 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
+                  <span class="h2 font-weight-bold mb-0">350,897</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                    <i class="fas fa-chart-bar"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
+                  <span class="h2 font-weight-bold mb-0">2,356</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                    <i class="fas fa-chart-pie"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
+                <span class="text-nowrap">Since last week</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
+                  <span class="h2 font-weight-bold mb-0">924</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                    <i class="fas fa-users"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
+                <span class="text-nowrap">Since yesterday</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
+                  <span class="h2 font-weight-bold mb-0">49,65%</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                    <i class="fas fa-percent"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                <span class="text-nowrap">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!---------------------------------------------------------------------------------------------->
+<div class="container-fluid mt--6">
+  <div style="display: inline;">
+    <button style="font-size: 20px;" (click)="openDialog()" type="button" class="btn btn-danger">
+      <i class="fa fa-user-plus" aria-hidden="true"></i>
+    </button>
+  </div>
+  <!------------------------------------------------------------------------------------>
+  <div class="modal-dialog modal-dialog-centered" *ngIf="show === true">
+    <div class="modal-content">
+      <form>
+        <div class="modal-body">
+          <div class="form-group">
+            <h3><label for="plan_id"><span class="label label-success">Plan</span></label></h3>
+            <select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectPlan" class="form-control" id="plan_id" (change)="changeData($event)" required>
+              <option class="option" *ngFor="let plan of planArr" [value]="plan.id">{{plan.name}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <h3><label for="company_id"><span class="label label-success">Company</span></label></h3>
+            <select class="form-control" id="company_id" (change)="changeData($event)" required>
+              <option class="option" *ngFor="let compa of company" [value]="compa.id">
+                {{compa.store_name}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <h3><label for="trial_period_days">Trial Period Days</label></h3>
+            <input ([ngModel])="trial_period_days" [value]="trial_period_days" (keyup)="changeData($event)" type="number" class="form-control"
+              id="trial_period_days" aria-describedby="emailHelp" placeholder="Vd : 1">
+          </div>
+        </div>
+      </form>
+      <div class="modal-footer border-top-0 d-flex justify-content-center">
+        <button style="font-size: 20px;" (click)="submit()" type="submit" class="btn btn-success">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!------------------------------------------------------------------------------------>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header border-0">
+          <h3 class="mb-0">List Users</h3>
+        </div>
+        <!-- Light table -->
+        <div class="table-responsive" [class.loading]="(loading$ | async)">
+          <table class="table align-items-center table-flush" *ngIf="(subscriptionItems | async)">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Logo Company</th>
+                <th scope="col" class="sort" data-sort="name">Company Name</th>
+                <th scope="col" class="sort" data-sort="name">Plan Name</th>
+                <th scope="col" class="sort" data-sort="status">Phone</th>
+                <th scope="col">Price</th>
+                <th scope="col" class="sort" data-sort="completion">Address</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody class="list" *ngFor="let subscription of subscriptionItems | async ">
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <a href="#" class="avatar rounded-circle mr-3">
+                      <img alt="Image placeholder" [src]="subscription.company.logo">
+                    </a>
+                  </div>
+                </th>
+                <td class="budget">
+                  {{subscription.company.store_name}}
+                </td>
+                <td class="budget">
+                  {{subscription.plan.name}}
+                </td>
+                <td class="budget">
+                  {{subscription.company.phone_number}}
+                </td>
+                <td class="budget">
+                  {{subscription.plan.price}}
+                </td>
+                <td class="budget">
+                  {{subscription.company.address}}
+                </td>
+                <td class="text-right">
+                  <button (click)="EditSubscriptionItem(subscription.id)" data-toggle="tooltip" data-placement="top" title="Edit"
+                    class="btn btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top"
+                      title="Edit"></i></button>
+                  <button (click)="deleteSubscriptionItem(subscription.company.id)" data-toggle="tooltip"
+                    data-placement="top" title="Remove" class="btn btn-sm"><i class="fa fa-trash" data-toggle="tooltip"
+                      data-placement="top" title="Remove"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

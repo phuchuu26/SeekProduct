@@ -12,9 +12,13 @@ import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {SubscriptionComponent} from '../../pages/subscription/subscription.component';
 // import { CustomFormsModule } from 'ngx-custom-validators';
 // import { ToastrModule } from 'ngx-toastr';
-
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { SubscriptionEffects } from '../../pages/store/effects/subscription.effects';
+import { SubscriptionReducer } from '../../pages/store/reducers/subscription.reducers';
 @NgModule({
   imports: [
     CommonModule,
@@ -23,7 +27,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     NgbModule,
     ClipboardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    EffectsModule.forRoot([SubscriptionEffects]),
+    StoreModule.forRoot({
+      user : SubscriptionReducer
+    })
     // CustomFormsModule
   ],
   declarations: [
@@ -31,7 +39,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     UserProfileComponent,
     TablesComponent,
     IconsComponent,
-    MapsComponent
+    MapsComponent,
+    SubscriptionComponent
   ]
 })
 
