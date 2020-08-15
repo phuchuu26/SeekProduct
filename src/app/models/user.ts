@@ -31,3 +31,8 @@ export interface registerAccount {
   password: string;
   confirm_password: string;
 }
+export interface updatePassword {
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
+}

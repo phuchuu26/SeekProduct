@@ -33,11 +33,10 @@ export class RegisterComponent implements OnInit,DoCheck {
       password: new FormControl("", [Validators.required,Validators.minLength(5),Validators.maxLength(10) ]),
       confirm_password: new FormControl("", [Validators.required , this.passwordCheck])
     },
-
     )
   }
-  ngDoCheck() {
 
+  ngDoCheck() {
     this.checkValidAccount();
   }
 

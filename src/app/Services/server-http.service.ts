@@ -6,13 +6,13 @@ import {
 } from "@angular/common/http";
 import { throwError, Observable } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
-import { user, profileUser, registerAccount } from "../models/user";
+import { user, profileUser, registerAccount, updatePassword } from "../models/user";
 @Injectable({
   providedIn: "root",
 })
 export class ServerHttpService {
   constructor(private http: HttpClient) {}
-
+  public oldPassword: string;
   public lastCallAPI: number;
   public profileUser: profileUser;
   public tokenLogin: string;
@@ -46,6 +46,8 @@ export class ServerHttpService {
         catchError(this.handleError),
         tap((res) => {
           if (res) {
+            this.oldPassword= user.password;
+            // console.log(this.oldPassword);
             this.tokenLogin = res.token;
             localStorage.setItem("TOKEN", res.token);
           }
@@ -94,6 +96,35 @@ export class ServerHttpService {
             localStorage.setItem("TOKEN", res.token);
           }
         })
+      );
+  }
+  public updatePassword(updatePassword: updatePassword): Observable<any>{
+    const url = `${this.REST_API_SERVER}api/auth/change_pass`;
+    const httpOptionsChild = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        // Authorization: 'my-auth-token',
+        Authorization: 'JWT ' + this.tokenLogin,
+      }),
+    };
+    return this.http
+      .put<any>(
+        url,
+        updatePassword,
+        httpOptionsChild
+      )
+      .pipe(
+        catchError(this.handleError),
+        tap((res) => {
+          if (res) {
+            console.log(res);
+            this.oldPassword = updatePassword.new_password;
+          }
+        },
+        (error)=>{
+          console.log(error);
+        }
+         )
       );
   }
 

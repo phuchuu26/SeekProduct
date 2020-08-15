@@ -1,3 +1,4 @@
+import { UpdatePasswordComponent } from 'src/app/pages/update-password/update-password.component';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -40,7 +41,8 @@ import { SubscriptionReducer } from '../../pages/store/reducers/subscription.red
     TablesComponent,
     IconsComponent,
     MapsComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    UpdatePasswordComponent
   ]
 })
 
