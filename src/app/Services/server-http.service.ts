@@ -6,7 +6,12 @@ import {
 } from "@angular/common/http";
 import { throwError, Observable } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
-import { user, profileUser, registerAccount, updatePassword } from "../models/user";
+import {
+  user,
+  profileUser,
+  registerAccount,
+  updatePassword,
+} from "../models/user";
 @Injectable({
   providedIn: "root",
 })
@@ -46,7 +51,7 @@ export class ServerHttpService {
         catchError(this.handleError),
         tap((res) => {
           if (res) {
-            this.oldPassword= user.password;
+            this.oldPassword = user.password;
             // console.log(this.oldPassword);
             this.tokenLogin = res.token;
             localStorage.setItem("TOKEN", res.token);
@@ -60,35 +65,37 @@ export class ServerHttpService {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         // Authorization: 'my-auth-token',
-        Authorization: 'JWT ' + this.tokenLogin,
+        Authorization: "JWT " + this.tokenLogin,
       }),
     };
-    return this.http
-      .put<any>(
-        url,
-        profileUser,
-        httpOptionsChild
-      )
-      .pipe(
-        catchError(this.handleError),
-        tap((res) => {
+    return this.http.put<any>(url, profileUser, httpOptionsChild).pipe(
+      catchError(this.handleError),
+      tap(
+        (res) => {
           if (res) {
             console.log(profileUser);
             console.log(res);
-            localStorage.setItem("USER",JSON.stringify(profileUser));
+            localStorage.setItem("USER", JSON.stringify(profileUser));
           }
         },
-        (error)=>{
+        (error) => {
           console.log(error);
         }
-         )
-      );
+      )
+    );
   }
 
   public refreshToken(): Observable<any> {
     const url = `${this.REST_API_SERVER}api-token-refresh/`;
+    const httpOptionsChild = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        // Authorization: 'my-auth-token',
+        Authorization: "JWT " + this.tokenLogin,
+      }),
+    };
     return this.http
-      .post<any>(url, { token: this.tokenLogin }, this.httpOptions)
+      .post<any>(url, { token: this.tokenLogin }, httpOptionsChild)
       .pipe(
         catchError(this.handleError),
         tap((res) => {
@@ -98,34 +105,40 @@ export class ServerHttpService {
         })
       );
   }
-  public updatePassword(updatePassword: updatePassword): Observable<any>{
+  public forgotPassword(email: string): Observable<any> {
+    const url = `${this.REST_API_SERVER}api/auth/forgot-password`;
+    return this.http.post<any>(url, { email: email }, this.httpOptions).pipe(
+      catchError(this.handleError),
+      tap((res) => {
+        if (res) {
+          // console.log(res);
+        }
+      })
+    );
+  }
+  public updatePassword(updatePassword: updatePassword): Observable<any> {
     const url = `${this.REST_API_SERVER}api/auth/change_pass`;
     const httpOptionsChild = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         // Authorization: 'my-auth-token',
-        Authorization: 'JWT ' + this.tokenLogin,
+        Authorization: "JWT " + this.tokenLogin,
       }),
     };
-    return this.http
-      .put<any>(
-        url,
-        updatePassword,
-        httpOptionsChild
-      )
-      .pipe(
-        catchError(this.handleError),
-        tap((res) => {
+    return this.http.put<any>(url, updatePassword, httpOptionsChild).pipe(
+      catchError(this.handleError),
+      tap(
+        (res) => {
           if (res) {
-            console.log(res);
+            // console.log(res);
             this.oldPassword = updatePassword.new_password;
           }
         },
-        (error)=>{
-          console.log(error);
+        (error) => {
+          // console.log(error);
         }
-         )
-      );
+      )
+    );
   }
 
   public getProfile(): Observable<profileUser> {
@@ -146,47 +159,46 @@ export class ServerHttpService {
         // {headers: new HttpHeaders({'Authorization': 'JWT ' + this.tokenLogin})}
         // this.httpOptions
         .get<any>(url, httpOptions1)
-        .pipe(catchError(this.handleError),
-        tap((res)=>{
-          localStorage.setItem("USER",JSON.stringify(res));
-          // let a;
-          // a = localStorage.getItem("USER");
-          // console.log(JSON.parse(a));
-        })
+        .pipe(
+          catchError(this.handleError),
+          tap((res) => {
+            localStorage.setItem("USER", JSON.stringify(res));
+            // let a;
+            // a = localStorage.getItem("USER");
+            // console.log(JSON.parse(a));
+          })
         )
     );
   }
 
-  public logout(){
-    const url=`${this.REST_API_SERVER}user/logout/`;
+  public logout() {
+    const url = `${this.REST_API_SERVER}user/logout/`;
     const httpOptionsChild = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         // Authorization: 'my-auth-token',
-        Authorization: 'JWT ' + this.tokenLogin
+        Authorization: "JWT " + this.tokenLogin,
       }),
     };
     // httpOptionsChild.headers.append('Authorization','JWT ' + this.tokenLogin);
-    return this.http
-    .get<any>(url, httpOptionsChild)
-    .pipe(catchError(this.handleError),
-    tap((res)=>{
-      console.log(res);
-      this.tokenLogin='';
-      localStorage.removeItem("TOKEN");
-      localStorage.removeItem("USER");
-
-    })
-   )
+    return this.http.get<any>(url, httpOptionsChild).pipe(
+      catchError(this.handleError),
+      tap((res) => {
+        console.log(res);
+        this.tokenLogin = "";
+        localStorage.removeItem("TOKEN");
+        localStorage.removeItem("USER");
+      })
+    );
   }
-  public register(data:registerAccount){
+  public register(data: registerAccount) {
     const url = `${this.REST_API_SERVER}api/auth/register/`;
-    return this.http
-    .post<any>(url, data, this.httpOptions)
-    .pipe(catchError(this.handleError),
-    tap((res)=>{
-      // console.log(res);
-    }))
+    return this.http.post<any>(url, data, this.httpOptions).pipe(
+      catchError(this.handleError),
+      tap((res) => {
+        // console.log(res);
+      })
+    );
   }
 
   public shouldCallAPIrefreshToken() {

@@ -90,4 +90,56 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
 
-}
+    public forgetPassword() {
+      Swal.fire({
+        title: 'Submit your Account email ',
+        input: 'text',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Look up',
+        showLoaderOnConfirm: true,
+        preConfirm: (login) => {
+          this.server.forgotPassword(login).subscribe((data)=>{
+            Swal.fire({
+              title: `Please check your email ${login} `,
+              icon:`success`,
+              footer: '<a href="https://mail.google.com/">Please click this link to enter the email</a>'
+            } )
+          },
+          // (error)=>{
+          //   Swal.fire(
+
+          //     title:   `Request failed: Enter the wrong email`,
+          //     icon:`success`
+          //         )
+          // }
+          )
+          // return fetch(`https://seekproduct-api.misavu.net/api/auth/forgot-password`)
+          //   .then(response => {
+          //     if (!response.ok) {
+          //       throw new Error(response.statusText)
+          //     }
+          //     return response.json()
+          //   })
+          //   .catch(error => {
+          //     Swal.showValidationMessage(
+          //       `Request failed: ${error}`
+          //     )
+          //   })
+        },
+
+        allowOutsideClick: () => !Swal.isLoading()
+      }).then((result) => {
+        if (result) {
+          Swal.fire({
+            title: `Your email: ${result.value}`,
+            icon: `error`,
+            text: 'Your email went wrong!',
+          })
+        }
+      }
+      )
+    }
+  }
