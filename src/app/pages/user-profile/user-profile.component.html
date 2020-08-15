@@ -166,8 +166,34 @@
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-country">Phone Number</label>
-                    <input type="number" formControlName="phone_number"  id="input-postal-code" class="form-control phone form-control-alternative"  placeholder="Phone Number" value="{{userProfile.phone_number}}">
+                    <!-- <input type="number" formControlName="phone_number"  id="input-postal-code" class="form-control phone form-control-alternative"  placeholder="Phone Number" value="{{userProfile.phone_number}}"> -->
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                      </div>
+                      <input  formControlName="phone_number"  placeholder="Phone Number" value="{{userProfile.phone_number}}" class="form-control" placeholder="Phone Number" type="number">
+
+                      <label class="show" >Show</label>
+                  <div class="aaa">
+                    <div class="d-inline-block">
+                    </div>
+                    <div class="d-inline-block" style="padding-left: 0.5cm;">
+                      <label class="switch">
+                        <input type="checkbox" (click)="changeStatus()" id="status" formControlName="show_phone" value="{{userProfile.show_phone}}"
+                         >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
                   </div>
+
+                    </div>
+
+
+
+                  </div>
+
+
+
                 </div>
                 <div class="col-lg-4">
                   <div class="form-group">

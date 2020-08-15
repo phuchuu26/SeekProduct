@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     email: new FormControl("admin@gmail.com", [Validators.required, ]),
     // emailValidator()
-    password: new FormControl("admin@1234", [
+    password: new FormControl("123123", [
       Validators.required,
       Validators.minLength(5),
     ]),
