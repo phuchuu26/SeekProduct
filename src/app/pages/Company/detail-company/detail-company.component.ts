@@ -9,6 +9,8 @@ import { Company, Category } from "src/app/models/user";
 import { SnotifyService } from "ng-snotify";
 import { ServerHttpService } from "src/app/Services/server-http.service";
 import { Router, ActivatedRoute } from "@angular/router";
+import { Observable } from "rxjs";
+import { startWith, map } from "rxjs/operators";
 
 @Component({
   selector: "app-detail-company",
@@ -16,12 +18,22 @@ import { Router, ActivatedRoute } from "@angular/router";
   styleUrls: ["./detail-company.component.css"],
 })
 export class DetailCompanyComponent implements OnInit {
+  // options: string[] = ['One', 'Two', 'Three'];
+  // myControl = new FormControl();
+  // filteredOptions: Observable<string[]>;
+  toppings = new FormControl();
+
+
   public companyForm: FormGroup;
   public companyProfile: Company;
   public site: string;
   public urlImage: string;
+  public urlImageBanner: string;
+  public urlImageAdSample: string;
   public avt;
   public category: Category[];
+  public toppingList: Category[];
+  public toggleAddCategory:boolean = false;
   constructor(
     private snotify: SnotifyService,
     private http: ServerHttpService,
@@ -29,8 +41,18 @@ export class DetailCompanyComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {}
+  // private _filter(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
 
+  //   return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  // }
   ngOnInit(): void {
+    // this.filteredOptions = this.myControl.valueChanges
+    //   .pipe(
+    //     startWith(''),
+    //     map(value => this._filter(value))
+    //   );
+
     this.site = this.route.snapshot.paramMap.get("id");
     //get detail by  localStore:
     let com, compa,index;
@@ -60,9 +82,15 @@ export class DetailCompanyComponent implements OnInit {
       console.log(data);
       console.log(this.companyProfile);
       this.http.getCategory(data.site).subscribe((data1) => {
+
         this.category = data1;
       });
     });
+
+    if(this.category){
+
+      this.toppingList = this.category;
+    }
 
     // console.log(index);
     // if (this.userProfile.avatar == null) {
@@ -107,9 +135,22 @@ export class DetailCompanyComponent implements OnInit {
       this.urlImage = this.companyProfile.logo;
     }
 
+    if (this.companyProfile.ad_sample == null) {
+      this.urlImageAdSample = "assets\\img\\1.png";
+    } else {
+      this.urlImageAdSample = this.companyProfile.ad_sample;
+    }
+    if (this.companyProfile.banner == null) {
+      this.urlImageBanner = "assets\\img\\1.png";
+    } else {
+      this.urlImageBanner = this.companyProfile.banner;
+    }
+
     this.http.getAllCategory().subscribe((data)=>{
       console.log(data);
+      this.toppingList = data.results;
     })
+
 
     this.loadData();
   }
@@ -134,7 +175,36 @@ export class DetailCompanyComponent implements OnInit {
       this.urlImage = reader.result as string;
       // console.log(image);
       this.avt = image.target.result;
+      // console.log(image);
+      // console.log(a);
+      // console.log(reader);
+    };
+  }
+  public onChangeImage1(image, a) {
+    let file = image.target.files;
+    // console.log(image1.urlImage);
+    let reader = new FileReader();
+    reader.readAsDataURL(file[0]);
+    reader.onload = (image) => {
+      this.urlImageBanner = reader.result as string;
+      // console.log(image);
+      // this.avt = image.target.result;
+    };
+  }
+  public onChangeImage2(image, a) {
+    let file = image.target.files;
+    // console.log(image1.urlImage);
+    let reader = new FileReader();
+    reader.readAsDataURL(file[0]);
+    reader.onload = (image) => {
+      this.urlImageAdSample = reader.result as string;
+      // console.log(image);
+      // this.avt = image.target.result;
     };
   }
   public save() {}
+
+  public buttonToggleAddCategory(){
+    this.toggleAddCategory = !this.toggleAddCategory;
+  }
 }

@@ -28,27 +28,29 @@ export class DashboardComponent implements OnInit {
     private http: ServerHttpService,
     private httpClient: HttpClient
   ) { }
-// public  test = {
-//   description: "abc",
-//   name: "abc",
-//   color: "abc",
-//   downloads: "abc",
-//   faq: "abc",
-//   full_description: "abc",
-//   image: "abc",
-//   in_stock: 5,
-//   model: "abc",
-//   price: 15,
-//   productgroup: 176,
-//   tag: "abc",
-//   vat: "12",
-//   category:[6],
-// };
+public  test = {
+  description: "abc",
+  name: "abc",
+  color: "abc",
+  category:[6],
+  downloads: "abc",
+  faq: "abc",
+  full_description: "abc",
+  image: "abc",
+  in_stock: 5,
+  model: "abc",
+  price: 15,
+  productgroup: 176,
+  tag: "abc",
+  vat: "12",
+  // category:[5,6],
+  // category:5,
+};
   ngOnInit() {
     // this.http.test(this.test).subscribe((data)=>{
     //   console.log(data);
     // }, (error)=>{
-    //   console.log(error);
+    //   console.log('lloi roi' +error);
     // })
 
     setInterval(()=>{                           //<<<---using ()=> syntax

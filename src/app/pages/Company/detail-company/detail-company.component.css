@@ -37,3 +37,33 @@ button.categoryG{
 .form-group.productgroup {
 /* position: absolute; */
 }
+
+/*
+mat-slider {
+  width: 300px;
+} */
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+.mat-form-field-wrapper.ng-tns-c153-0 {
+  margin-top: -12px;
+}
+/* .ca {
+  float: left;
+  margin-right: 20px;
+}
+.b {
+  display: inline-flex;
+  /* empty-cells: show; */
+  /* float: left;
+}
+  */
+  .mat-form-field-wrapper.ng-tns-c153-2 {
+    margin-left: 206px!important;
+    margin-top: -55px!important;
+}
+.mat-form-field-flex.ng-tns-c153-2{
+  margin-left: 206px!important;
+  margin-top: -55px!important;
+}

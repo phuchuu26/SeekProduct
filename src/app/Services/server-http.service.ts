@@ -105,6 +105,7 @@ export class ServerHttpService {
   //       },
   //       (error) => {
   //         console.log(error);
+  //         console.log(this.handleError);
   //       }
   //     )
   //   );
@@ -316,7 +317,7 @@ public getCategory(site):Observable<Category[]> {
 
 // get all category
 
-public getAllCategory():Observable<Category[]>{
+public getAllCategory():Observable<any>{
   const url = `https://seekproduct-api.misavu.net/api/category`;
   const httpOptionsChild = {
     headers: new HttpHeaders({

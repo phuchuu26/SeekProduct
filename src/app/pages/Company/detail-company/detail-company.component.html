@@ -141,6 +141,9 @@
                   <div class="form-group productgroup">
                     <label class="form-control-label" for="input-address">Product Group</label>
                     <button type="button" class="AddProduct btn btn-sm btn-info">Add Product Group</button>
+
+
+
                     <div class="a">
                       <div *ngFor="let productGroup of companyProfile?.productgroup">
                         <button type="button" class="productG btn btn-primary mt-3">{{productGroup?.name}}</button>
@@ -152,8 +155,39 @@
 
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-address">Category</label>
-                    <button type="button" class="AddProduct btn btn-sm btn-info">Add Category</button>
+                    <div class="ca">
+
+                      <label class="form-control-label" for="input-address">Category</label>
+                      <button (click)="buttonToggleAddCategory()" type="button" class="AddProduct btn btn-sm btn-info">Add Category</button>
+                    </div>
+                    <!-- <form class="example-form">
+                      <mat-form-field class="example-full-width">
+                        <input type="text"
+                               placeholder="Pick one"
+                               aria-label="Number"
+                               matInput
+                               [formControl]="myControl"
+                               [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{option}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </form> -->
+                    <mat-form-field *ngIf="toggleAddCategory" appearance="fill">
+                      <mat-label>Toppings</mat-label>
+                      <mat-select [formControl]="toppings" multiple>
+                        <mat-select-trigger>
+                          {{toppings.value ? toppings.value[0] : ''}}
+                          <span *ngIf="toppings.value?.length > 1" class="example-additional-selection">
+                            (+{{toppings.value.length - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
+                          </span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let topping of toppingList" [value]="topping.name">{{topping.name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
                     <div class="b">
 
                       <div *ngFor="let cate of category">
@@ -168,6 +202,40 @@
               </div>
 
             </div>
+            <hr class="my-4" />
+            <!-- Address -->
+            <h6 class="heading-small text-muted mb-4">Image Of Company</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Advertising Sample</label>
+                    <input id="image1" type="file" formControlName="ad_sample"   name="image1" (change)="onChangeImage2($event,this)" style="display: none;" >
+                    <label for="image1">
+                      <img *ngIf="companyProfile?.ad_sample !== null" style="border-radius: 72px;" [src]="urlImageAdSample" width="150px" height="150px"  alt="Image not found">
+                      <img *ngIf="companyProfile?.ad_sample == null"  style="border-radius: 72px;"   [src]="urlImageAdSample" width="150px" height="150px"  alt="Image not found">
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Banner</label>
+                    <input id="image1" type="file" formControlName="ad_sample"   name="image1" (change)="onChangeImage2($event,this)" style="display: none;" >
+                    <label for="image1">
+                      <div *ngIf="" *ngIf="companyProfile?.banner !== null" >
+                        <img  style="border-radius: 72px;" [src]="urlImageBanner" width="150px" height="150px"  alt="Image not found">
+
+                      </div>
+                      <img *ngIf="companyProfile?.ad_sample == null"  style="border-radius: 72px;"   [src]="urlImageBanner" width="150px" height="150px"  alt="Image not found">
+                    </label>
+                    <!-- <input id="input-address" class="form-control form-control-alternative" formControlName="business_license"  placeholder="Link Instagram" value="{{companyProfile?.social_link?.instagram}}" type="text"> -->
+                  </div>
+                </div>
+              </div>
+
+            </div>
 
             <hr class="my-4" />
             <!-- Address -->
@@ -178,19 +246,19 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Facebook</label>
-                    <input id="input-address"  class="form-control form-control-alternative"  placeholder="Link Facebook" value="{{companyProfile?.social_link?.facebook}}" type="text">
+                    <input id="input-address"  class="form-control form-control-alternative" formControlName="business_license"  placeholder="Link Facebook" value="{{companyProfile?.social_link?.facebook}}" type="text">
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Twitter</label>
-                    <input id="input-address"  class="form-control form-control-alternative" placeholder="Link Twitter" value="{{companyProfile?.social_link?.twitter}}" type="text">
+                    <input id="input-address"  class="form-control form-control-alternative" formControlName="business_license"  placeholder="Link Twitter" value="{{companyProfile?.social_link?.twitter}}" type="text">
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Instagram</label>
-                    <input id="input-address" class="form-control form-control-alternative" placeholder="Link Instagram" value="{{companyProfile?.social_link?.instagram}}" type="text">
+                    <input id="input-address" class="form-control form-control-alternative" formControlName="business_license"  placeholder="Link Instagram" value="{{companyProfile?.social_link?.instagram}}" type="text">
                   </div>
                 </div>
               </div>
