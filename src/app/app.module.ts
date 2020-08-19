@@ -15,6 +15,10 @@ import { ComponentsModule } from './components/components.module';
 // import { CustomFormsModule } from 'ngx-custom-validators';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+import { IndexCompanyComponent } from './pages/Company/index-company/index-company.component';
+import { EditCompanyComponent } from './pages/Company/edit-company/edit-company.component';
+import { CreateCompanyComponent } from './pages/Company/create-company/create-company.component';
+import { DetailCompanyComponent } from './pages/Company/detail-company/detail-company.component';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -33,6 +37,10 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+    IndexCompanyComponent,
+    EditCompanyComponent,
+    CreateCompanyComponent,
+    DetailCompanyComponent,
   ],
   providers: [
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults},

@@ -1,0 +1,31 @@
+img {
+  /* width: 154px; */
+  height: 57px;
+  min-width: 60px;
+}
+.btn:hover {
+  background-color: rgb(61, 166, 226);
+}
+/* a.btn.btn-danger.mr-2:hover{
+  background-color: rgb(87, 240, 214);
+}
+a.btn.btn-warning.mr-2:hover
+{
+  background-color: rgb(68, 0, 255);
+} */
+.action{
+  display: inline-flex;
+}
+th {
+  /* max-width: 50px; */
+  /* justify-content: center; */
+}
+th.action {
+  margin-right: -215px;
+}
+.align-items-center .action1{
+  justify-content: center!important;
+  -webkit-box-pack: center!important;
+  justify-content: center!important;
+}
+

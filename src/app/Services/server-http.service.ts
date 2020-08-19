@@ -1,3 +1,4 @@
+import { Company, Category } from 'src/app/models/user';
 import { Injectable } from "@angular/core";
 import {
   HttpErrorResponse,
@@ -11,6 +12,7 @@ import {
   profileUser,
   registerAccount,
   updatePassword,
+  AllMyCompany,
 } from "../models/user";
 @Injectable({
   providedIn: "root",
@@ -73,8 +75,8 @@ export class ServerHttpService {
       tap(
         (res) => {
           if (res) {
-            console.log(profileUser);
-            console.log(res);
+            // console.log(profileUser);
+            // console.log(res);
             localStorage.setItem("USER", JSON.stringify(profileUser));
           }
         },
@@ -84,6 +86,29 @@ export class ServerHttpService {
       )
     );
   }
+  // public test(data): Observable<any> {
+  //   const url = `https://seekproduct-api.misavu.net/api/user/product/?site=bs`;
+  //   const httpOptionsChild = {
+  //     headers: new HttpHeaders({
+  //       "Content-Type": "application/json",
+  //       // Authorization: 'my-auth-token',
+  //       Authorization: "JWT " + this.tokenLogin,
+  //     }),
+  //   };
+  //   return this.http.post<any>(url, data, httpOptionsChild).pipe(
+  //     catchError(this.handleError),
+  //     tap(
+  //       (res) => {
+  //         if (res) {
+  //           console.log(res);
+  //         }
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       }
+  //     )
+  //   );
+  // }
 
   public refreshToken(): Observable<any> {
     const url = `${this.REST_API_SERVER}api-token-refresh/`;
@@ -173,21 +198,23 @@ export class ServerHttpService {
 
   public logout() {
     const url = `${this.REST_API_SERVER}user/logout/`;
+    const token = localStorage.getItem("TOKEN");
     const httpOptionsChild = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         // Authorization: 'my-auth-token',
-        Authorization: "JWT " + this.tokenLogin,
+        Authorization: "JWT " + token,
       }),
     };
     // httpOptionsChild.headers.append('Authorization','JWT ' + this.tokenLogin);
     return this.http.get<any>(url, httpOptionsChild).pipe(
       catchError(this.handleError),
       tap((res) => {
-        console.log(res);
+        // console.log(res);
         this.tokenLogin = "";
         localStorage.removeItem("TOKEN");
         localStorage.removeItem("USER");
+        localStorage.removeItem("ALLMYCOMPANY");
       })
     );
   }
@@ -212,6 +239,106 @@ export class ServerHttpService {
     // }
   }
 
+  // Company
+  public GetAllMyCompany(): Observable<AllMyCompany> {
+    const url = `${this.REST_API_SERVER}api/user/company/all-my-company/`;
+    const httpOptionsChild = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        // Authorization: 'my-auth-token',
+        Authorization: "JWT " + this.tokenLogin,
+      }),
+    };
+    return this.http.get<any>(url,  httpOptionsChild).pipe(
+      catchError(this.handleError),
+      tap(
+        (res) => {
+          if (res) {
+            localStorage.setItem("ALLMYCOMPANY", JSON.stringify(res));
+            // console.log(res);
+            // this.oldPassword = updatePassword.new_password;
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    );
+  }
+// get detail company
+public detailCompany(id): Observable<Company> {
+  const url = ` https://seekproduct-api.misavu.net/api/user/company/detail/${id}`;
+    const httpOptionsChild = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        // Authorization: 'my-auth-token',
+        Authorization: "JWT " + this.tokenLogin,
+      }),
+    };
+    return this.http.get<any>(url,  httpOptionsChild).pipe(
+      catchError(this.handleError),
+      tap(
+        (res) => {
+          if (res) {
+            // console.log(res);
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    );
+}
+// get name category
+public getCategory(site):Observable<Category[]> {
+  const url = `https://seekproduct-api.misavu.net/api/company/category?site=${site}`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      "Content-Type": "application/json",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + this.tokenLogin,
+    }),
+  };
+  return this.http.get<any>(url,  httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap(
+      (res) => {
+        if (res) {
+          // console.log(res);
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  );
+}
+
+// get all category
+
+public getAllCategory():Observable<Category[]>{
+  const url = `https://seekproduct-api.misavu.net/api/category`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      "Content-Type": "application/json",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + this.tokenLogin,
+    }),
+  };
+  return this.http.get<any>(url,  httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap(
+      (res) => {
+        if (res) {
+          // console.log(res);
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  );
+}
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

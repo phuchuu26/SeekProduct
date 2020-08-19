@@ -28,14 +28,35 @@ export class DashboardComponent implements OnInit {
     private http: ServerHttpService,
     private httpClient: HttpClient
   ) { }
-
+// public  test = {
+//   description: "abc",
+//   name: "abc",
+//   color: "abc",
+//   downloads: "abc",
+//   faq: "abc",
+//   full_description: "abc",
+//   image: "abc",
+//   in_stock: 5,
+//   model: "abc",
+//   price: 15,
+//   productgroup: 176,
+//   tag: "abc",
+//   vat: "12",
+//   category:[6],
+// };
   ngOnInit() {
+    // this.http.test(this.test).subscribe((data)=>{
+    //   console.log(data);
+    // }, (error)=>{
+    //   console.log(error);
+    // })
+
     setInterval(()=>{                           //<<<---using ()=> syntax
       this.http.shouldCallAPIrefreshToken();
  }, 1000);
 
 
-  
+
 
 
     this.datasets = [
@@ -63,7 +84,7 @@ export class DashboardComponent implements OnInit {
 			options: chartExample1.options,
 			data: chartExample1.data
     });
-    console.log(this.http.tokenLogin);
+    // console.log(this.http.tokenLogin);
     // if(this.http.tokenLogin){
     //   this.http.getProfile().subscribe((data)=>{
     //     console.log(data);

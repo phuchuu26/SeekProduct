@@ -25,7 +25,7 @@ export interface profileUser {
 }
 
 export interface registerAccount {
-  first_name:string;
+  first_name: string;
   last_name: string;
   email: string;
   password: string;
@@ -35,4 +35,48 @@ export interface updatePassword {
   old_password: string;
   new_password: string;
   confirm_password: string;
+}
+
+export interface AllMyCompany {
+  count: string;
+  next: string;
+  previous: string;
+  results?: Company[];
+}
+export interface Company{
+
+    id?: number;
+    user?: number;
+    store_name?: string;
+    address?: string;
+    phone_number?: string;
+    legal_name?: string;
+    site?: string;
+    logo?: string;
+    business_license?: string;
+    ad_sample?: string;
+    about?: string;
+    banner?: string[];
+    category?: number[];
+    productgroup?: {
+      id: number;
+      name?: string;
+      info?: string;
+      company?: number;
+    }[];
+    social_link?: {
+      facebook?: string;
+      instagram?: string;
+      twitter?: string;
+    };
+    status?: string;
+    is_subscribed?: boolean;
+    social_status?: boolean;
+
+}
+
+export interface Category{
+  id?: number;
+  name?: string;
+  info?: string;
 }

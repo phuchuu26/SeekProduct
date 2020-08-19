@@ -5,6 +5,7 @@ import { registerAccount } from 'src/app/models/user';
 import { ServerHttpService } from 'src/app/Services/server-http.service';
 import { emailValidator, confirmPasswordValidator1, MatchPassword, MustMatch} from 'src/app/custom-validation/CustomValidators';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -13,8 +14,8 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit,DoCheck {
   public error = {first_name : '', last_name: '', email: '', password: '',confirm_password: ''};
-
   accountForm: FormGroup;
+  public agree: boolean= false;
   constructor(
     private http: ServerHttpService,
     private formBuilder: FormBuilder,
@@ -58,8 +59,11 @@ export class RegisterComponent implements OnInit,DoCheck {
       }
     }
   }
-
+public agree1(){
+  this.agree = !this.agree;
+}
   public save(){
+    if(this.agree === true){
     this.http.register(this.submit()).subscribe((data)=>{
 
       console.log(data);
@@ -68,7 +72,15 @@ export class RegisterComponent implements OnInit,DoCheck {
     }, (error)=>{
       this.failed();
     })
-
+  }
+  else{
+    Swal.fire({
+      icon: 'error',
+      title: 'You must not create account by',
+      text: 'You do not accept the Terms and Conditions',
+      footer: '<a href="https://seekproduct.misavu.net/#/home">Why do I have this issue?</a>'
+    })
+  }
   }
   public submit(){
     const account = {};

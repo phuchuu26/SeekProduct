@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public userForm = new FormGroup({
 
-    email: new FormControl("admin@gmail.com", [Validators.required, ]),
+    email: new FormControl("phucsteam98@gmail.com", [Validators.required, ]),
     // emailValidator()
     password: new FormControl("123123", [
       Validators.required,
@@ -47,6 +47,10 @@ export class LoginComponent implements OnInit, OnDestroy {
             // console.log(this.server.profileUser);
             this.success(this.server.profileUser.first_name,this.server.profileUser.last_name);
           })
+
+          this.server.GetAllMyCompany().subscribe((data)=>{
+
+          });
         }
         this.router.navigate(["dashboard"]);
 
@@ -62,7 +66,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       const user={};
       for( const a in this.userForm.controls){
         if(a){
-          console.log(this.userForm.controls[a].value);
+          // console.log(this.userForm.controls[a].value);
           user[a] = this.userForm.controls[a].value;
         }
       }
