@@ -67,3 +67,36 @@ mat-slider {
   margin-left: 206px!important;
   margin-top: -55px!important;
 }
+img.ad_sample {
+  /* border-radius: px; */
+  /* min-width: 983px; */
+  background-size: cover;
+  /* width: 678px; */
+  /* height: 200px; */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+img.banner {
+  /* border-radius: px; */
+  /* min-width: 983px; */
+  background-size: cover;
+  /* width: 678px; */
+  /* height: 200px; */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+.form-group.ban {
+  text-align: center;
+}
+textarea.about{
+  resize: both;
+  overflow: auto;
+}
+textarea.form-control {
+  resize: vertical;
+  overflow: auto;
+}

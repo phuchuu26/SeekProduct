@@ -23,17 +23,16 @@ export class DetailCompanyComponent implements OnInit {
   // filteredOptions: Observable<string[]>;
   toppings = new FormControl();
 
-
   public companyForm: FormGroup;
   public companyProfile: Company;
   public site: string;
   public urlImage: string;
-  public urlImageBanner: string;
+  public urlImageBanner: string[]=[];
   public urlImageAdSample: string;
   public avt;
   public category: Category[];
   public toppingList: Category[];
-  public toggleAddCategory:boolean = false;
+  public toggleAddCategory: boolean = false;
   constructor(
     private snotify: SnotifyService,
     private http: ServerHttpService,
@@ -55,22 +54,20 @@ export class DetailCompanyComponent implements OnInit {
 
     this.site = this.route.snapshot.paramMap.get("id");
     //get detail by  localStore:
-    let com, compa,index;
+    let com, compa, index;
     com = localStorage.getItem("ALLMYCOMPANY");
     compa = JSON.parse(com);
     com = compa.results;
-    if(this.site){
-
-
-      function findIndexByKeyValue(com, site,value) {
+    if (this.site) {
+      function findIndexByKeyValue(com, site, value) {
         for (var index = 0; index < com.length; index++) {
-            if (com[index][site] === value) {
-                return index;
-            }
+          if (com[index][site] === value) {
+            return index;
+          }
         }
         return -1;
       }
-      index = findIndexByKeyValue(com, 'site', this.site);
+      index = findIndexByKeyValue(com, "site", this.site);
       console.log(index);
       console.log(com[index]);
       this.companyProfile = com[index];
@@ -82,13 +79,11 @@ export class DetailCompanyComponent implements OnInit {
       console.log(data);
       console.log(this.companyProfile);
       this.http.getCategory(data.site).subscribe((data1) => {
-
         this.category = data1;
       });
     });
 
-    if(this.category){
-
+    if (this.category) {
       this.toppingList = this.category;
     }
 
@@ -140,17 +135,21 @@ export class DetailCompanyComponent implements OnInit {
     } else {
       this.urlImageAdSample = this.companyProfile.ad_sample;
     }
-    if (this.companyProfile.banner == null) {
-      this.urlImageBanner = "assets\\img\\1.png";
-    } else {
-      this.urlImageBanner = this.companyProfile.banner;
-    }
 
-    this.http.getAllCategory().subscribe((data)=>{
+    if (this.companyProfile.banner == null) {
+      this.urlImageBanner[0] = "assets\\img\\1.png";
+    } else {
+      for (let ban of this.companyProfile.banner) {
+        this.urlImageBanner.push(ban);
+      }
+      // this.urlImageBanner = this.companyProfile.banner;
+    }
+    console.log(this.urlImageBanner);
+
+    this.http.getAllCategory().subscribe((data) => {
       console.log(data);
       this.toppingList = data.results;
-    })
-
+    });
 
     this.loadData();
   }
@@ -186,7 +185,7 @@ export class DetailCompanyComponent implements OnInit {
     let reader = new FileReader();
     reader.readAsDataURL(file[0]);
     reader.onload = (image) => {
-      this.urlImageBanner = reader.result as string;
+      // this.urlImageBanner = reader.result as string;
       // console.log(image);
       // this.avt = image.target.result;
     };
@@ -204,7 +203,7 @@ export class DetailCompanyComponent implements OnInit {
   }
   public save() {}
 
-  public buttonToggleAddCategory(){
+  public buttonToggleAddCategory() {
     this.toggleAddCategory = !this.toggleAddCategory;
   }
 }

@@ -207,30 +207,36 @@
             <h6 class="heading-small text-muted mb-4">Image Of Company</h6>
             <div class="pl-lg-4">
               <div class="row">
+                <label class="form-control-label" for="input-address">Advertising Sample</label>
 
 
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-address">Advertising Sample</label>
+                <div class="col-md-12">
+                  <div class="form-group ban">
                     <input id="image1" type="file" formControlName="ad_sample"   name="image1" (change)="onChangeImage2($event,this)" style="display: none;" >
                     <label for="image1">
-                      <img *ngIf="companyProfile?.ad_sample !== null" style="border-radius: 72px;" [src]="urlImageAdSample" width="150px" height="150px"  alt="Image not found">
-                      <img *ngIf="companyProfile?.ad_sample == null"  style="border-radius: 72px;"   [src]="urlImageAdSample" width="150px" height="150px"  alt="Image not found">
+                      <img class="ad_sample" *ngIf="companyProfile?.ad_sample !== null" style="border-radius: 12px;" [src]="urlImageAdSample"   alt="Image not found">
+                      <img class="ad_sample" *ngIf="companyProfile?.ad_sample == null"  style="border-radius: 12px;"   [src]="urlImageAdSample"    alt="Image not found">
                     </label>
                   </div>
                 </div>
-                <div class="col-md-6">
+              </div>
+                <div class="row">
+
+                <div class="col-md-12">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Banner</label>
-                    <input id="image1" type="file" formControlName="ad_sample"   name="image1" (change)="onChangeImage2($event,this)" style="display: none;" >
-                    <label for="image1">
-                      <div *ngIf="" *ngIf="companyProfile?.banner !== null" >
-                        <img  style="border-radius: 72px;" [src]="urlImageBanner" width="150px" height="150px"  alt="Image not found">
+                    <br>
+                    <!-- <input id="image2" type="file" formControlName="banner"   name="image2" (change)="onChangeImage2($event,this)" style="display: none;" > -->
+                    <label >
+                      <div  *ngIf="companyProfile?.banner.length !== 0 ">
+                        <div *ngFor="let i of  urlImageBanner | keyvalue">
+
+                          <img  style="border-radius: 12px;" [src]="i.value"  height="150px"  alt="Image not found">
+                        </div>
 
                       </div>
-                      <img *ngIf="companyProfile?.ad_sample == null"  style="border-radius: 72px;"   [src]="urlImageBanner" width="150px" height="150px"  alt="Image not found">
+                      <img *ngIf="companyProfile?.banner.length == 0"  style="border-radius: 12px;"   [src]="urlImageBanner" width="150px" height="150px"  alt="Image not found">
                     </label>
-                    <!-- <input id="input-address" class="form-control form-control-alternative" formControlName="business_license"  placeholder="Link Instagram" value="{{companyProfile?.social_link?.instagram}}" type="text"> -->
                   </div>
                 </div>
               </div>
@@ -271,7 +277,7 @@
 
               <div class="form-group">
                 <label>About</label>
-                <textarea rows="4" formControlName="about"  class="form-control form-control-alternative" placeholder="A few words about you ...">{{companyProfile?.about}}</textarea>
+                <textarea rows="10" formControlName="about"  class="form-control form-control-alternative about" placeholder="A few words about you ...">{{companyProfile?.about}}</textarea>
               </div>
             </div>
             <div class="text-center">
