@@ -32,6 +32,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSelectModule} from '@angular/material/select';
+import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -55,7 +56,10 @@ import {MatSelectModule} from '@angular/material/select';
     MatButtonModule,
     MatAutocompleteModule,
     MatProgressBarModule,
-    MatSelectModule
+    MatSelectModule,
+
+    NgbPaginationModule,
+    NgbAlertModule
 
   ],
   declarations: [

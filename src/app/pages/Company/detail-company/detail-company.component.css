@@ -79,7 +79,7 @@ img.ad_sample {
   width: 50%;
 }
 img.banner {
-  /* border-radius: px; */
+  border-radius: 12px;
   /* min-width: 983px; */
   background-size: cover;
   /* width: 678px; */
@@ -88,6 +88,11 @@ img.banner {
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+
+}
+img.banner1{
+  border-radius: 12px;
+
 }
 .form-group.ban {
   text-align: center;
@@ -99,4 +104,10 @@ textarea.about{
 textarea.form-control {
   resize: vertical;
   overflow: auto;
+}
+.form-group.banner {
+  text-align-last: center;
+}
+.nullbanner{
+  border: 2px dotted rgb(0, 0, 0);
 }

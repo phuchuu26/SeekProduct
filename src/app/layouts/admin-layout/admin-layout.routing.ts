@@ -9,6 +9,7 @@ import {SubscriptionComponent} from '../../pages/subscription/subscription.compo
 import { UpdatePasswordComponent } from 'src/app/pages/update-password/update-password.component';
 import { IndexCompanyComponent } from 'src/app/pages/Company/index-company/index-company.component';
 import { DetailCompanyComponent } from 'src/app/pages/Company/detail-company/detail-company.component';
+import { CreateCompanyComponent } from 'src/app/pages/Company/create-company/create-company.component';
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'user-profile',   component: UserProfileComponent },
@@ -18,5 +19,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'subscription',   component: SubscriptionComponent },
     { path: 'updatePassword', component: UpdatePasswordComponent },
     { path: 'allmycompany', component: IndexCompanyComponent },
-    { path: 'detailcompany/:id', component: DetailCompanyComponent }
+    { path: 'detailcompany/:id', component: DetailCompanyComponent },
+    { path: 'addcompany', component: CreateCompanyComponent }
 ];

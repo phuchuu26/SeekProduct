@@ -22,7 +22,6 @@ export class DetailCompanyComponent implements OnInit {
   // myControl = new FormControl();
   // filteredOptions: Observable<string[]>;
   toppings = new FormControl();
-
   public companyForm: FormGroup;
   public companyProfile: Company;
   public site: string;
@@ -137,7 +136,7 @@ export class DetailCompanyComponent implements OnInit {
     }
 
     if (this.companyProfile.banner == null) {
-      this.urlImageBanner[0] = "assets\\img\\1.png";
+      // this.urlImageBanner[0] = "https://picsum.photos/id/1011/900/500";
     } else {
       for (let ban of this.companyProfile.banner) {
         this.urlImageBanner.push(ban);

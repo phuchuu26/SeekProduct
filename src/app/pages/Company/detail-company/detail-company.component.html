@@ -223,22 +223,42 @@
                 <div class="row">
 
                 <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-address">Banner</label>
+                  <label class="form-control-label" for="input-address">Banner</label>
+                  <div class="form-group banner">
                     <br>
                     <!-- <input id="image2" type="file" formControlName="banner"   name="image2" (change)="onChangeImage2($event,this)" style="display: none;" > -->
                     <label >
                       <div  *ngIf="companyProfile?.banner.length !== 0 ">
-                        <div *ngFor="let i of  urlImageBanner | keyvalue">
+                        <ngb-carousel>
+                            <ng-template *ngFor="let i of  urlImageBanner | keyvalue" ngbSlide>
+                              <div class="picsum-img-wrapper">
+                                <img width="900" height="auto" class="banner1" [src]="i.value" alt="Random third slide">
+                              </div>
+                              <div class="carousel-caption">
+
+                                <span class="h3 font-weight-bold mb-0">Slide {{i.key}} label</span>
+                              </div>
+                            </ng-template>
+                      </ngb-carousel>
+
+
+                        <!-- <div *ngFor="let i of  urlImageBanner | keyvalue">
+
 
                           <img  style="border-radius: 12px;" [src]="i.value"  height="150px"  alt="Image not found">
-                        </div>
+                        </div> -->
 
                       </div>
-                      <img *ngIf="companyProfile?.banner.length == 0"  style="border-radius: 12px;"   [src]="urlImageBanner" width="150px" height="150px"  alt="Image not found">
                     </label>
+                      <div *ngIf="companyProfile?.banner.length == 0" class="nullBan">
+                        <img  class="nullbanner"   style="border-radius: 12px;"   src ="https://www.osustuff.org/images/placeholder.png" width="900" height="auto"  alt="Image not found">
+                          <br>
+                        <span class="h3 font-weight-bold mb-0">You do not have a banner photo, please choose</span>
+
+                      </div>
                   </div>
                 </div>
+
               </div>
 
             </div>
