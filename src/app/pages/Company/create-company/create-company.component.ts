@@ -12,14 +12,14 @@ import {
   Validators,
   FormArray,
 } from "@angular/forms";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnChanges } from "@angular/core";
 
 @Component({
   selector: "app-create-company",
   templateUrl: "./create-company.component.html",
   styleUrls: ["./create-company.component.css"],
 })
-export class CreateCompanyComponent implements OnInit {
+export class CreateCompanyComponent implements OnInit, OnChanges {
   // options: string[] = ['One', 'Two', 'Three'];
   // myControl = new FormControl();
   // filteredOptions: Observable<string[]>;
@@ -46,6 +46,9 @@ export class CreateCompanyComponent implements OnInit {
 
   //   return this.options.filter(option => option.toLowerCase().includes(filterValue));
   // }
+  ngOnChanges(): void {
+
+  }
   ngOnInit(): void {
     // this.filteredOptions = this.myControl.valueChanges
     //   .pipe(
@@ -63,9 +66,8 @@ export class CreateCompanyComponent implements OnInit {
       logo: new FormControl("", []),
       ad_sample: new FormControl(),
       about: new FormControl(),
-      // banner: this.forms.array([this.createControlBanner()]),
+      banner: this.forms.array([this.forms.control("")]),
       category: new FormControl(),
-      ban0: new FormControl(),
     });
     this.urlImage = "assets\\img\\1.png";
 
@@ -105,7 +107,7 @@ export class CreateCompanyComponent implements OnInit {
       // console.log(reader);
     };
   }
-  public onChangeImage1(image,i) {
+  public onChangeImage1(image, i) {
     let file = image.target.files;
     console.log(image);
     console.log(i);
@@ -117,7 +119,7 @@ export class CreateCompanyComponent implements OnInit {
       // this.avt = image.target.result;
     };
   }
-  public onChangeImage2(image, i) {
+  public onChangeAdSample(image, i) {
     let file = image.target.files;
     console.log(image);
     console.log(i);
@@ -135,16 +137,13 @@ export class CreateCompanyComponent implements OnInit {
   public buttonToggleAddCategory() {
     this.toggleAddCategory = !this.toggleAddCategory;
   }
-  public i: number = 0;
-  public clickaddbanner: number[] = [];
-  public a;
+  public a: number = 0;
   public addbanner(i) {
+    this.urlImageBanner[i+1] = "https://www.osustuff.org/images/placeholder.png";
+    this.bannerList.push(this.forms.control(""));
+    this.a++;
     console.log(i);
-    console.log(this.clickaddbanner.length);
-    console.log(this.clickaddbanner);
-    this.urlImageBanner[i] = "https://www.osustuff.org/images/placeholder.png";
-    this.clickaddbanner.push(i);
-    this.i++;
+    console.log(this.urlImageBanner);
   }
   public onChangeBanner(image, i, a) {
     let file = image.target.files;
@@ -155,43 +154,24 @@ export class CreateCompanyComponent implements OnInit {
     };
   }
 
-  // get ProjectsList() {
-  //   return this.companyForm.get("banner") as FormArray;
-  // }
-  // public addBanner(): void {
-  //   for (let val of this.urlImageBanner) {
-  //     // this.companyForm.controls.banner.push(val);
-  //     this.ProjectsList.push(new FormControl(val));
-
-  //   }
-  //   console.log(this.companyForm.controls.banner.value);
-  // }
-  // createProject(val): FormGroup {
-  //   return this.forms.group({
-  //     banner: val,
-  //   });
-  // }
-
-  // public createItem(): FormControl {
-
-  //   var control;
-  //   return  control = new FormControl('some value');
-  // }
-
-//   public createControlBanner(): FormArray {
-
-
-//     return this.forms.array([
-//       new FormControl("a"),
-//       new FormControl("a")
-//     ]);
-// }
+  get bannerList() {
+    return this.companyForm.get("banner") as FormArray;
+  }
+  public addBanner(): void {
+    this.bannerList.push(this.forms.control(""));
+  }
 
   public save() {
-
-
-    // this.companyForm.controls.banner.push()
-    console.log(this.a);
-    // console.log(this.companyForm.controls.ban0.value);
+    let num = 0;
+    for (let a of this.bannerList.controls) {
+      console.log(
+        "Banner" +
+          (num + 1) +
+          "=>" +
+          this.companyForm.get(["banner", num]).value
+      );
+      num++;
+    }
+    console.log(this.companyForm);
   }
 }

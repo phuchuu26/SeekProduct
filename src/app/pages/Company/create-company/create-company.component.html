@@ -1,4 +1,12 @@
-<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+<div
+  class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+  style="
+    min-height: 600px;
+    background-image: url(assets/img/theme/profile-cover.jpg);
+    background-size: cover;
+    background-position: center top;
+  "
+>
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- Header container -->
@@ -6,8 +14,11 @@
     <div class="row">
       <div class="col-lg-7 col-md-10">
         <h1 class="display-2 text-white">Hello Jesse</h1>
-        <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
-        <a  class="btn btn-info">Detail & edit Info Company</a>
+        <p class="text-white mt-0 mb-5">
+          This is your profile page. You can see the progress you've made with
+          your work and manage your projects or assigned tasks
+        </p>
+        <a class="btn btn-info">Detail & edit Info Company</a>
       </div>
     </div>
   </div>
@@ -78,55 +89,109 @@
               <h3 class="mb-0">My Company</h3>
             </div>
             <div class="col-4 text-right">
-              <a routerLinkActive="active" [routerLink]="['/allmycompany']" class="btn btn-primary">Back to List My Company</a>
+              <a
+                routerLinkActive="active"
+                [routerLink]="['/allmycompany']"
+                class="btn btn-primary"
+                >Back to List My Company</a
+              >
             </div>
           </div>
         </div>
         <div class="card-body">
-          <form  [formGroup]="companyForm" >
+          <form [formGroup]="companyForm">
             <h6 class="heading-small text-muted mb-4">User information</h6>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-4">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-username">Store Name</label>
-                    <input type="text" id="input-username" formControlName="store_name"  class="form-control form-control-alternative"  value="{{companyProfile?.store_name}}">
-
+                    <label class="form-control-label" for="input-username"
+                      >Store Name</label
+                    >
+                    <input
+                      type="text"
+                      id="input-username"
+                      formControlName="store_name"
+                      class="form-control form-control-alternative"
+                      value="{{ companyProfile?.store_name }}"
+                    />
                   </div>
                 </div>
 
-                <div class="col-lg-4 img" >
+                <div class="col-lg-4 img">
                   <div class="form-group img text-center">
-                    <label class="form-control-label"  for="input-image">Logo</label>
-
+                    <label class="form-control-label" for="input-image"
+                      >Logo</label
+                    >
 
                     <div>
-                      <input id="image" type="file" formControlName="logo"   name="image" (change)="onChangeImage($event,this)" style="display: none;" >
+                      <input
+                        id="image"
+                        type="file"
+                        formControlName="logo"
+                        name="image"
+                        (change)="onChangeImage($event,this)"
+                        style="display: none;"
+                      />
                     </div>
                     <label for="image">
-                      <img  style="border-radius: 72px;" [class]="this.urlImage=='assets\\img\\1.png' ? 'null' : 'notnull'"  [src]="urlImage" width="150px" height="150px"  alt="Image not found">
+                      <img
+                        style="border-radius: 72px;"
+                        [class]="
+                          this.urlImage == 'assets\\img\\1.png'
+                            ? 'null'
+                            : 'notnull'
+                        "
+                        [src]="urlImage"
+                        width="150px"
+                        height="150px"
+                        alt="Image not found"
+                      />
                     </label>
-
                   </div>
                 </div>
                 <div class="col-lg-4">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-email">Legal Name</label>
-                    <input type="email" id="input-email" formControlName="legal_name"  class="form-control form-control-alternative" value="{{companyProfile?.legal_name}}">
+                    <label class="form-control-label" for="input-email"
+                      >Legal Name</label
+                    >
+                    <input
+                      type="email"
+                      id="input-email"
+                      formControlName="legal_name"
+                      class="form-control form-control-alternative"
+                      value="{{ companyProfile?.legal_name }}"
+                    />
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-4">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-first-name">Site</label>
-                    <input type="text" id="input-first-name" formControlName="site"  class="form-control form-control-alternative"  value="{{companyProfile?.site}}">
+                    <label class="form-control-label" for="input-first-name"
+                      >Site</label
+                    >
+                    <input
+                      type="text"
+                      id="input-first-name"
+                      formControlName="site"
+                      class="form-control form-control-alternative"
+                      value="{{ companyProfile?.site }}"
+                    />
                   </div>
                 </div>
-                <div class="col-lg-8 ">
+                <div class="col-lg-8">
                   <div class="form-group a">
-                    <label class="form-control-label" for="input-last-name">Business License</label>
-                    <input type="text"  id="input-last-name" formControlName="business_license"  class="form-control form-control-alternative" value="{{companyProfile?.business_license}}">
+                    <label class="form-control-label" for="input-last-name"
+                      >Business License</label
+                    >
+                    <input
+                      type="text"
+                      id="input-last-name"
+                      formControlName="business_license"
+                      class="form-control form-control-alternative"
+                      value="{{ companyProfile?.business_license }}"
+                    />
                   </div>
                 </div>
               </div>
@@ -136,14 +201,19 @@
             <h6 class="heading-small text-muted mb-4">Management Product</h6>
             <div class="pl-lg-4">
               <div class="row">
-
-
                 <div class="col-md-12">
                   <div class="form-group">
                     <div class="ca">
-
-                      <label class="form-control-label" for="input-address">Category</label>
-                      <button (click)="buttonToggleAddCategory()" type="button" class="AddProduct btn btn-sm btn-info">Add Category</button>
+                      <label class="form-control-label" for="input-address"
+                        >Category</label
+                      >
+                      <button
+                        (click)="buttonToggleAddCategory()"
+                        type="button"
+                        class="AddProduct btn btn-sm btn-info"
+                      >
+                        Add Category
+                      </button>
                     </div>
                     <!-- <form class="example-form">
                       <mat-form-field class="example-full-width">
@@ -160,98 +230,176 @@
                         </mat-autocomplete>
                       </mat-form-field>
                     </form> -->
-                    <mat-form-field class="cate" *ngIf="toggleAddCategory" appearance="fill">
-                      <mat-label>Toppings</mat-label>
+                    <mat-form-field
+                      class="cate"
+                      *ngIf="toggleAddCategory"
+                      appearance="fill"
+                    >
+                      <mat-label>Type</mat-label>
                       <mat-select [formControl]="toppings" multiple>
                         <mat-select-trigger>
-                          {{toppings.value ? toppings.value[0] : ''}}
-                          <span *ngIf="toppings.value?.length > 1" class="example-additional-selection">
-                            (+{{toppings.value.length - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
+                          {{ toppings.value ? toppings.value[0] : "" }}
+                          <span
+                            *ngIf="toppings.value?.length > 1"
+                            class="example-additional-selection"
+                          >
+                            (+{{ toppings.value.length - 1 }}
+                            {{
+                              toppings.value?.length === 2 ? "other" : "others"
+                            }})
                           </span>
                         </mat-select-trigger>
-                        <mat-option *ngFor="let topping of toppingList" [value]="topping.name">{{topping.name}}</mat-option>
+                        <mat-option
+                          *ngFor="let topping of toppingList"
+
+                          [value]="topping.name"
+                          >{{ topping.name }}</mat-option
+                        >
                       </mat-select>
                     </mat-form-field>
-
                     <div class="b">
-
                       <div *ngFor="let cate of category">
-                        <button type="button" class="categoryG btn btn-primary mt-3">{{cate?.name}}</button>
+                        <button
+                          type="button"
+                          class="categoryG btn btn-primary mt-3"
+                        >
+                          {{ cate?.name }}
+                        </button>
                         <!-- <input id="input-address"  class="form-control form-control-alternative" placeholder="Link Facebook" value="{{cate.name}}" type="text"> -->
                       </div>
                     </div>
-
                   </div>
                 </div>
-
               </div>
-
             </div>
             <hr class="my-4" />
             <!-- Address -->
             <h6 class="heading-small text-muted mb-4">Image Of Company</h6>
             <div class="pl-lg-4">
               <div class="row">
-                <label class="form-control-label" for="input-address">Advertising Sample</label>
-
+                <label class="form-control-label" for="input-address"
+                  >Advertising Sample</label
+                >
 
                 <div class="col-md-12">
                   <div class="form-group ban">
-                    <input id="image1" type="file" formControlName="ad_sample"   name="image1" (change)="onChangeImage2($event,this)" style="display: none;" >
+                    <input
+                      id="image1"
+                      type="file"
+                      formControlName="ad_sample"
+                      name="image1"
+                      (change)="onChangeAdSample($event,this)"
+                      style="display: none;"
+                    />
                     <label for="image1">
-
-                      <img class="ad_sample" [class]="this.urlImageAdSample=='https://www.osustuff.org/images/placeholder.png' ? 'null' : 'notnull'" style="border-radius: 12px;"   [src]="urlImageAdSample"    alt="Image not found">
+                      <img
+                        class="ad_sample"
+                        [class]="
+                          this.urlImageAdSample ==
+                          'https://www.osustuff.org/images/placeholder.png'
+                            ? 'null'
+                            : 'notnull'
+                        "
+                        style="border-radius: 12px;"
+                        [src]="urlImageAdSample"
+                        alt="Image not found"
+                      />
                     </label>
                   </div>
                 </div>
               </div>
-                <div class="row">
+              <div class="row">
+                <div formArrayName="banner" class="col-md-12">
+                  <label class="form-control-label" for="input-address"
+                    >Banner</label
+                  >
+                  <button
+                    (click)="addbanner(a)"
+                    type="button"
+                    class="AddProduct btn btn-sm btn-info"
+                  >
+                    Add Banner
+                  </button>
 
-                <div class="col-md-12">
-                  <label class="form-control-label" for="input-address">Banner</label>
-                  <button (click)="addbanner(i+1)" type="button" class="AddProduct btn btn-sm btn-info">Add Banner</button>
-
-                  <div class="col-md-12">
+                  <!-- <div class="col-md-12">
                     <div class="form-group ban">
                       <input id="image2" type="file"    name="image2" (change)="onChangeImage1($event,this)" style="display: none;" >
                       <label for="image2">
                         <img  [class]="this.urlImageBanner[0]=='https://www.osustuff.org/images/placeholder.png' ? 'null' : 'notnull'" width="900" height="450" style="border-radius: 12px;"   [src]="urlImageBanner[0]"    alt="Image not found">
                       </label>
                     </div>
-                  </div>
-                    <div *ngIf="i > 0 ">
-                      <div *ngFor="let i of clickaddbanner">
-
-                        <div class="col-md-12">
-                          <div class="form-group ban">
-                            <input id="imagee{{i}}" type="file"   name="imagee{{i}}" (change)="onChangeBanner($event,i,this)" style="display: none;" >
-                            <label for="imagee{{i}}">
-                              <img  [class]="this.urlImageBanner[i]=='https://www.osustuff.org/images/placeholder.png' ? 'null' : 'notnull'" width="900" height="450" style="border-radius: 12px;"   [src]="urlImageBanner[i]"    alt="Image not found">
-                            </label>
-                          </div>
-                        </div>
+                  </div> -->
+                  <!-- <div *ngIf="i > 0 "> -->
+                  <div *ngFor="let a of bannerList.controls; let i = index">
+                    <div class="col-md-12">
+                      <div class="form-group ban">
+                        <input
+                          id="imagee{{ i }}"
+                          type="file"
+                          [formControlName]="i"
+                          name="imagee{{ i }}"
+                          (change)="onChangeBanner($event,i,this)"
+                          style="display: none;"
+                        />
+                        <label for="imagee{{ i }}">
+                          <img
+                            [class]="
+                              this.urlImageBanner[i] ==
+                              'https://www.osustuff.org/images/placeholder.png'
+                                ? 'null'
+                                : 'notnull'
+                            "
+                            width="900"
+                            height="450"
+                            style="border-radius: 12px;"
+                            [src]="urlImageBanner[i]"
+                            alt="Image not found"
+                          />
+                        </label>
                       </div>
+                      <span
+                        style="
+                          margin-left: auto;
+                          margin-right: auto;
+                          width: 50%;
+                          float: right;
+                          margin-top: -28px;
+                        "
+                        class="heading"
+                        >Banner {{ i  + 1 }}</span
+                      >
                     </div>
-
+                    <!-- </div> -->
+                    <br>
+                  </div>
                 </div>
-
               </div>
-
             </div>
-
 
             <hr class="my-4" />
             <!-- Description -->
             <h6 class="heading-small text-muted mb-4">About Company</h6>
             <div class="pl-lg-4">
-
               <div class="form-group">
                 <label>About</label>
-                <textarea rows="10" formControlName="about"  class="form-control form-control-alternative about" placeholder="A few words about you ...">{{companyProfile?.about}}</textarea>
+                <textarea
+                  rows="10"
+                  formControlName="about"
+                  class="form-control form-control-alternative about"
+                  placeholder="A few words about you ..."
+                  >{{ companyProfile?.about }}</textarea
+                >
               </div>
             </div>
             <div class="text-center">
-              <button type="button" [disabled]="!companyForm.valid" (click)="save()" class="btn btn-primary mt-4">UPDATE</button>
+              <button
+                type="button"
+                [disabled]="!companyForm.valid"
+                (click)="save()"
+                class="btn btn-primary mt-4"
+              >
+                UPDATE
+              </button>
             </div>
           </form>
         </div>
