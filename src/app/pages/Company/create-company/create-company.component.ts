@@ -12,28 +12,38 @@ import {
   Validators,
   FormArray,
 } from "@angular/forms";
-import { Component, OnInit, OnChanges } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  DoCheck,
+  AfterViewChecked,
+} from "@angular/core";
 
 @Component({
   selector: "app-create-company",
   templateUrl: "./create-company.component.html",
   styleUrls: ["./create-company.component.css"],
 })
-export class CreateCompanyComponent implements OnInit, OnChanges {
+export class CreateCompanyComponent
+  implements OnInit, DoCheck {
   // options: string[] = ['One', 'Two', 'Three'];
   // myControl = new FormControl();
   // filteredOptions: Observable<string[]>;
   toppings = new FormControl();
+  category = new FormControl();
   public companyForm: FormGroup;
-  public companyProfile: Company;
+  // public companyProfile: Company;
   public site: string;
   public urlImage: string;
   public urlImageBanner: string[] = [];
   public urlImageAdSample: string;
   public avt;
-  public category: Category[];
+  // public category: Category[];
   public toppingList: Category[];
   public toggleAddCategory: boolean = false;
+  public nameca: string;
+  public cateChoosed: string[] = [];
   constructor(
     private snotify: SnotifyService,
     private http: ServerHttpService,
@@ -46,8 +56,35 @@ export class CreateCompanyComponent implements OnInit, OnChanges {
 
   //   return this.options.filter(option => option.toLowerCase().includes(filterValue));
   // }
-  ngOnChanges(): void {
+ public  nameCa(){
+    this.cateChoosed = [];
+    if (this.toppingList) {
 
+      if (this.category.value != null) {
+        this.category.value.forEach(item1 => {
+          this.toppingList.forEach(item=>{
+            if(item.id == item1){
+              this.cateChoosed.push(item.name);
+              // console.log(this.cateChoosed);
+            }
+          });
+        });
+      }
+    }
+    // console.log(this.cateChoosed);
+  }
+  ngDoCheck(): void {
+    if (this.toppingList) {
+      if (this.category.value != null) {
+        for (let option of this.toppingList) {
+          if (option.id == this.category.value[0]) {
+            this.nameca = option.name;
+            // console.log(this.nameca);
+          }
+
+        }
+      }
+    }
   }
   ngOnInit(): void {
     // this.filteredOptions = this.myControl.valueChanges
@@ -67,7 +104,7 @@ export class CreateCompanyComponent implements OnInit, OnChanges {
       ad_sample: new FormControl(),
       about: new FormControl(),
       banner: this.forms.array([this.forms.control("")]),
-      category: new FormControl(),
+      category: this.forms.array,
     });
     this.urlImage = "assets\\img\\1.png";
 
@@ -79,19 +116,18 @@ export class CreateCompanyComponent implements OnInit, OnChanges {
       this.toppingList = data.results;
     });
 
-    this.loadData();
+    // this.loadData();
   }
 
-  public loadData() {
-    if (this.companyProfile) {
-      for (const controlName in this.companyForm.controls) {
-        if (controlName) {
-          this.companyForm.controls[controlName].setValue(
-            this.companyProfile[controlName]
-          );
-        }
+  public submit() {
+    const companyProfile = {};
+    for (const a in this.companyForm.controls) {
+      if (a) {
+        // console.log(this.companyForm.controls[a].value);
+        companyProfile[a] = this.companyForm.controls[a].value;
       }
     }
+    return companyProfile as Company;
   }
   public onChangeImage(image, a) {
     let file = image.target.files;
@@ -109,8 +145,8 @@ export class CreateCompanyComponent implements OnInit, OnChanges {
   }
   public onChangeImage1(image, i) {
     let file = image.target.files;
-    console.log(image);
-    console.log(i);
+    // console.log(image);
+    // console.log(i);
     let reader = new FileReader();
     reader.readAsDataURL(file[0]);
     reader.onload = (image) => {
@@ -121,8 +157,8 @@ export class CreateCompanyComponent implements OnInit, OnChanges {
   }
   public onChangeAdSample(image, i) {
     let file = image.target.files;
-    console.log(image);
-    console.log(i);
+    // console.log(image);
+    // console.log(i);
     console.log(file);
     let reader = new FileReader();
     reader.readAsDataURL(file[0]);
@@ -139,11 +175,12 @@ export class CreateCompanyComponent implements OnInit, OnChanges {
   }
   public a: number = 0;
   public addbanner(i) {
-    this.urlImageBanner[i+1] = "https://www.osustuff.org/images/placeholder.png";
+    this.urlImageBanner[i + 1] =
+      "https://www.osustuff.org/images/placeholder.png";
     this.bannerList.push(this.forms.control(""));
     this.a++;
-    console.log(i);
-    console.log(this.urlImageBanner);
+    // console.log(i);
+    // console.log(this.urlImageBanner);
   }
   public onChangeBanner(image, i, a) {
     let file = image.target.files;
@@ -157,21 +194,21 @@ export class CreateCompanyComponent implements OnInit, OnChanges {
   get bannerList() {
     return this.companyForm.get("banner") as FormArray;
   }
+  get categoryList() {
+    return this.companyForm.get("category") as FormArray;
+  }
   public addBanner(): void {
     this.bannerList.push(this.forms.control(""));
   }
 
   public save() {
-    let num = 0;
-    for (let a of this.bannerList.controls) {
-      console.log(
-        "Banner" +
-          (num + 1) +
-          "=>" +
-          this.companyForm.get(["banner", num]).value
-      );
-      num++;
-    }
-    console.log(this.companyForm);
+    this.companyForm.controls.category.setValue(this.category.value);
+    this.submit();
+    console.log(this.submit());
+    //  console.log(typeof this.companyForm.controls.category.value);
+    //  console.log(this.companyForm.controls.category.value);
+    //  console.log(this.category);
+    //  console.log(typeof this.companyForm.controls.banner.value);
+    //  console.log(this.companyForm.controls.banner.value);
   }
 }

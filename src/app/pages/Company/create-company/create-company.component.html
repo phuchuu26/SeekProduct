@@ -113,7 +113,7 @@
                       id="input-username"
                       formControlName="store_name"
                       class="form-control form-control-alternative"
-                      value="{{ companyProfile?.store_name }}"
+                      value=""
                     />
                   </div>
                 </div>
@@ -160,7 +160,7 @@
                       id="input-email"
                       formControlName="legal_name"
                       class="form-control form-control-alternative"
-                      value="{{ companyProfile?.legal_name }}"
+                      value=""
                     />
                   </div>
                 </div>
@@ -176,7 +176,7 @@
                       id="input-first-name"
                       formControlName="site"
                       class="form-control form-control-alternative"
-                      value="{{ companyProfile?.site }}"
+                      value=""
                     />
                   </div>
                 </div>
@@ -190,11 +190,33 @@
                       id="input-last-name"
                       formControlName="business_license"
                       class="form-control form-control-alternative"
-                      value="{{ companyProfile?.business_license }}"
+                      value=""
                     />
                   </div>
                 </div>
               </div>
+            </div>
+            <hr class="my-4" />
+            <!-- Address -->
+            <h6 class="heading-small text-muted mb-4">Contact Information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Address</label>
+                    <input id="input-address"  class="form-control form-control-alternative" formControlName="phone_number"  placeholder="Address" value="" type="text">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Phone Number</label>
+                    <input id="input-address" class="form-control form-control-alternative" formControlName="address"  placeholder="Phone Number" value="" type="text">
+                  </div>
+                </div>
+              </div>
+
             </div>
             <hr class="my-4" />
             <!-- Address -->
@@ -215,55 +237,41 @@
                         Add Category
                       </button>
                     </div>
-                    <!-- <form class="example-form">
-                      <mat-form-field class="example-full-width">
-                        <input type="text"
-                               placeholder="Pick one"
-                               aria-label="Number"
-                               matInput
-                               [formControl]="myControl"
-                               [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete">
-                          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                            {{option}}
-                          </mat-option>
-                        </mat-autocomplete>
-                      </mat-form-field>
-                    </form> -->
+
                     <mat-form-field
                       class="cate"
                       *ngIf="toggleAddCategory"
                       appearance="fill"
                     >
                       <mat-label>Type</mat-label>
-                      <mat-select [formControl]="toppings" multiple>
+                      <mat-select [formControl]="category" multiple>
                         <mat-select-trigger>
-                          {{ toppings.value ? toppings.value[0] : "" }}
+                          {{ category.value ? nameca : "" }}
                           <span
-                            *ngIf="toppings.value?.length > 1"
+                            *ngIf="category.value?.length > 1"
                             class="example-additional-selection"
                           >
-                            (+{{ toppings.value.length - 1 }}
+                            (+{{ category.value.length - 1 }}
                             {{
-                              toppings.value?.length === 2 ? "other" : "others"
+                              category.value?.length === 2 ? "other" : "others"
                             }})
                           </span>
                         </mat-select-trigger>
-                        <mat-option
+                        <mat-option (click)="nameCa()"
                           *ngFor="let topping of toppingList"
 
-                          [value]="topping.name"
+                          [value]="topping.id"
                           >{{ topping.name }}</mat-option
                         >
                       </mat-select>
                     </mat-form-field>
-                    <div class="b">
-                      <div *ngFor="let cate of category">
+                    <div *ngIf="cateChoosed.length > 0" class="b">
+                      <div *ngFor="let cate of cateChoosed" >
                         <button
                           type="button"
                           class="categoryG btn btn-primary mt-3"
                         >
-                          {{ cate?.name }}
+                          {{ cate }}
                         </button>
                         <!-- <input id="input-address"  class="form-control form-control-alternative" placeholder="Link Facebook" value="{{cate.name}}" type="text"> -->
                       </div>
@@ -387,7 +395,7 @@
                   formControlName="about"
                   class="form-control form-control-alternative about"
                   placeholder="A few words about you ..."
-                  >{{ companyProfile?.about }}</textarea
+                  ></textarea
                 >
               </div>
             </div>

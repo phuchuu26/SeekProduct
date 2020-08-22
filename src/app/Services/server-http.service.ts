@@ -319,11 +319,12 @@ public getCategory(site):Observable<Category[]> {
 
 public getAllCategory():Observable<any>{
   const url = `https://seekproduct-api.misavu.net/api/category`;
+  const token = localStorage.getItem("TOKEN");
   const httpOptionsChild = {
     headers: new HttpHeaders({
       "Content-Type": "application/json",
       // Authorization: 'my-auth-token',
-      Authorization: "JWT " + this.tokenLogin,
+      Authorization: "JWT " + token,
     }),
   };
   return this.http.get<any>(url,  httpOptionsChild).pipe(
