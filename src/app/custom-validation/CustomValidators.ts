@@ -1,5 +1,6 @@
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ValidatorFn } from '@angular/forms';//Interface
+import { ServerHttpService} from '../Services/server-http.service';
 
 export const emailValidator = (): ValidatorFn => {
     return (control: AbstractControl): { [key: string]: string } => {
@@ -9,11 +10,12 @@ export const emailValidator = (): ValidatorFn => {
     };
 }
 export const confirmPasswordValidator1 = (): ValidatorFn => {
-  return (control: AbstractControl,): { [key: string]: string } => {
+  http:ServerHttpService;
+  return (control: AbstractControl): { [key: string]: string } => {
     console.log(control);
     console.log(control.value);
     console.log(control.parent.controls);
-      return (control.value ) == true ? null : {'error1': "Wrong email format1"};
+      return (control.value == this.http.oldPassword ) == true ? null : {'error1': "Wrong email format1"};
   };
 }
 

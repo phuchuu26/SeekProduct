@@ -1,0 +1,125 @@
+.form-group.a {
+  margin-left: 378px;
+}
+.form-group.text-center.img {
+  /* margin-top: 0px; */
+  margin-bottom: -51px;
+}
+/* button.btn.btn-primary.mt-3 {
+  min-width: 116px;
+} */
+.a {
+  /* display: flex; */
+}
+button.productG {
+  margin-right: 18px;
+  min-width: 116px;
+  max-width: 117px;
+  /* position: relative; */
+  float: left;
+}
+button.btn.btn-sm.btn-info.AddProduct {
+  margin-left: 25px;
+}
+
+
+
+
+button.categoryG{
+  margin-right: 20px;
+  min-width: auto;
+  float: left;
+}
+
+.b{
+  /* display: flex; */
+}
+.form-group.productgroup {
+/* position: absolute; */
+}
+
+/*
+mat-slider {
+  width: 300px;
+} */
+.example-additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+.mat-form-field-wrapper.ng-tns-c153-0 {
+  margin-top: -12px;
+}
+/* .ca {
+  float: left;
+  margin-right: 20px;
+}
+.b {
+  display: inline-flex;
+  /* empty-cells: show; */
+  /* float: left;
+}
+  */
+  .mat-form-field-wrapper.ng-tns-c153-2 {
+    margin-left: 206px!important;
+    margin-top: -55px!important;
+}
+.mat-form-field-flex.ng-tns-c153-2{
+  margin-left: 206px!important;
+  margin-top: -55px!important;
+}
+img.ad_sample {
+  /* border-radius: px; */
+  /* min-width: 983px; */
+  background-size: cover;
+  /* max-width: 800px;
+  min-width: 500px;
+  max-height: 200px;
+  min-height: 900px; */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+img.banner {
+  border-radius: 12px;
+  /* min-width: 983px; */
+  background-size: cover;
+  /* width: 678px; */
+  /* height: 200px; */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+
+}
+img.banner1{
+  border-radius: 12px;
+
+}
+.form-group.ban {
+  text-align: center;
+}
+textarea.about{
+  resize: both;
+  overflow: auto;
+}
+textarea.form-control {
+  resize: vertical;
+  overflow: auto;
+}
+.form-group.banner {
+  text-align-last: center;
+}
+.null{
+  border: 2px dotted rgb(0, 0, 0);
+}
+.notnull{
+  border: 0px ;
+}
+/* img {
+  border: 2px dotted black;
+} */
+.cate {
+  margin-left: 226px;
+  margin-top: -46px;
+}
