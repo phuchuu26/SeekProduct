@@ -111,10 +111,11 @@
           </div>
           <div class="form-group">
             <h3><label for="company_id"><span class="label label-success">Company</span></label></h3>
-            <select class="form-control" id="company_id" (change)="changeData($event)" required>
+            <select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectCompany" class="form-control" id="company_id" (change)="changeData($event)" required>
               <option class="option" *ngFor="let compa of company" [value]="compa.id">
                 {{compa.store_name}}</option>
             </select>
+            <div *ngIf="err === true"> <label style="color: red;">Company already exists</label> </div>
           </div>
           <div class="form-group">
             <h3><label for="trial_period_days">Trial Period Days</label></h3>
@@ -124,7 +125,7 @@
         </div>
       </form>
       <div class="modal-footer border-top-0 d-flex justify-content-center">
-        <button style="font-size: 20px;" (click)="submit()" type="submit" class="btn btn-success">Submit</button>
+        <button [disabled]= "err" style="font-size: 20px;" (click)="submit()" type="submit" class="btn btn-success">Submit</button>
       </div>
     </div>
   </div>
@@ -133,10 +134,6 @@
   <div class="row">
     <div class="col">
       <div class="card">
-        <!-- Card header -->
-        <div class="card-header border-0">
-          <h3 class="mb-0">List Users</h3>
-        </div>
         <!-- Light table -->
         <div class="table-responsive" [class.loading]="(loading$ | async)">
           <table class="table align-items-center table-flush" *ngIf="(subscriptionItems | async)">
@@ -155,8 +152,8 @@
               <tr>
                 <th scope="row">
                   <div class="media align-items-center">
-                    <a href="#" class="avatar rounded-circle mr-3">
-                      <img alt="Image placeholder" [src]="subscription.company.logo">
+                    <a class="avatar rounded-circle mr-3">
+                      <img [src]="subscription.company.logo">
                     </a>
                   </div>
                 </th>

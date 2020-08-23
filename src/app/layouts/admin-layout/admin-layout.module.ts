@@ -13,12 +13,19 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {SubscriptionComponent} from '../../pages/subscription/subscription.component';
+import {ManageProductComponent} from '../../pages/manage-product/manage-product.component';
+import {ManageProductGroupComponent} from '../../pages/manage-product-group/manage-product-group.component';
+import {DialogOverviewExampleDialog} from '../../pages/manage-product/manage-product.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 // import { CustomFormsModule } from 'ngx-custom-validators';
 // import { ToastrModule } from 'ngx-toastr';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { SubscriptionEffects } from '../../pages/store/effects/subscription.effects';
 import { SubscriptionReducer } from '../../pages/store/reducers/subscription.reducers';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,7 +38,11 @@ import { SubscriptionReducer } from '../../pages/store/reducers/subscription.red
     EffectsModule.forRoot([SubscriptionEffects]),
     StoreModule.forRoot({
       user : SubscriptionReducer
-    })
+    }),
+    MatTabsModule,
+    MatSelectModule,
+    MatDialogModule,
+    NgxPaginationModule
     // CustomFormsModule
   ],
   declarations: [
@@ -40,7 +51,11 @@ import { SubscriptionReducer } from '../../pages/store/reducers/subscription.red
     TablesComponent,
     IconsComponent,
     MapsComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    ManageProductComponent,
+    DialogOverviewExampleDialog,
+    ManageProductGroupComponent
+    
   ]
 })
 

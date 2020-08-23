@@ -1,7 +1,8 @@
 import { SubscriptionAction, SubscriptionActionTypes } from '../actions/subscription.action';
 import { Subscription } from '../models/subscription.model';
-//import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import { SubscriptionService } from '../../subscription/subscription.service';
+import { combineAll } from 'rxjs/operators';
 export interface SubscriptionState {
     list: Subscription[],
     loading: boolean,
@@ -37,13 +38,13 @@ export interface SubscriptionState {
         loading: true
       };
     case SubscriptionActionTypes.DELETE_SUBSCRIPTION_SUCCESS:
-    //   Swal.fire({
-    //     position: 'center',
-    //     icon: 'success',
-    //     title: 'You delete Success',
-    //     showConfirmButton: false,
-    //     timer: 1500
-    //   })
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'You delete Success',
+        showConfirmButton: false,
+        timer: 1500
+      })
     console.log(action.type,"/"+ action.payload);
       return {
         ...state,
@@ -52,13 +53,13 @@ export interface SubscriptionState {
       }
     case SubscriptionActionTypes.DELETE_SUBSCRIPTION_FAILURE:
       console.log(action.type, action.payload);
-    //   Swal.fire({
-    //     position: 'center',
-    //     icon: 'error',
-    //     title: 'You delete FAIL',
-    //     showConfirmButton: false,
-    //     timer: 1500
-    //   })
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'You delete FAIL',
+        showConfirmButton: false,
+        timer: 1500
+      })
       return {
         ...state,
         error: action.payload,
@@ -70,26 +71,26 @@ export interface SubscriptionState {
         loading: true
       }
     case SubscriptionActionTypes.ADD_SUBSCRIPTION_SUCCESS:
-    //   Swal.fire({
-    //     position: 'center',
-    //     icon: 'success',
-    //     title: 'You Add Success',
-    //     showConfirmButton: false,
-    //     timer: 1500
-    //   })
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'You Add Success',
+        showConfirmButton: false,
+        timer: 1500
+      })
       return {
         ...state,
         list: [...state.list, action.payload],
         loading: false
       };
     case SubscriptionActionTypes.ADD_SUBSCRIPTION_FAILURE:
-    //   Swal.fire({
-    //     position: 'center',
-    //     icon: 'error',
-    //     title: 'You Add Fail',
-    //     showConfirmButton: false,
-    //     timer: 1500
-    //   })
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'You Add Fail',
+        showConfirmButton: false,
+        timer: 1500
+      })
       return {
         ...state,
         error: action.payload,
@@ -101,26 +102,27 @@ export interface SubscriptionState {
           loading: true
         }
       case SubscriptionActionTypes.UPDATE_SUBSCRIPTION_SUCCESS:
-        // Swal.fire({
-        //   position: 'center',
-        //   icon: 'success',
-        //   title: 'You Update Success',
-        //   showConfirmButton: false,
-        //   timer: 1500
-        // })
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'You Update Success',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        console.log("ID tra ve : " + action.payload.company.store_name);
         return {
           ...state,
-          list: state.list.map(item => item.plan.id === action.payload.plan.id ? action.payload : item),
+          list: state.list.map(item => item.plan.id !== action.payload.plan.id ? action.payload : item),
           loading: false
         };
       case SubscriptionActionTypes.UPDATE_SUBSCRIPTION_FAILURE:
-        // Swal.fire({
-        //   position: 'center',
-        //   icon: 'error',
-        //   title: 'You Update Fail',
-        //   showConfirmButton: false,
-        //   timer: 1500
-        // })
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'You Update Fail',
+          showConfirmButton: false,
+          timer: 1500
+        })
         return {
           ...state,
           error: action.payload,

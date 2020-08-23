@@ -1,0 +1,208 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+      <div class="header-body">
+        <!-- Card stats -->
+        <div class="row">
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
+                    <span class="h2 font-weight-bold mb-0">350,897</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                      <i class="fas fa-chart-bar"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                  <span class="text-nowrap">Since last month</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
+                    <span class="h2 font-weight-bold mb-0">2,356</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                      <i class="fas fa-chart-pie"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
+                  <span class="text-nowrap">Since last week</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
+                    <span class="h2 font-weight-bold mb-0">924</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                      <i class="fas fa-users"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
+                  <span class="text-nowrap">Since yesterday</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
+                    <span class="h2 font-weight-bold mb-0">49,65%</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                      <i class="fas fa-percent"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                  <span class="text-nowrap">Since last month</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---------------------------------------------------------------------------------------------->
+  <div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+          <div class="card">
+              <div>
+            <mat-form-field appearance="fill" style="width: fit-content;">
+                <mat-label>Company</mat-label>
+                <mat-select [(value)]="selectedValue" [(ngModel)]="selectedValue" name="manage_product" (selectionChange)="changeData($event)">
+                    <mat-option value="full_company">-- Full Company --</mat-option>
+                    <mat-option *ngFor="let company of my_company" [value]="company.id">
+                    {{company.store_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div style="float: right;">
+                <button style="font-size: 20px;" (click)="openDialog()" type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" class="btn btn-danger">
+                    <i style="font-size: 15px;" class="fab fa-product-hunt" aria-hidden="true"></i> Add Product Group
+                </button>
+              </div>
+            </div>
+            <!-- Light table -->
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col" class="sort" data-sort="name">Name</th>
+                    <th scope="col" class="sort" data-sort="name">Info</th>
+                    <th scope="col" class="sort" data-sort="status">Company ID</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody class="list" *ngFor="let productGroup of productGroup_list | paginate: { itemsPerPage: 10, currentPage: page }">
+                  <tr>
+                    <td class="budget">
+                      {{productGroup.id}}
+                    </td>
+                    <td class="budget">
+                      {{productGroup.name}}
+                    </td>
+                    <td class="budget">
+                      {{productGroup.info}}
+                    </td>
+                    <td class="budget">
+                      {{productGroup.company}}
+                    </td>
+                    <td class="text-right">
+                        <button data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" (click)="EditProductGroup(productGroup.id)" data-placement="top" title="Edit"
+                          class="btn btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top"
+                            title="Edit"></i></button>
+                        <button (click)="deleteProductGroup(productGroup.id)" data-toggle="tooltip"
+                          data-placement="top" title="Remove" class="btn btn-sm"><i class="fa fa-trash" data-toggle="tooltip"
+                            data-placement="top" title="Remove"></i></button>
+                      </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="row align-items-center justify-content-center">
+                <pagination-controls (pageChange)="pageChanged($event)" autoHide="true" class="my-pagination"></pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div *ngIf="err === false" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+                <h3><label for="company_id"><span class="label label-success">Company</span></label></h3>
+                <select [disabled]="checkEdit" [ngModelOptions]="{standalone: true}" [(ngModel)]="selectCompany" class="form-control" id="company_id" (change)="onChange($event)" required>
+                  <option class="option" *ngFor="let compa of my_company" [value]="compa.id">
+                    {{compa.store_name}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input ([ngModel])="name" [value]="name" (keyup)="onChange($event)" type="text"
+                  class="form-control" id="name">
+              </div>
+              <div class="form-group">
+                <label for="info">Info</label>
+                <textarea ([ngModel])="info" [value]="info" (keyup)="onChange($event)" type="text"
+                  class="form-control" id="info"></textarea>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="submit()" class="btn btn-primary" data-dismiss="modal">Send message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      $('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+//   var recipient = button.data('whatever') // Extract info from data-* attributes
+//   // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+//   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+//   var modal = $(this)
+//   modal.find('.modal-title').text('New message to ' + recipient)
+//   modal.find('.modal-body input').val(recipient)
+})
+  </script>

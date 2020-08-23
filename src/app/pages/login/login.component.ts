@@ -27,9 +27,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public userForm = new FormGroup({
 
-    email: new FormControl("admin@gmail.com", [Validators.required, ]),
+    email: new FormControl("hoale7602@gmail.com", [Validators.required, ]),
     // emailValidator()
-    password: new FormControl("admin@1234", [
+    password: new FormControl("adward", [
       Validators.required,
       Validators.minLength(5),
     ]),
