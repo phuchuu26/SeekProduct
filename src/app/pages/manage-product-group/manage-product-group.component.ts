@@ -26,6 +26,7 @@ export class ManageProductGroupComponent implements OnInit {
   company_id : string = '';
   name : string = '';
   info: string = '';
+  product_Group_ID : string = '';
   pageChanged(event : any){
     this.page = event;
   }
@@ -73,6 +74,10 @@ export class ManageProductGroupComponent implements OnInit {
   }
   openDialog(){
     this.err = false;
+    this.checkEdit = false;
+    this.selectCompany = this.my_company[0].id;
+    this.info = '';
+    this.name = '';
   }
   changeData(event : any){
     console.log(event.value);
@@ -99,7 +104,7 @@ export class ManageProductGroupComponent implements OnInit {
             Authorization: 'JWT ' + localStorage.getItem('TOKEN')
           }),
           observe: 'response'
-        }).subscribe((event) => {
+        }).subscribe((event : any) => {
           console.log(event.status);
           if (event.status == 204) {
             this.productGroup_list = this.productGroup_list.filter(item => item.id !== id);
@@ -110,15 +115,23 @@ export class ManageProductGroupComponent implements OnInit {
               showConfirmButton: false,
               timer: 1500
             });
-          } else {
+          } else if (event.status == 200) {
             Swal.fire({
               position: 'center',
               icon: 'error',
-              title: 'You delete FAIL\n' + event.body.message,
+              title: 'You delete FAIL\n' + event.message,
               showConfirmButton: false,
               timer: 1500
             });
           }
+        }, err =>{
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'You delete FAIL\n',
+            showConfirmButton: false,
+            timer: 1500
+          });
         });
       }
     });
@@ -126,17 +139,58 @@ export class ManageProductGroupComponent implements OnInit {
 
   submit(){
     console.log("okok");
-    const pro : ProductGroup = {company: this.company_id, name: this.name, info:this.info};
-    this.http.post<any>('https://seekproduct-api.misavu.net/api/user/productgroup/', pro, {
-          headers: new HttpHeaders({
-            Authorization: 'JWT ' + localStorage.getItem('TOKEN')
-          }),
-          observe: 'response'
-        }).subscribe((data)=>{
-          console.log(data);
-          this.productGroup_Full_list.push(data.body);
-          this.productGroup_list.push(data.body);
-        });
+    
+    if(this.checkEdit === true){
+      const proUpdate = {name: this.name, info: this.info};
+      console.log();
+      this.http.put<any>('https://seekproduct-api.misavu.net/api/user/productgroup/'+this.product_Group_ID+'/', proUpdate, {
+            headers: new HttpHeaders({
+              Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+            })
+          }).subscribe((data)=>{
+            console.log(data);
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'You Update Success',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.productGroup_Full_list.forEach((value)=>{
+              if(value.id == data.id){
+                value.name = data.name;
+                value.info = data.info;
+              }
+            });
+            this.productGroup_list.forEach((value)=>{
+              if(value.id == data.id){
+                value.name = data.name;
+                value.info = data.info;
+              }
+            });
+          }, err => {
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'You Update FAIL\n',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+          );
+    } else {
+      const pro : ProductGroup = {company: this.company_id, name: this.name, info:this.info};
+      this.http.post<any>('https://seekproduct-api.misavu.net/api/user/productgroup/', pro, {
+            headers: new HttpHeaders({
+              Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+            }),
+            observe: 'response'
+          }).subscribe((data)=>{
+            console.log(data);
+            this.productGroup_Full_list.push(data.body);
+            this.productGroup_list.push(data.body);
+          });
+    }
   }
   err : boolean = false;
   checkEdit : boolean = false;
@@ -159,6 +213,7 @@ export class ManageProductGroupComponent implements OnInit {
         } else {
           this.err = false;
           this.checkEdit = true;
+          this.product_Group_ID = id;
         }
       }
     });

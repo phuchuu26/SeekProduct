@@ -212,31 +212,37 @@
                               <label for="name">Name</label>
                               <input ([ngModel])="name" [value]="name" (keyup)="onChange($event)" type="text"
                                 class="form-control" id="name" placeholder="Product Name">
+                                <div *ngIf="name.length < 1 && checkSubmit == true"> <label style="color: red;">Name is required</label> </div>
                             </div>
                             <div class="form-group">
                               <label for="model">Model</label>
                               <input ([ngModel])="model" [value]="model" (keyup)="onChange($event)" type="text" class="form-control"
                                 id="model" placeholder="Enter model">
+                                <div *ngIf="model.length < 1 && checkSubmit == true"> <label style="color: red;">Model is required</label> </div>
                             </div>
                             <div class="form-group">
                               <label for="price">Price</label>
-                              <input ([ngModel])="price" [value]="price" (keyup)="onChange($event)" type="text" class="form-control"
+                              <input ([ngModel])="price" [value]="price" (keyup)="onChange($event)" type="number" class="form-control"
                                 id="price" placeholder="price">
+                                <div *ngIf="price < 1 && checkSubmit == true"> <label style="color: red;">Price is number</label> </div>
                             </div>
                             <div class="form-group">
                               <label for="in_stock">In Stock</label>
                               <input ([ngModel])="in_stock" [value]="in_stock" (keyup)="onChange($event)" type="number"
                                 class="form-control" id="in_stock" placeholder="In Stock">
+                                <div *ngIf="in_stock < 1 && checkSubmit == true"> <label style="color: red;">In Stock is number</label> </div>
                             </div>
                             <div class="form-group">
                               <label for="description">Description</label>
                               <input ([ngModel])="description" [value]="description" (keyup)="onChange($event)" type="text"
                                 class="form-control" id="description" placeholder="Description">
+                                <div *ngIf="description.length < 1 && checkSubmit == true"> <label style="color: red;">Description is required</label> </div>
                             </div>                
                             <div class="form-group">
                               <label for="vat">VAT</label>
                               <input ([ngModel])="vat" [value]="vat" (keyup)="onChange($event)" type="text"
                                 class="form-control" id="vat" placeholder="vat">
+                                <div *ngIf="vat.length < 1 && checkSubmit == true"> <label style="color: red;">VAT is required</label> </div>
                             </div>
                             <div class="form-group">
                               <label for="color">Color</label>
@@ -249,26 +255,32 @@
                               <label for="tag">Tag</label>
                               <input ([ngModel])="tag" [value]="tag" (keyup)="onChange($event)" type="text"
                                 class="form-control" id="tag">
+                                <div *ngIf="tag.length < 1 && checkSubmit == true"> <label style="color: red;">Tag is required</label> </div>
                             </div>
                             <div class="form-group">
                               <label for="image">Image</label>
-                              <input ([ngModel])="image" [value]="image" (keyup)="onChange($event)" type="text"
+                                <input (change)="changeAvatar($event.target.files)" type="file" 
                                 class="form-control" id="image">
                             </div>
                             <div class="form-group">
                               <label for="full_description">Full Description</label>
                               <input ([ngModel])="full_description" [value]="full_description" (keyup)="onChange($event)" type="text"
                                 class="form-control" id="full_description" placeholder="Full Description">
+                                <div *ngIf="full_description.length < 1 && checkSubmit == true"> <label style="color: red;">Full Description is required</label> </div>
+
                             </div>
                             <div class="form-group">
                               <label for="downloads">Downloads</label>
                               <input ([ngModel])="downloads" [value]="downloads" (keyup)="onChange($event)" type="text"
                                 class="form-control" id="downloads">
+                                <div *ngIf="downloads.length < 1 && checkSubmit == true"> <label style="color: red;">Downloads is required</label> </div>
+
                             </div>
                             <div class="form-group">
                               <label for="faq">FAQ</label>
                               <input ([ngModel])="faq" [value]="faq" (keyup)="onChange($event)" type="text"
                                 class="form-control" id="faq">
+                                <div *ngIf="faq.length < 1 && checkSubmit == true"> <label style="color: red;">FAQ is required</label> </div>
                             </div>
                           </div>
                         </form>

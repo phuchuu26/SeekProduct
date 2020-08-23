@@ -32,11 +32,7 @@ export class ManageProductComponent implements OnInit {
   tag: string = '';
   image: string = '';
   downloads: string = '';
-  category: {
-    id: number,
-    name: string,
-    info: string
-  };
+  category: string = '';
   productgroup: string = '';
   description: string = '';
   full_description: string = '';
@@ -46,18 +42,17 @@ export class ManageProductComponent implements OnInit {
   Full_category_Arr = [];
   productgroup_Arr = [];
   company_id: string = '';
+  product_id : string = '';
   company_site: string = '';
   selectCompany: string = '';
   selectProduct: string = '';
   selectCategory: string = '';
   selectColor: string = '';
   productFollowArray = [];
-  product: Product = {
-    category: '', description: '', name: '', color: '', downloads: '',
-    faq: '', full_description: '', image: '', in_stock: 0, model: '', price: 0, productgroup: '',
-    tag: '', vat: ''
-  };
   page: number = 1;
+  checkSubmit : boolean = false;
+  fileToUpload : File = null;
+  checkEdit : boolean = false;
   constructor(private http: HttpClient, public dialog: MatDialog) { }
 
   manage_product: Manage_Product[] = [
@@ -132,11 +127,64 @@ export class ManageProductComponent implements OnInit {
   }
 
   openCreateProduct() {
-    this.check = !this.check;
+    if(this.check === true && this.checkEdit === true){
+      this.clearnData();
+      this.checkEdit = false;
+    } else if(this.check === true && this.checkEdit === false){
+      this.check = !this.check;
+      this.clearnData();
+    } else{
+      this.check = !this.check;
+    }
+  }
+  clearnData(){
+  this.name = '';
+  this.model = '';
+  this.price = 0;
+  this.in_stock = 0;
+  this.vat = '';
+  this.tag = '';
+  this.image = '';
+  this.downloads = '';
+  this.category = '';
+  this.productgroup = '';
+  this.description = '';
+  this.full_description = '';
+  this.faq = '';
+  this.company_id = '';
+  this.product_id  = '';
+  this.company_site = '';
+  this.selectCompany = '';
+  this.selectProduct = '';
+  this.selectCategory = '';
+  this.selectColor = '';
+  this.selectColor = this.colors[0].name;
+  this.color = this.colors[0].name;
+  this.company_id = this.company[0].id;
+      this.selectCompany = this.company[0].id;
+      const companySelect = this.company.filter(item => item.id == this.company[0].id);
+      this.productgroup_Arr = companySelect[0].productgroup;
+      this.selectProduct = companySelect[0].productgroup[0].id;
+      this.company_site = companySelect[0].site;
+      this.productgroup = companySelect[0].productgroup[0].id;
+      const ca = companySelect[0].category;
+      console.log(companySelect[0].category);
+      if (ca.length > 0) {
+        console.log(ca[0]);
+        this.selectCategory = ca[0];
+        this.category = ca[0];
+        for (var i = 0; i < ca.length; i++) {
+          console.log(this.Full_category_Arr.filter(item => item.id == ca[i]));
+          this.category_Arr.push(this.Full_category_Arr.filter(item => item.id == ca[i])[0]);
+        };
+      }
+      this.category = this.category_Arr[0];
+      this.company_site = this.company[0].site;
   }
   ngOnInit(): void {
     this.selectedValue = this.manage_product[0].value;
     this.selectColor = this.colors[0].name;
+    this.color = this.colors[0].name;
     this.http.get<any>('https://seekproduct-api.misavu.net/api/category').subscribe((data) => {
       this.Full_category_Arr = data.results;
     }
@@ -160,6 +208,7 @@ export class ManageProductComponent implements OnInit {
       if (ca.length > 0) {
         console.log(ca[0]);
         this.selectCategory = ca[0];
+        this.category = ca[0];
         for (var i = 0; i < ca.length; i++) {
           console.log(this.Full_category_Arr.filter(item => item.id == ca[i]));
           this.category_Arr.push(this.Full_category_Arr.filter(item => item.id == ca[i])[0]);
@@ -190,6 +239,9 @@ export class ManageProductComponent implements OnInit {
       this.product_list();
     }
   }
+  changeAvatar(files : FileList){
+    this.fileToUpload = files.item(0);
+  }
 
   onChange(event: any) {
     console.log(event.target.id + " = " + event.target.value);
@@ -200,11 +252,13 @@ export class ManageProductComponent implements OnInit {
       this.company_site = companySelect[0].site;
       if (companySelect[0].productgroup.length > 0) {
         this.selectProduct = companySelect[0].productgroup[0].id;
+        this.productgroup = companySelect[0].productgroup[0].id;
       }
       const ca = companySelect[0].category;
       if (ca.length > 0) {
         console.log(ca[0]);
         this.selectCategory = ca[0];
+        this.category = ca[0];
         this.category_Arr = [];
         for (var i = 0; i < ca.length; i++) {
           console.log(this.Full_category_Arr.filter(item => item.id == ca[i]));
@@ -212,10 +266,9 @@ export class ManageProductComponent implements OnInit {
         };
       }
     }
-    // console.log(this.company_site);
+     console.log(this.company_site);
   }
 
-  productUpdate: any = {};
   EditProduct(id: any) {
     console.log("Product id : " + id);
     this.http.get<any>('https://seekproduct-api.misavu.net/api/user/product/' + id, {
@@ -224,7 +277,7 @@ export class ManageProductComponent implements OnInit {
       })
     }).subscribe((data) => {
       console.log(data);
-      this.productUpdate = data;
+      this.product_id = data.id;
       this.selectCategory = data.category[0].id;
       this.selectCompany = data.company_id;
       this.selectProduct = data.productgroup;
@@ -237,9 +290,11 @@ export class ManageProductComponent implements OnInit {
       this.vat = data.vat;
       this.selectColor = data.color.charAt(0).toUpperCase() + data.color.slice(1);
       this.full_description = data.full_description;
-      this.image = data.image;
       this.downloads = data.downloads;
       this.faq = data.faq;
+      this.color = data.color.charAt(0).toUpperCase() + data.color.slice(1);
+      this.productgroup = data.productgroup;
+      this.category = data.category[0].id;
     },
       error => {
         console.log(error);
@@ -252,6 +307,11 @@ export class ManageProductComponent implements OnInit {
         });
       }
     );
+    if(this.check === false){
+      this.check = true;
+    }
+    this.checkEdit = true;
+    
   }
   deleteProduct(id: any) {
     console.log("Product id : " + id);
@@ -296,72 +356,107 @@ export class ManageProductComponent implements OnInit {
 
   }
 
+  addProduct(){
+    const formdata = new FormData();
+    formdata.set('name',this.name);
+    formdata.set('description',this.description);
+    formdata.set('color',this.color);
+    formdata.set('downloads',this.downloads);
+    formdata.set('faq',this.faq);
+    formdata.set('full_description',this.full_description);
+    if(this.fileToUpload != null){
+      formdata.append('image',this.fileToUpload, this.fileToUpload.name);
+    } else formdata.append('image','');
+    formdata.set('in_stock',this.in_stock+'');
+    formdata.set('model',this.model);
+    formdata.set('price',this.price+'');
+    formdata.set('productgroup',this.productgroup);
+    formdata.set('tag',this.tag);
+    formdata.set('vat',this.vat);
+    formdata.set('category',this.category);
+    this.http.post<any>('https://seekproduct-api.misavu.net/api/user/product/?site='+ this.company_site,formdata,{
+        headers: new HttpHeaders({
+          Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
+        })
+      }).subscribe((data)=> {
+        console.log(data);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Your Add Product Success',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        this.clearnData();
+        this.check = false;
+      }, err =>{
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Your Add Product Fail',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      });
+  }
+  UpdateProduct(){
+    const formdata = new FormData();
+    formdata.set('name',this.name);
+    formdata.set('description',this.description);
+    formdata.set('color',this.color);
+    formdata.set('downloads',this.downloads);
+    formdata.set('faq',this.faq);
+    formdata.set('full_description',this.full_description);
+    if(this.fileToUpload != null){
+      formdata.append('image',this.fileToUpload, this.fileToUpload.name);
+    }
+    formdata.set('in_stock',this.in_stock+'');
+    formdata.set('model',this.model);
+    formdata.set('price',this.price+'');
+    formdata.set('productgroup',this.productgroup);
+    formdata.set('tag',this.tag);
+    formdata.set('vat',this.vat);
+    formdata.set('category',this.category);
+    this.http.put<any>('https://seekproduct-api.misavu.net/api/user/product/'+this.product_id,formdata,{
+        headers: new HttpHeaders({
+          Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
+        })
+      }).subscribe((data)=> {
+        console.log(data);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Your Update Product Success',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        this.checkEdit = false;
+        this.check = false;
+      }, err =>{
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Your Update Product Fail',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      });
+  }
+
   Submit() {
-    // console.log(this.productUpdate);
-    // this.productUpdate.color = 'Red';
-    // this.productUpdate.category = 4;
-
-    // const test = {
-    //   description: "abc",
-    //   name: "OOOOO",
-    //   color: "abc",
-    //   downloads: "abc",
-    //   faq: "abc",
-    //   full_description: "abc",
-    //   image: "abc",
-    //   in_stock: 5,
-    //   model: "abc",
-    //   price: 15,
-    //   productgroup: 177,
-    //   tag: "abc",
-    //   vat: "12", 
-    //   category:4,
-    // };
-
-    // const formdata = new FormData();
-    // formdata.set('name','mkmk');
-    // formdata.set('description','cvbcvb');
-    // formdata.set('color','Black');
-    // formdata.set('downloads','fsdf');
-    // formdata.set('faq','sfdsd');
-    // formdata.set('full_description','sdfsd');
-    // formdata.set('image','http://haianhnguyen.ml/img/logoinvisible.png');
-    // formdata.set('in_stock','10');
-    // formdata.set('model','cvbcv');
-    // formdata.set('price','150');
-    // formdata.set('productgroup','177');
-    // formdata.set('tag','cvbcv');
-    // formdata.set('vat','cvbvc');
-    // formdata.set('category','4');
-    // this.http.post<any>('https://seekproduct-api.misavu.net/api/user/product/?site=bs',formdata,{
-    //     headers: new HttpHeaders({
-    //       Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
-    //     })
-    //   }).subscribe((data)=> {
-    //     console.log(data);
-    //   });
-
+    this.checkSubmit = true;
+    if(this.name.length > 0 && this.description.length > 0 && this.downloads.length > 0 && this.faq.length > 0 
+      && this.full_description.length > 0 && this.in_stock > 0 && this.model.length > 0 && this.price > 0 &&
+      this.tag.length > 0 && this.vat.length > 0){
+        if(this.checkEdit === false)
+          this.addProduct();
+        else if(this.checkEdit === true) this.UpdateProduct();
+    }
     //   this.http.put('https://seekproduct-api.misavu.net/api/user/product/' + 243,formdata, {
     //   headers: new HttpHeaders({
     //     Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
     //   }),
     // }).subscribe((data) => { console.log(data) });
-
-    // this.product.category = '4';
-    // this.product.description = this.description;
-    // this.product.name = this.name;
-    // this.product.color = this.color;
-    // this.product.downloads = this.downloads;
-    // this.product.faq = this.faq;
-    // this.product.full_description = this.full_description;
-    // this.product.image = this.image;
-    // this.product.in_stock = this.in_stock;
-    // this.product.model = this.model;
-    // this.product.price = this.price;
-    // this.product.productgroup = this.productgroup;
-    // this.product.tag = this.tag;
-    // this.product.vat = this.vat;
-    // console.log(test);
   }
 
   followProduct(id: any) {
