@@ -1,3 +1,4 @@
+import { UpdatePasswordComponent } from 'src/app/pages/update-password/update-password.component';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -26,6 +27,8 @@ import { SubscriptionReducer } from '../../pages/store/reducers/subscription.red
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
+
+import {MatSliderModule} from '@angular/material/slider';
 @NgModule({
   imports: [
     CommonModule,
@@ -42,7 +45,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatTabsModule,
     MatSelectModule,
     MatDialogModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+
+    MatSliderModule
     // CustomFormsModule
   ],
   declarations: [
@@ -54,8 +59,10 @@ import {MatDialogModule} from '@angular/material/dialog';
     SubscriptionComponent,
     ManageProductComponent,
     DialogOverviewExampleDialog,
-    ManageProductGroupComponent
-    
+    ManageProductGroupComponent,
+
+    UpdatePasswordComponent,
+
   ]
 })
 

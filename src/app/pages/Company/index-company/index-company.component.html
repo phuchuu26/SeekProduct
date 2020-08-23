@@ -1,0 +1,109 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+
+  <!-- Dark table -->
+  <div class="row mt-5">
+    <div class="col">
+      <div class="card bg-default shadow">
+        <div class="card-header bg-transparent border-0">
+          <h3 class="text-white mb-0">User Management</h3>
+        <div class="nut">
+
+          <div class="lol-4 nuta text-right">
+            <button type="button" style="background-color: #D4DAE0;" class="btn btn-outline-secondary" ngbPopover="Route payments between a business, customers, and recipients who need to get paid." triggers="mouseenter:mouseleave" popoverTitle="">
+             <a href="{{linkStripe}}">
+               Connect Stripe
+
+             </a>
+            </button>
+          </div>
+          <div class="lol-4 text-right">
+            <a routerLinkActive="active"  [routerLink]="['/addcompany']"class="btn btn-success mr-2">Add</a>
+          </div>
+        </div>
+</div>
+        <!-- <h1 colspan="5" class="alert alert-danger" *ngIf="error$ | async as error">{{error}}</h1> -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-dark table-flush">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Store Name</th>
+                <th scope="col">SITE</th>
+                <!-- <th scope="col">Address</th>
+                <th scope="col">PHONE</th>
+                <th scope="col">Legal Name</th>
+                <th scope="col">Business License</th>
+                <th scope="col">About</th>
+                <th scope="col">Category</th>
+                <th scope="col">Product Group</th> -->
+                <th class="align-items-center action1" scope="col">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- let user of (customers$ |async)| paginate: { itemsPerPage: 5, currentPage: p } -->
+
+              <tr *ngFor="let com of allmycompany1.results">
+                <th scope="row">
+                  {{ com?.id }}
+                </th>
+
+                <th scope="col">
+                  <div class="media align-items-center">
+                    <a
+                      href="javascript:void(0)"
+                      class="avatar rounded-circle mr-3"
+                    >
+                      <!-- <img alt="Image placeholder" (src)="com.logo"> -->
+                      <!-- src="{{(com.logo}} ? {{com.logo }}: https://www.osustuff.org/images/placeholder.png " -->
+                      <img alt="Image placeholder" [src]="com.logo != null ? com.logo : 'https://40y2ct3ukiiqtpomj3dvyhc1-wpengine.netdna-ssl.com/wp-content/uploads/icon-avatar-default.png'" />
+                    </a>
+                    <div class="media-body">
+                      <span class="mb-0 text-sm"> {{ com?.store_name }}</span>
+                    </div>
+                  </div>
+                </th>
+                <th scope="col">
+                  {{ com?.site }}
+                </th>
+                <th scope="col" class="action">
+                  <div class="lol-4 text-right">
+                    <a (click)="detailUser(com.site)" class="btn btn-info mr-2">Show Details</a>
+                  </div>
+                  <div class="lol-4 text-right">
+                    <a class="btn btn-warning mr-2">Edit</a>
+                  </div>
+                  <div class="lol-4 text-right">
+                    <a class="btn btn-danger mr-2">Delete</a>
+                  </div>
+                </th>
+              </tr>
+            </tbody>
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <!-- <th scope="col"></th>
+                <th scope="col"></th> -->
+                <!-- <th class="pagecount" style="margin-left:20px ;" scope="col">There are a total of {{allmycompany1.count}}  companies</th> -->
+                <!-- <th scope="col"></th> -->
+                <!-- <th scope="col"></th> -->
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <!-- <pagination-controls class="page" (pageChange)="p = $event"></pagination-controls> -->
+    </div>
+  </div>
+</div>
