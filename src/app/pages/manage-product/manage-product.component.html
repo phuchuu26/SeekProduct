@@ -1,0 +1,460 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+      <div class="header-body">
+        <!-- Card stats -->
+        <div class="row">
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
+                    <span class="h2 font-weight-bold mb-0">350,897</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                      <i class="fas fa-chart-bar"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                  <span class="text-nowrap">Since last month</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
+                    <span class="h2 font-weight-bold mb-0">2,356</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                      <i class="fas fa-chart-pie"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
+                  <span class="text-nowrap">Since last week</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
+                    <span class="h2 font-weight-bold mb-0">924</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                      <i class="fas fa-users"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
+                  <span class="text-nowrap">Since yesterday</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
+                    <span class="h2 font-weight-bold mb-0">49,65%</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                      <i class="fas fa-percent"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                  <span class="text-nowrap">Since last month</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---------------------------------------------------------------------------------------------->
+  <div class="container-fluid mt--6">
+    <!------------------------------------------------------------------------------------>
+    
+    <!------------------------------------------------------------------------------------>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <mat-tab-group (selectedTabChange)="yourFn($event)">
+            <mat-tab label="PRODUCTS"> 
+                <div class="row">
+                    <div class="col">
+                      <div class="card">
+                        <div>
+                        <mat-form-field appearance="fill" style="width: fit-content;">
+                            <mat-label>Manage Product</mat-label>
+                            <mat-select [(value)]="selectedValue" [(ngModel)]="selectedValue" name="manage_product" (selectionChange)="changeData($event)">
+                              <mat-option *ngFor="let man_p of manage_product" [value]="man_p.value">
+                                {{man_p.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <div style="float: right;">
+                            <button style="font-size: 15px;" (click)="openCreateProduct()" type="button" class="btn btn-danger">
+                              Add Product
+                              <i class="fas fa-plus" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                          </div>
+                        <!-- Light table -->
+                        <div class="table-responsive">
+                          <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                              <tr>
+                                <th scope="col">Logo Company</th>
+                                <th scope="col" class="sort" data-sort="name">Company Name</th>
+                                <th scope="col" class="sort" data-sort="name">Plan Name</th>
+                                <th scope="col" class="sort" data-sort="status">Phone</th>
+                                <th scope="col">Price</th>
+                                <th scope="col" class="sort" data-sort="completion">Address</th>
+                                <th scope="col"></th>
+                              </tr>
+                            </thead>
+                            <tbody class="list" *ngFor="let product of productArray | paginate: { itemsPerPage: 5, currentPage: page }">
+                              <tr>
+                                <th scope="row">
+                                  <div class="media align-items-center">
+                                    <a class="avatar rounded-circle mr-3">
+                                      <img [src]="product.image">
+                                    </a>
+                                  </div>
+                                </th>
+                                <td class="budget">
+                                  {{product.name}}
+                                </td>
+                                <td class="budget">
+                                  {{product.model}}
+                                </td>
+                                <td class="budget">
+                                  {{product.category.name}}
+                                </td>
+                                <td class="budget">
+                                  {{product.price}}
+                                </td>
+                                <td class="budget">
+                                  {{product.tag}}
+                                </td>
+                                <td class="text-right">
+                                  <button (click)="EditProduct(product.id)" data-toggle="tooltip" data-placement="top" title="Edit"
+                                    class="btn btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top"
+                                      title="Edit"></i></button>
+                                  <button (click)="deleteProduct(product.id)" data-toggle="tooltip"
+                                    data-placement="top" title="Remove" class="btn btn-sm"><i class="fa fa-trash" data-toggle="tooltip"
+                                      data-placement="top" title="Remove"></i></button>
+                                  <button (click)="followProduct(product.id)" data-toggle="tooltip"
+                                      data-placement="top" title="Follow" class="btn btn-sm"><i class="fas fa-heart" data-toggle="tooltip"
+                                      data-placement="top" title="Follow"></i></button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div class="row align-items-center justify-content-center">
+                            <pagination-controls (pageChange)="pageChanged($event)" autoHide="true" class="my-pagination"></pagination-controls>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <!--Create-->
+                  <div *ngIf="check == true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <form>
+                          <div class="modal-body">
+                            <div class="form-group">
+                              <h3><label for="company_id"><span class="label label-success">Company</span></label></h3>
+                              <select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectCompany" class="form-control" id="company_id" (change)="onChange($event)" required>
+                                <option class="option" *ngFor="let compa of company" [value]="compa.id">
+                                  {{compa.store_name}}</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="productgroup">Product Group</label>
+                              <select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectProduct" class="form-control" id="productgroup" (change)="onChange($event)" required>
+                                <option class="option" *ngFor="let pro of productgroup_Arr" [value]="pro.id">
+                                  {{pro.name}}</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="category">Category</label>
+                              <select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectCategory" class="form-control" id="category" (change)="onChange($event)" required>
+                                <option class="option" *ngFor="let cat of category_Arr" [value]="cat.id">
+                                  {{cat.name}}</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="name">Name</label>
+                              <input ([ngModel])="name" [value]="name" (keyup)="onChange($event)" type="text"
+                                class="form-control" id="name" placeholder="Product Name">
+                                <div *ngIf="name.length < 1 && checkSubmit == true"> <label style="color: red;">Name is required</label> </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="model">Model</label>
+                              <input ([ngModel])="model" [value]="model" (keyup)="onChange($event)" type="text" class="form-control"
+                                id="model" placeholder="Enter model">
+                                <div *ngIf="model.length < 1 && checkSubmit == true"> <label style="color: red;">Model is required</label> </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="price">Price</label>
+                              <input ([ngModel])="price" [value]="price" (keyup)="onChange($event)" type="number" class="form-control"
+                                id="price" placeholder="price">
+                                <div *ngIf="price < 1 && checkSubmit == true"> <label style="color: red;">Price is number</label> </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="in_stock">In Stock</label>
+                              <input ([ngModel])="in_stock" [value]="in_stock" (keyup)="onChange($event)" type="number"
+                                class="form-control" id="in_stock" placeholder="In Stock">
+                                <div *ngIf="in_stock < 1 && checkSubmit == true"> <label style="color: red;">In Stock is number</label> </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="description">Description</label>
+                              <input ([ngModel])="description" [value]="description" (keyup)="onChange($event)" type="text"
+                                class="form-control" id="description" placeholder="Description">
+                                <div *ngIf="description.length < 1 && checkSubmit == true"> <label style="color: red;">Description is required</label> </div>
+                            </div>                
+                            <div class="form-group">
+                              <label for="vat">VAT</label>
+                              <input ([ngModel])="vat" [value]="vat" (keyup)="onChange($event)" type="text"
+                                class="form-control" id="vat" placeholder="vat">
+                                <div *ngIf="vat.length < 1 && checkSubmit == true"> <label style="color: red;">VAT is required</label> </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="color">Color</label>
+                              <select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectColor" class="form-control" id="color" (change)="onChange($event)" required>
+                                <option class="option" *ngFor="let color of colors" [value]="color.name">
+                                  {{color.name}}</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="tag">Tag</label>
+                              <input ([ngModel])="tag" [value]="tag" (keyup)="onChange($event)" type="text"
+                                class="form-control" id="tag">
+                                <div *ngIf="tag.length < 1 && checkSubmit == true"> <label style="color: red;">Tag is required</label> </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="image">Image</label>
+                                <input (change)="changeAvatar($event.target.files)" type="file" 
+                                class="form-control" id="image">
+                            </div>
+                            <div class="form-group">
+                              <label for="full_description">Full Description</label>
+                              <input ([ngModel])="full_description" [value]="full_description" (keyup)="onChange($event)" type="text"
+                                class="form-control" id="full_description" placeholder="Full Description">
+                                <div *ngIf="full_description.length < 1 && checkSubmit == true"> <label style="color: red;">Full Description is required</label> </div>
+
+                            </div>
+                            <div class="form-group">
+                              <label for="downloads">Downloads</label>
+                              <input ([ngModel])="downloads" [value]="downloads" (keyup)="onChange($event)" type="text"
+                                class="form-control" id="downloads">
+                                <div *ngIf="downloads.length < 1 && checkSubmit == true"> <label style="color: red;">Downloads is required</label> </div>
+
+                            </div>
+                            <div class="form-group">
+                              <label for="faq">FAQ</label>
+                              <input ([ngModel])="faq" [value]="faq" (keyup)="onChange($event)" type="text"
+                                class="form-control" id="faq">
+                                <div *ngIf="faq.length < 1 && checkSubmit == true"> <label style="color: red;">FAQ is required</label> </div>
+                            </div>
+                          </div>
+                        </form>
+                        <div class="modal-footer border-top-0 d-flex justify-content-center">
+                          <button style="font-size: 20px;" (click)="Submit()" type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!------------------------------------------------------------------------->
+            </mat-tab>
+            <mat-tab label="FOLLOW">
+              <div class="row">
+                <div class="col">
+                  <div class="card">
+                    <!-- Light table -->
+                    <div class="table-responsive">
+                      <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col">Image</th>
+                            <th scope="col" class="sort" data-sort="name">Name</th>
+                            <th scope="col" class="sort" data-sort="name">Model</th>
+                            <th scope="col" class="sort" data-sort="status">Company ID</th>
+                            <th scope="col">Price</th>
+                            <th scope="col" class="sort" data-sort="completion">Tag</th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody class="list" *ngFor="let product of productFollowArray">
+                          <tr>
+                            <th scope="row">
+                              <div class="media align-items-center">
+                                <a class="avatar rounded-circle mr-3">
+                                  <img [src]="product.image">
+                                </a>
+                              </div>
+                            </th>
+                            <td class="budget">
+                              {{product.name}}
+                            </td>
+                            <td class="budget">
+                              {{product.model}}
+                            </td>
+                            <td class="budget">
+                              {{product.company_id}}
+                            </td>
+                            <td class="budget">
+                              {{product.price}}
+                            </td>
+                            <td class="budget">
+                              {{product.tag}}
+                            </td>
+                            <td class="text-center">
+                              <button (click)="unFollowProduct(product.id)" data-toggle="tooltip"
+                                  data-placement="top" title="UnFollow" class="btn btn-sm"><i class="fas fa-heart-broken" data-toggle="tooltip"
+                                  data-placement="top" title="UnFollow"></i></button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+            <mat-tab label="GALLERY">
+              <div class="row">
+                <div class="col">
+                  <div class="card">
+                    <div>
+                    <mat-form-field appearance="fill" style="width: fit-content;">
+                        <mat-label>Product</mat-label>
+                        <mat-select [(value)]="gallery_Product" [(ngModel)]="gallery_Product" (selectionChange)="changeProductGallery($event)">
+                          <mat-option *ngFor="let proGallery of productArray" [value]="proGallery.id">
+                            {{proGallery.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <div style="float: right;">
+                        <button style="font-size: 15px;" (click)="openDialog()" type="button" class="btn btn-danger">
+                          Add Gallery
+                          <i class="fas fa-plus" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                      </div>
+                      
+                    <!-- Light table -->
+                    <div class="table-responsive">
+                      <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col" class="sort" data-sort="name">Source</th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody class="list" *ngFor="let gallery of gallery_Aray">
+                          <tr>
+                            <td class="budget">
+                              {{gallery.id}}
+                            </td>
+                            <td class="budget">
+                              {{gallery.source}}
+                            </td>
+                            <td class="text-right">
+                              <button (click)="openDialogEdit(gallery.id)" data-toggle="tooltip" data-placement="top" title="Edit"
+                                class="btn btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top"
+                                  title="Edit"></i></button>
+                              <button (click)="deleteGallery(gallery.id)" data-toggle="tooltip"
+                                data-placement="top" title="Remove" class="btn btn-sm"><i class="fa fa-trash" data-toggle="tooltip"
+                                  data-placement="top" title="Remove"></i></button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+          <!-- Light table -->
+          <!-- <div class="table-responsive" [class.loading]="(loading$ | async)">
+            <table class="table align-items-center table-flush" *ngIf="(subscriptionItems | async)">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Logo Company</th>
+                  <th scope="col" class="sort" data-sort="name">Company Name</th>
+                  <th scope="col" class="sort" data-sort="name">Plan Name</th>
+                  <th scope="col" class="sort" data-sort="status">Phone</th>
+                  <th scope="col">Price</th>
+                  <th scope="col" class="sort" data-sort="completion">Address</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody class="list" *ngFor="let subscription of subscriptionItems | async ">
+                <tr>
+                  <th scope="row">
+                    <div class="media align-items-center">
+                      <a href="#" class="avatar rounded-circle mr-3">
+                        <img alt="Image placeholder" [src]="subscription.company.logo">
+                      </a>
+                    </div>
+                  </th>
+                  <td class="budget">
+                    {{subscription.company.store_name}}
+                  </td>
+                  <td class="budget">
+                    {{subscription.plan.name}}
+                  </td>
+                  <td class="budget">
+                    {{subscription.company.phone_number}}
+                  </td>
+                  <td class="budget">
+                    {{subscription.plan.price}}
+                  </td>
+                  <td class="budget">
+                    {{subscription.company.address}}
+                  </td>
+                  <td class="text-right">
+                    <button (click)="EditSubscriptionItem(subscription.id)" data-toggle="tooltip" data-placement="top" title="Edit"
+                      class="btn btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top"
+                        title="Edit"></i></button>
+                    <button (click)="deleteSubscriptionItem(subscription.company.id)" data-toggle="tooltip"
+                      data-placement="top" title="Remove" class="btn btn-sm"><i class="fa fa-trash" data-toggle="tooltip"
+                        data-placement="top" title="Remove"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>

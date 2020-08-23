@@ -1,0 +1,29 @@
+<div>
+    <div class="form-group">
+      <label for="product_ID">Product</label>
+      <select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectProduct" class="form-control" id="product_ID" (change)="onChange($event)" required>
+        <option class="option" *ngFor="let pro of productArray" [value]="pro.id">
+          {{pro.name}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="site">Site</label>
+      <input ([ngModel])="site" [value]="site" type="text" class="form-control" id="site" disabled>
+    </div>
+    <div class="upload-btn-wrapper">
+      <button type="button" class="btn btn-outline-primary btn-select">Select Source
+        <input class="form-control" (change)="handleFileInput($event.target.files)" type="file" id="file" name="file">
+      </button> 
+  </div>
+</div>
+<div mat-dialog-actions>
+  <div class="form-group" style="margin-top: 10px;">
+    <button (click)="submit()" style="font-size: 10px;" type="button" class="btn btn-danger">
+      OK
+    </button>
+  <button (click)="onNoClick()" style="font-size: 10px;" type="button" class="btn btn-danger">
+    Cancel
+  </button>
+
+</div>
+</div>

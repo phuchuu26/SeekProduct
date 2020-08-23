@@ -14,7 +14,7 @@ export class SubscriptionService {
             headers: new HttpHeaders({
               // Accept: "application/json",
               // "Content-Type": "application/json",
-              Authorization:`JWT ${this.httpServer.tokenLogin}`
+              Authorization:`JWT ${localStorage.getItem('TOKEN')}`
             }),
           });
   }
@@ -23,7 +23,7 @@ export class SubscriptionService {
   const body = {company_id: id};
     return this.http.post(`${this.Subscription_URL}cancel-plan`,body, {
       headers: new HttpHeaders({ 
-        Authorization: `JWT ${this.httpServer.tokenLogin}`
+        Authorization: `JWT ${localStorage.getItem('TOKEN')}`
     }), 
       
   });
@@ -32,17 +32,17 @@ export class SubscriptionService {
   addSubscriptionItem(SubscriptionItem: any) {
     return this.http.post(this.Subscription_URL, SubscriptionItem,{
       headers: new HttpHeaders({ 
-        Authorization: `JWT ${this.httpServer.tokenLogin}`
+        Authorization: `JWT ${localStorage.getItem('TOKEN')}`
     })
     });
   }
 
   UpdateSubscriptionItem(Subscription: Subscription) {
     console.log(Subscription);
-    const bodyUp = {company_id : Subscription.company_id, plan_id : Subscription.plan_id, trial_period_days: Subscription.trial_period_days};
-    return this.http.post(`${this.Subscription_URL}change-plan`,bodyUp,{
+    const bodyUp = {company_id : Subscription.company_id+'', plan_id : Subscription.plan_id, trial_period_days: Subscription.trial_period_days};
+    return this.http.post(`${this.Subscription_URL}change-plan`,Subscription,{
       headers: new HttpHeaders({ 
-        Authorization: `JWT ${this.httpServer.tokenLogin}`
+        Authorization: `JWT ${localStorage.getItem('TOKEN')}`
     })
     });
   }
