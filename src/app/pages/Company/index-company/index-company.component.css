@@ -21,7 +21,7 @@ th {
   /* justify-content: center; */
 }
 th.action {
-  margin-right: -215px;
+  margin-right: -200px;
 }
 .align-items-center .action1{
   justify-content: center!important;
@@ -29,3 +29,10 @@ th.action {
   justify-content: center!important;
 }
 
+.nut {
+  display: inline-flex;
+  float: right;
+}
+.nuta {
+  margin-right: 21px;
+}

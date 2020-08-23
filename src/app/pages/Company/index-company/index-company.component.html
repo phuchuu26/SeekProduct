@@ -15,10 +15,21 @@
       <div class="card bg-default shadow">
         <div class="card-header bg-transparent border-0">
           <h3 class="text-white mb-0">User Management</h3>
+        <div class="nut">
+
+          <div class="lol-4 nuta text-right">
+            <button type="button" style="background-color: #D4DAE0;" class="btn btn-outline-secondary" ngbPopover="Route payments between a business, customers, and recipients who need to get paid." triggers="mouseenter:mouseleave" popoverTitle="">
+             <a href="{{linkStripe}}">
+               Connect Stripe
+
+             </a>
+            </button>
+          </div>
           <div class="lol-4 text-right">
-            <a routerLinkActive="active" [routerLink]="['/addcompany']"class="btn btn-success mr-2">Add</a>
+            <a routerLinkActive="active"  [routerLink]="['/addcompany']"class="btn btn-success mr-2">Add</a>
           </div>
         </div>
+</div>
         <!-- <h1 colspan="5" class="alert alert-danger" *ngIf="error$ | async as error">{{error}}</h1> -->
         <div class="table-responsive">
           <table class="table align-items-center table-dark table-flush">
@@ -52,7 +63,8 @@
                       class="avatar rounded-circle mr-3"
                     >
                       <!-- <img alt="Image placeholder" (src)="com.logo"> -->
-                      <img alt="Image placeholder" src="{{ com?.logo }}" />
+                      <!-- src="{{(com.logo}} ? {{com.logo }}: https://www.osustuff.org/images/placeholder.png " -->
+                      <img alt="Image placeholder" [src]="com.logo != null ? com.logo : 'https://40y2ct3ukiiqtpomj3dvyhc1-wpengine.netdna-ssl.com/wp-content/uploads/icon-avatar-default.png'" />
                     </a>
                     <div class="media-body">
                       <span class="mb-0 text-sm"> {{ com?.store_name }}</span>

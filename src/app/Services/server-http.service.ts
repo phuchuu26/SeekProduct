@@ -1,4 +1,4 @@
-import { Company, Category } from 'src/app/models/user';
+import { Company, Category, AccountBtok } from 'src/app/models/user';
 import { Injectable } from "@angular/core";
 import {
   HttpErrorResponse,
@@ -350,13 +350,73 @@ public createCompany(data: Company) {
   const url = `https://seekproduct-api.misavu.net/api/user/company/`;
   const httpOptionsChild = {
     headers: new HttpHeaders({
-      // "Content-Type": 'application/json; multipart/form-data',
-      "Content-Type": 'application/x-www-form-urlencoded',
+      "Content-Type": 'multipart/form-data',
+      // "Content-Type": 'application/x-www-form-urlencoded',
+      // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+      // "Content-Length":"<calculated when request is sent>",
+      "Accept" : "application/json",
+      // "Accept-Encoding": "gzip, deflate, br",
       // Authorization: 'my-auth-token',
       Authorization: "JWT " + this.tokenLogin,
     }),
   };
   return this.http.post<any>(url, data, httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap((res) => {
+      // console.log(res);
+    })
+  );
+}
+
+// bank token (btok)
+public getBtok(data: AccountBtok):Observable<any>{
+  const url = `https://seekproduct-api.misavu.net/api/category`;
+  const setdata:AccountBtok = {
+    country :"AU",
+    name : "Dave",
+    routing : 110000,
+    account : "000123456",
+  };
+  const token = localStorage.getItem("TOKEN");
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      "Content-Type": "application/json",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + token,
+    }),
+  };
+  return this.http.post<any>(url, setdata , httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap(
+      (res) => {
+        if (res) {
+          // console.log(res);
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
+  );
+}
+
+// connect stripe GET request
+public getConnectStripe() {
+  const token = localStorage.getItem("TOKEN");
+  const url = `https://seekproduct-api.misavu.net/api/user/company/oauth-link`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      "Content-Type": 'multipart/form-data',
+      // "Content-Type": 'application/x-www-form-urlencoded',
+      // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+      // "Content-Length":"<calculated when request is sent>",
+      "Accept" : "application/json",
+      // "Accept-Encoding": "gzip, deflate, br",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + token,
+    }),
+  };
+  return this.http.get<any>(url,  httpOptionsChild).pipe(
     catchError(this.handleError),
     tap((res) => {
       // console.log(res);

@@ -127,6 +127,11 @@ export class CreateCompanyComponent
         companyProfile[a] = this.companyForm.controls[a].value;
       }
     }
+    let a = this.companyForm.get("ad_sample").value;
+    const formData: FormData = new FormData();
+    console.log(a);
+    formData.append('ad_simple',a);
+    console.log(formData);
   //  companyProfile.ad_sample = this.urlImageAdSample;
     return companyProfile as Company;
   }
@@ -207,6 +212,7 @@ export class CreateCompanyComponent
     this.companyForm.controls.category.setValue(this.category.value);
     // this.submit();
     console.log(this.submit());
+
     this.http.createCompany(this.submit()).subscribe((data)=>{
 
       console.log(data);

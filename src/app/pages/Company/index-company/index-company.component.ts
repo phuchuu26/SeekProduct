@@ -12,6 +12,7 @@ export class IndexCompanyComponent implements OnInit {
   public allmycompany: AllMyCompany;
   public allmycompany1: AllMyCompany;
   public companies;
+  public linkStripe:string;
   // public count1 : number;
   constructor(private http: ServerHttpService, private router: Router) {}
 
@@ -22,6 +23,11 @@ export class IndexCompanyComponent implements OnInit {
       //   console.log(data);
       this.allmycompany = data;
     });
+
+    this.http.getConnectStripe().subscribe((data)=>{
+      // console.log(data);
+      this.linkStripe = data;
+    })
     // console.log(this.allmycompany1);
     // this.companies = this.allmycompany.results;
   }

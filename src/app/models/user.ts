@@ -80,3 +80,9 @@ export interface Category{
   name?: string;
   info?: string;
 }
+export interface AccountBtok{
+  country?:string;
+  name?:string;
+  routing?:number;
+  account?:string;
+}
