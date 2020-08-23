@@ -7,12 +7,12 @@ export interface profileUser {
   first_name: string;
   last_name: string;
   email: string;
-  username: string;
+  username;
   phone_number: string;
   work_at: string;
   job: string;
   message: string;
-  avatar: string;
+  avatar: any;
   show_phone: boolean;
   country: string;
   stripe_customer_id: string;
@@ -54,7 +54,7 @@ export interface Company{
     site?: string;
     logo?: string;
     business_license?: string;
-    ad_sample?: string;
+    ad_sample?: any;
     about?: string;
     banner?: string[];
     category?: number[];

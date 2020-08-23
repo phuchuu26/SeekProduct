@@ -1,5 +1,5 @@
 import { Company, Category } from "src/app/models/user";
-import { SnotifyService } from "ng-snotify";
+import { SnotifyService, SnotifyPosition } from "ng-snotify";
 import { ServerHttpService } from "src/app/Services/server-http.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
@@ -101,7 +101,7 @@ export class CreateCompanyComponent
       site: new FormControl(),
       business_license: new FormControl(),
       logo: new FormControl("", []),
-      ad_sample: new FormControl(),
+      ad_sample: new FormControl(null,[]),
       about: new FormControl(),
       banner: this.forms.array([this.forms.control("")]),
       category: this.forms.array,
@@ -127,6 +127,7 @@ export class CreateCompanyComponent
         companyProfile[a] = this.companyForm.controls[a].value;
       }
     }
+  //  companyProfile.ad_sample = this.urlImageAdSample;
     return companyProfile as Company;
   }
   public onChangeImage(image, a) {
@@ -159,7 +160,8 @@ export class CreateCompanyComponent
     let file = image.target.files;
     // console.log(image);
     // console.log(i);
-    console.log(file);
+    console.log(image);
+    this.avt = file[0].name;
     let reader = new FileReader();
     reader.readAsDataURL(file[0]);
     reader.onload = (image) => {
@@ -203,12 +205,39 @@ export class CreateCompanyComponent
 
   public save() {
     this.companyForm.controls.category.setValue(this.category.value);
-    this.submit();
+    // this.submit();
     console.log(this.submit());
+    this.http.createCompany(this.submit()).subscribe((data)=>{
+
+      console.log(data);
+      // this.router.navigate(["login"]);
+      this.success(this.companyForm.controls.store_name.value);
+    }, (error)=>{
+      this.failed();
+    })
     //  console.log(typeof this.companyForm.controls.category.value);
     //  console.log(this.companyForm.controls.category.value);
     //  console.log(this.category);
     //  console.log(typeof this.companyForm.controls.banner.value);
     //  console.log(this.companyForm.controls.banner.value);
+  }
+  public success(a){
+    this.snotify.info(`Company ${a} has been created successfully`, "Confirm", {
+      position: SnotifyPosition.rightTop,
+      timeout: 3000,
+      showProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+    });
+  }
+
+  public failed(){
+    this.snotify.error(`Create company failed by system error`, "Confirm", {
+      position: SnotifyPosition.rightTop,
+      timeout: 3000,
+      showProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+    });
   }
 }

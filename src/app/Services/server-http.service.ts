@@ -18,7 +18,12 @@ import {
   providedIn: "root",
 })
 export class ServerHttpService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    if(localStorage.getItem("TOKEN")){
+      this.tokenLogin = localStorage.getItem("TOKEN");
+      console.log(this.tokenLogin);
+    }
+  }
   public oldPassword: string;
   public lastCallAPI: number;
   public profileUser: profileUser;
@@ -65,7 +70,7 @@ export class ServerHttpService {
     const url = `${this.REST_API_SERVER}api/auth/profile`;
     const httpOptionsChild = {
       headers: new HttpHeaders({
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         // Authorization: 'my-auth-token',
         Authorization: "JWT " + this.tokenLogin,
       }),
@@ -341,6 +346,24 @@ public getAllCategory():Observable<any>{
     )
   );
 }
+public createCompany(data: Company) {
+  const url = `https://seekproduct-api.misavu.net/api/user/company/`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      // "Content-Type": 'application/json; multipart/form-data',
+      "Content-Type": 'application/x-www-form-urlencoded',
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + this.tokenLogin,
+    }),
+  };
+  return this.http.post<any>(url, data, httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap((res) => {
+      // console.log(res);
+    })
+  );
+}
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -351,6 +374,7 @@ public getAllCategory():Observable<any>{
       console.error(
         `Backend returned code ${error.status}, ` + `body was: ${error.error}`
       );
+      console.error(error.error);
     }
     // return an observable with a user-facing error message
     return throwError("Something bad happened; please try again later.");
