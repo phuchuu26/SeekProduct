@@ -26,10 +26,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public userForm = new FormGroup({
-
-    email: new FormControl("admin@gmail.com", [Validators.required, ]),
+    // hoale7602@gmail.com
+    // phucsteam98@gmail.com
+    email: new FormControl("phucsteam98@gmail.com", [Validators.required, ]),
     // emailValidator()
-    password: new FormControl("admin@1234", [
+    password: new FormControl("123123", [
       Validators.required,
       Validators.minLength(5),
     ]),
@@ -47,6 +48,10 @@ export class LoginComponent implements OnInit, OnDestroy {
             // console.log(this.server.profileUser);
             this.success(this.server.profileUser.first_name,this.server.profileUser.last_name);
           })
+
+          this.server.GetAllMyCompany().subscribe((data)=>{
+
+          });
         }
         this.router.navigate(["dashboard"]);
 
@@ -62,7 +67,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       const user={};
       for( const a in this.userForm.controls){
         if(a){
-          console.log(this.userForm.controls[a].value);
+          // console.log(this.userForm.controls[a].value);
           user[a] = this.userForm.controls[a].value;
         }
       }
@@ -90,4 +95,56 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
 
-}
+    public forgetPassword() {
+      Swal.fire({
+        title: 'Submit your Account email ',
+        input: 'text',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Look up',
+        showLoaderOnConfirm: true,
+        preConfirm: (login) => {
+          this.server.forgotPassword(login).subscribe((data)=>{
+            Swal.fire({
+              title: `Please check your email ${login} `,
+              icon:`success`,
+              footer: '<a href="https://mail.google.com/">Please click this link to enter the email</a>'
+            } )
+          },
+          // (error)=>{
+          //   Swal.fire(
+
+          //     title:   `Request failed: Enter the wrong email`,
+          //     icon:`success`
+          //         )
+          // }
+          )
+          // return fetch(`https://seekproduct-api.misavu.net/api/auth/forgot-password`)
+          //   .then(response => {
+          //     if (!response.ok) {
+          //       throw new Error(response.statusText)
+          //     }
+          //     return response.json()
+          //   })
+          //   .catch(error => {
+          //     Swal.showValidationMessage(
+          //       `Request failed: ${error}`
+          //     )
+          //   })
+        },
+
+        allowOutsideClick: () => !Swal.isLoading()
+      }).then((result) => {
+        if (result) {
+          Swal.fire({
+            title: `Your email: ${result.value}`,
+            icon: `error`,
+            text: 'Your email went wrong!',
+          })
+        }
+      }
+      )
+    }
+  }

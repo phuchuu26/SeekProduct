@@ -20,6 +20,7 @@ export class UserProfileComponent implements OnInit {
   public profileForm: FormGroup;
   public urlImage: string;
   public avt;
+  public status : boolean;
 
   constructor(
     private snotify: SnotifyService,
@@ -35,6 +36,7 @@ export class UserProfileComponent implements OnInit {
     let a;
     a = localStorage.getItem("USER");
     this.userProfile = JSON.parse(a);
+    this.status = this.userProfile.show_phone;
     // console.log(this.userProfile);
     this.profileForm = this.forms.group({
       first_name: new FormControl("", [
@@ -62,6 +64,7 @@ export class UserProfileComponent implements OnInit {
       facebook: new FormControl("", []),
       google: new FormControl("", []),
       linkedin: new FormControl(""),
+      show_phone: new FormControl(this.status)
     });
 
     if (this.userProfile.avatar == null) {
@@ -75,6 +78,10 @@ export class UserProfileComponent implements OnInit {
     //   });
     this.loadData();
   }
+
+  public changeStatus() {
+    this.status = !this.status;
+ }
 
   public save() {
     this.http.updateProfile(this.submit()).subscribe(
