@@ -93,9 +93,6 @@
   </div>
   <!---------------------------------------------------------------------------------------------->
   <div class="container-fluid mt--6">
-    <!------------------------------------------------------------------------------------>
-    
-    <!------------------------------------------------------------------------------------>
     <div class="row">
       <div class="col">
         <div class="card">
@@ -126,16 +123,16 @@
                           <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                               <tr>
-                                <th scope="col">Logo Company</th>
-                                <th scope="col" class="sort" data-sort="name">Company Name</th>
-                                <th scope="col" class="sort" data-sort="name">Plan Name</th>
-                                <th scope="col" class="sort" data-sort="status">Phone</th>
+                                <th scope="col">Logo</th>
+                                <th scope="col" class="sort" data-sort="name">Product Name</th>
+                                <th scope="col" class="sort" data-sort="name">Model</th>
+                                <th scope="col" class="sort" data-sort="status">Category</th>
                                 <th scope="col">Price</th>
-                                <th scope="col" class="sort" data-sort="completion">Address</th>
+                                <th scope="col" class="sort" data-sort="completion">Tag</th>
                                 <th scope="col"></th>
                               </tr>
                             </thead>
-                            <tbody class="list" *ngFor="let product of productArray | paginate: { itemsPerPage: 5, currentPage: page }">
+                            <tbody class="list" *ngFor="let product of productArray | paginate: { itemsPerPage: 5, currentPage: page, id: 'products' }">
                               <tr>
                                 <th scope="row">
                                   <div class="media align-items-center">
@@ -174,7 +171,7 @@
                             </tbody>
                           </table>
                           <div class="row align-items-center justify-content-center">
-                            <pagination-controls (pageChange)="pageChanged($event)" autoHide="true" class="my-pagination"></pagination-controls>
+                            <pagination-controls id="products" (pageChange)="pageChanged($event)" autoHide="true" class="my-pagination"></pagination-controls>
                           </div>
                         </div>
                       </div>
@@ -310,7 +307,7 @@
                             <th scope="col"></th>
                           </tr>
                         </thead>
-                        <tbody class="list" *ngFor="let product of productFollowArray">
+                        <tbody class="list" *ngFor="let product of productFollowArray | paginate: { itemsPerPage: 5, currentPage: page, id: 'follow' }">
                           <tr>
                             <th scope="row">
                               <div class="media align-items-center">
@@ -342,6 +339,9 @@
                           </tr>
                         </tbody>
                       </table>
+                      <div class="row align-items-center justify-content-center">
+                        <pagination-controls id="follow" (pageChange)="pageChanged($event)" class="my-pagination"></pagination-controls>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -403,58 +403,120 @@
                 </div>
               </div>
             </mat-tab>
-          </mat-tab-group>
-          <!-- Light table -->
-          <!-- <div class="table-responsive" [class.loading]="(loading$ | async)">
-            <table class="table align-items-center table-flush" *ngIf="(subscriptionItems | async)">
-              <thead class="thead-light">
-                <tr>
-                  <th scope="col">Logo Company</th>
-                  <th scope="col" class="sort" data-sort="name">Company Name</th>
-                  <th scope="col" class="sort" data-sort="name">Plan Name</th>
-                  <th scope="col" class="sort" data-sort="status">Phone</th>
-                  <th scope="col">Price</th>
-                  <th scope="col" class="sort" data-sort="completion">Address</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody class="list" *ngFor="let subscription of subscriptionItems | async ">
-                <tr>
-                  <th scope="row">
-                    <div class="media align-items-center">
-                      <a href="#" class="avatar rounded-circle mr-3">
-                        <img alt="Image placeholder" [src]="subscription.company.logo">
-                      </a>
+            <mat-tab label="PRODUCT OPTION">
+              <div class="row">
+                <div class="col">
+                  <div class="card">
+                    <!-- Light table -->
+                    <div class="table-responsive">
+                      <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col">Image</th>
+                            <th scope="col" class="sort" data-sort="name">Name</th>
+                            <th scope="col" class="sort" data-sort="name">Model</th>
+                            <th scope="col" class="sort" data-sort="status">Company ID</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Option ID</th>
+                            <th scope="col" class="sort" data-sort="completion">Tag</th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody class="list" *ngFor="let product of productOptions | paginate: { itemsPerPage: 5, currentPage: page, id: 'productOption' }" >
+                          <tr>
+                            <th scope="row">
+                              <div class="media align-items-center">
+                                <a class="avatar rounded-circle mr-3">
+                                  <img [src]="product.image">
+                                </a>
+                              </div>
+                            </th>
+                            <td class="budget">
+                              {{product.name}}
+                            </td>
+                            <td class="budget">
+                              {{product.model}}
+                            </td>
+                            <td class="budget">
+                              {{product.company_id}}
+                            </td>
+                            <td class="budget">
+                              {{product.price}}
+                            </td>
+                            <td class="budget">
+                              <a *ngIf="product.options != null">{{product.options.id}}</a>
+                            </td>
+                            <td class="budget">
+                              {{product.tag}}
+                            </td>
+                            <td class="text-center">
+                              <button (click)="addProductOption(product.id)" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap"
+                              data-placement="top" title="Add option" class="btn btn-sm"><i class="fas fa-plus" data-toggle="tooltip"
+                                  data-placement="top" title="Add option"></i></button>
+                                  <button (click)="UpdateProductOption(product.id)" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap"
+                                   data-placement="top" title="Edit" class="btn btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top"
+                                    title="Edit"></i></button>
+                                <button (click)="DeleteProductOption(product.id)" data-toggle="tooltip"
+                                  data-placement="top" title="Remove" class="btn btn-sm"><i class="fa fa-trash" data-toggle="tooltip"
+                                    data-placement="top" title="Remove"></i></button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div class="row align-items-center justify-content-center">
+                        <pagination-controls id="productOption" (pageChange)="pageChanged($event)" autoHide="true" class="my-pagination"></pagination-controls>
+                      </div>
                     </div>
-                  </th>
-                  <td class="budget">
-                    {{subscription.company.store_name}}
-                  </td>
-                  <td class="budget">
-                    {{subscription.plan.name}}
-                  </td>
-                  <td class="budget">
-                    {{subscription.company.phone_number}}
-                  </td>
-                  <td class="budget">
-                    {{subscription.plan.price}}
-                  </td>
-                  <td class="budget">
-                    {{subscription.company.address}}
-                  </td>
-                  <td class="text-right">
-                    <button (click)="EditSubscriptionItem(subscription.id)" data-toggle="tooltip" data-placement="top" title="Edit"
-                      class="btn btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top"
-                        title="Edit"></i></button>
-                    <button (click)="deleteSubscriptionItem(subscription.company.id)" data-toggle="tooltip"
-                      data-placement="top" title="Remove" class="btn btn-sm"><i class="fa fa-trash" data-toggle="tooltip"
-                        data-placement="top" title="Remove"></i></button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div> -->
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
         </div>
       </div>
     </div>
   </div>
+  <div *ngIf="checkOption === false" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+                <h3><label for="product_id"><span class="label label-success">Product</span></label></h3>
+                <select [disabled]="checkEditOption" [ngModelOptions]="{standalone: true}" [(ngModel)]="productOpp.product_id" class="form-control" id="product_id" (change)="changeProductOption($event)" required>
+                  <option class="option" *ngFor="let productOp of productOptions" [value]="productOp.id">
+                    {{productOp.name}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="site">Site</label>
+                <input disabled ([ngModel])="productOpp.site" [value]="productOpp.site" (keyup)="changeProductOption($event)" type="text"
+                  class="form-control" id="site">
+              </div>
+              <div class="form-group">
+                <h3><label for="package_id"><span class="label label-success">Packege</span></label></h3>
+                <select [ngModelOptions]="{standalone: true}" [(ngModel)]="productOpp.package_id" class="form-control" id="package_id" (change)="changeProductOption($event)" required>
+                  <option class="option" *ngFor="let pack of package" [value]="pack.id">
+                    {{pack.name}}</option>
+                </select>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="submit()" class="btn btn-primary" data-dismiss="modal">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      $('#exampleModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+})
+  </script>
