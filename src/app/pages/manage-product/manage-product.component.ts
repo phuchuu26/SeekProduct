@@ -222,6 +222,7 @@ export class ManageProductComponent implements OnInit {
 
     });
     this.followedproducts_list();
+    this.package_list();
   }
   pageChanged(event: any) {
     console.log(event);
@@ -385,7 +386,7 @@ export class ManageProductComponent implements OnInit {
         Swal.fire({
           position: 'center',
           icon: 'success',
-          title: 'Your Add Product Success',
+          title: 'You Add Product Success',
           showConfirmButton: false,
           timer: 1500
         });
@@ -395,7 +396,7 @@ export class ManageProductComponent implements OnInit {
         Swal.fire({
           position: 'center',
           icon: 'error',
-          title: 'Your Add Product Fail',
+          title: 'You Add Product Fail',
           showConfirmButton: false,
           timer: 1500
         })
@@ -428,7 +429,7 @@ export class ManageProductComponent implements OnInit {
         Swal.fire({
           position: 'center',
           icon: 'success',
-          title: 'Your Update Product Success',
+          title: 'You Update Product Success',
           showConfirmButton: false,
           timer: 1500
         });
@@ -438,7 +439,7 @@ export class ManageProductComponent implements OnInit {
         Swal.fire({
           position: 'center',
           icon: 'error',
-          title: 'Your Update Product Fail',
+          title: 'You Update Product Fail',
           showConfirmButton: false,
           timer: 1500
         })
@@ -454,11 +455,6 @@ export class ManageProductComponent implements OnInit {
           this.addProduct();
         else if(this.checkEdit === true) this.UpdateProduct();
     }
-    //   this.http.put('https://seekproduct-api.misavu.net/api/user/product/' + 243,formdata, {
-    //   headers: new HttpHeaders({
-    //     Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
-    //   }),
-    // }).subscribe((data) => { console.log(data) });
   }
 
   followProduct(id: any) {
@@ -547,6 +543,7 @@ export class ManageProductComponent implements OnInit {
 
   yourFn(event: any) {
     console.log(event.index);
+    this.page = 1;
     if (event.index == 0) {
       this.feature_products();
       this.selectedValue = this.manage_product[0].value;
@@ -570,6 +567,15 @@ export class ManageProductComponent implements OnInit {
           this.gallery_Aray = data.product_gallery;
         });
       });
+    } else if(event.index == 3){
+      this.http.get<any>('https://seekproduct-api.misavu.net/api/user/product/my-product/?ordering=id&order=DESC', {
+      headers: new HttpHeaders({
+        Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+      })
+    }).subscribe(data => {
+      console.log(data.results);
+      this.productOptions = data.results;
+    });
     }
   }
 
@@ -673,6 +679,221 @@ export class ManageProductComponent implements OnInit {
       });
     });
 
+  }
+
+  async package_list() {
+    let count = 0;
+    let temp = [];
+    await this.http.get<any>('https://seekproduct-api.misavu.net/api/user/product/options/list?page=' + 1, {
+      headers: new HttpHeaders({
+        Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
+      })
+    }).subscribe(async (data) => {
+      count = data.count;
+      for (var a = 0; a < data.results.length; a++) {
+        temp[temp.length] = data.results[a];
+      }
+      var j = 2;
+      for (var i = 10; i < count; i = i + 10) {
+        this.http.get<any>('https://seekproduct-api.misavu.net/api/user/product/options/list?page=' + j, {
+          headers: new HttpHeaders({
+            Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
+          })
+        }).subscribe((res) => {
+          for (var b = 0; b < res.results.length; b++) {
+            temp[temp.length] = res.results[b];
+          }
+        });
+        j++;
+      }
+      await console.log(temp);
+      this.package = await temp;
+    });
+  }
+productOptions = [];
+productOpp = {product_id: '', site:'', package_id:''};
+package = [];
+productOptions_id: string = '';
+checkOption : boolean = false;
+checkEditOption: boolean = false;
+  addProductOption(id : any){
+    this.checkEditOption = false;
+    let temp : any = this.productOptions.filter(item => item.id == id)[0];
+    console.log(temp.options);
+      if(temp.options != null){
+        this.checkOption = true;
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Option already exists \n',
+          showConfirmButton: false,
+          timer: 1500
+        });
+    } else if(temp.options == null) {
+      this.checkOption = false;
+      this.productOpp.product_id = temp.id;
+      this.productOpp.site = temp.site;
+      this.productOpp.package_id = this.package[0].id;    
+    }
+  }
+  UpdateProductOption(id: any){
+    this.checkEditOption = true;
+    let temp : any = this.productOptions.filter(item => item.id == id)[0];
+    console.log(temp.options);
+    console.log(this.productOptions_id);
+      if(temp.options == null){
+        this.checkOption = true;
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Option does not exist\n You must Add Option',
+          showConfirmButton: false,
+          timer: 1500
+        });
+    } else if(temp.options != null) {
+      this.checkOption = false;
+      this.productOpp.product_id = temp.id;
+      this.productOpp.site = temp.site;
+      this.productOpp.package_id = temp.options.package.id;    
+      this.productOptions_id = temp.options.id;
+
+    }
+  }
+
+  DeleteProductOption(id : any){
+    let temp : any = this.productOptions.filter(item => item.id == id)[0];
+    console.log(temp.options);
+    console.log(this.productOptions_id);
+    let formdata = new FormData();
+      if(temp.options == null){
+        this.checkOption = true;
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Option does not exist\n You must Add Option',
+          showConfirmButton: false,
+          timer: 1500
+        });
+    } else if(temp.options != null) {
+      
+      formdata.set('product_id',temp.id);
+      formdata.set('site',temp.site);
+      Swal.fire({
+        title: 'Are you sure?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          const options = {
+            body: formdata,
+            headers: new HttpHeaders({
+              Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+            })
+          };
+          this.http.delete<any>('https://seekproduct-api.misavu.net/api/user/product/options/destroy/'+temp.options.id, options)
+          .subscribe((event) => {
+            this.productOptions.forEach((value)=>{
+              if(value.id == formdata.get('product_id')){
+                value.options = null;
+              }
+            });
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'You delete Success',
+                showConfirmButton: false,
+                timer: 1500
+              });
+            } 
+          , err =>{
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'You delete FAIL\n',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          });
+        }
+      });
+
+    }
+  }
+  changeProductOption(event : any){
+    this.productOpp[event.target.id] = event.target.value;
+    console.log(event.target.id + " = " + event.target.value);
+    if(event.target.id == 'product_id'){
+      let temp : any = this.productOptions.filter(item => item.id == event.target.value)[0];
+      this.productOpp.site = temp.site;
+    }
+  }
+
+  submit(){
+    console.log(this.productOpp);
+    const formdata = new FormData();
+    formdata.set('product_id',this.productOpp.product_id);
+    formdata.set('package_id',this.productOpp.package_id);
+    formdata.set('site',this.productOpp.site);
+    if(this.checkEditOption === false){
+    this.http.post<any>('https://seekproduct-api.misavu.net/api/user/product/options/create', formdata, {
+      headers: new HttpHeaders({
+        Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+      })
+    }).subscribe((event) => {
+      this.productOptions.forEach((value)=>{
+        if(value.id == this.productOpp.product_id){
+          value.options = event;
+        }
+      });
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'You Add Success',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }, err =>  {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'You add Product Option Fail\n',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      });
+    } else 
+      if(this.checkEditOption === true){
+        this.http.put<any>('https://seekproduct-api.misavu.net/api/user/product/options/update/'+this.productOptions_id, formdata, {
+      headers: new HttpHeaders({
+        Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+      })
+    }).subscribe((event) => {
+      this.productOptions.forEach((value)=>{
+        if(value.id == this.productOpp.product_id){
+          value.options.package = this.package.filter(item => item.id == event.package_id)[0];
+        }
+      });
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'You Add Success',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }, err =>  {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'You add Product Option Fail\n',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      });
+
+      }
   }
 }
 
