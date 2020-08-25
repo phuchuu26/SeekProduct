@@ -85,4 +85,9 @@ export interface AccountBtok{
   name?:string;
   routing?:number;
   account?:string;
+}export interface Response1{
+  count?:number;
+  next?:string;
+  previous ?:string;
+  results?:[];
 }

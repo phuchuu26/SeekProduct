@@ -101,11 +101,11 @@
 
 
                     <div>
-                      <input id="image" type="file" multiple  formControlName="avatar"   name="image" (change)="onChangeImage($event,this)" style="display: none;" >
+                      <input id="image" type="file" multiple  formControlName="avatar"   name="image" (change)="onChangeImage($event,$event.target.files,this)" style="display: none;" >
                     </div>
                     <label for="image">
-                      <img *ngIf="userProfile.avatar !== null" style="border-radius: 72px;" [src]="urlImage" width="150px" height="150px"  alt="Image not found">
-                      <img *ngIf="userProfile.avatar == null"  style="border-radius: 72px;"   [src]="urlImage" width="150px" height="150px"  alt="Image not found">
+                      <img style="border-radius: 72px;" [src]="urlImage" width="150px" height="150px"  alt="Image not found">
+                      <!-- <img *ngIf="userProfile.avatar == null"  style="border-radius: 72px;"   [src]="urlImage" width="150px" height="150px"  alt="Image not found"> -->
                     </label>
 
                   </div>

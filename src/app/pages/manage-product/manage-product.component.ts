@@ -241,6 +241,8 @@ export class ManageProductComponent implements OnInit {
   }
   changeAvatar(files : FileList){
     this.fileToUpload = files.item(0);
+    console.log(files);
+    console.log(this.fileToUpload);
   }
 
   onChange(event: any) {
@@ -311,7 +313,7 @@ export class ManageProductComponent implements OnInit {
       this.check = true;
     }
     this.checkEdit = true;
-    
+
   }
   deleteProduct(id: any) {
     console.log("Product id : " + id);
@@ -445,7 +447,7 @@ export class ManageProductComponent implements OnInit {
 
   Submit() {
     this.checkSubmit = true;
-    if(this.name.length > 0 && this.description.length > 0 && this.downloads.length > 0 && this.faq.length > 0 
+    if(this.name.length > 0 && this.description.length > 0 && this.downloads.length > 0 && this.faq.length > 0
       && this.full_description.length > 0 && this.in_stock > 0 && this.model.length > 0 && this.price > 0 &&
       this.tag.length > 0 && this.vat.length > 0){
         if(this.checkEdit === false)
