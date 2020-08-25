@@ -3,25 +3,25 @@ export interface user {
   password: string;
 }
 export interface profileUser {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
+  id?: number;
+  first_name?: string;
+  last_name?: string;
+  email?: string;
   username;
-  phone_number: string;
-  work_at: string;
-  job: string;
-  message: string;
-  avatar: any;
-  show_phone: boolean;
-  country: string;
-  stripe_customer_id: string;
-  city: string;
-  vat_number: string;
-  twitter: string;
-  facebook: string;
-  google: string;
-  linkedin: string;
+  phone_number?: string;
+  work_at?: string;
+  job?: string;
+  message?: string;
+  avatar?: any;
+  show_phone?: boolean;
+  country?: string;
+  stripe_customer_id?: string;
+  city?: string;
+  vat_number?: string;
+  twitter?: string;
+  facebook?: string;
+  google?: string;
+  linkedin?: string;
 }
 
 export interface registerAccount {
