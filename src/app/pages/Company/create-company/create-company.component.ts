@@ -26,8 +26,7 @@ import Swal from "sweetalert2";
   templateUrl: "./create-company.component.html",
   styleUrls: ["./create-company.component.css"],
 })
-export class CreateCompanyComponent
-  implements OnInit, DoCheck {
+export class CreateCompanyComponent implements OnInit, DoCheck {
   // options: string[] = ['One', 'Two', 'Three'];
   // myControl = new FormControl();
   // filteredOptions: Observable<string[]>;
@@ -57,14 +56,13 @@ export class CreateCompanyComponent
 
   //   return this.options.filter(option => option.toLowerCase().includes(filterValue));
   // }
- public  nameCa(){
+  public nameCa() {
     this.cateChoosed = [];
     if (this.toppingList) {
-
       if (this.category.value != null) {
-        this.category.value.forEach(item1 => {
-          this.toppingList.forEach(item=>{
-            if(item.id == item1){
+        this.category.value.forEach((item1) => {
+          this.toppingList.forEach((item) => {
+            if (item.id == item1) {
               this.cateChoosed.push(item.name);
               // console.log(this.cateChoosed);
             }
@@ -74,7 +72,9 @@ export class CreateCompanyComponent
     }
     // console.log(this.cateChoosed);
   }
+
   ngDoCheck(): void {
+    this.checkValidAccount();
     if (this.toppingList) {
       if (this.category.value != null) {
         for (let option of this.toppingList) {
@@ -82,7 +82,6 @@ export class CreateCompanyComponent
             this.nameca = option.name;
             // console.log(this.nameca);
           }
-
         }
       }
     }
@@ -95,15 +94,38 @@ export class CreateCompanyComponent
     //   );
 
     this.companyForm = this.forms.group({
-      store_name: new FormControl(),
-      address: new FormControl(),
-      phone_number: new FormControl(),
-      legal_name: new FormControl(),
-      site: new FormControl(),
-      business_license: new FormControl(),
-      logo: new FormControl("", []),
-      ad_sample: new FormControl(null,[]),
-      about: new FormControl(),
+      store_name: new FormControl("", [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20),
+      ]),
+      address: new FormControl("", ),
+      phone_number: new FormControl("", [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(11),
+        this.checkNumber,
+      ]),
+      legal_name: new FormControl("", [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(30),
+      ]),
+      site: new FormControl("", [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20),
+      ]),
+      business_license: new FormControl("", [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20),
+      ]),
+      logo: new FormControl(null, [Validators.required]),
+      ad_sample: new FormControl(null, [Validators.required]),
+      about: new FormControl("", [
+
+      ]),
       banner: this.forms.array([this.forms.control("")]),
       category: this.forms.array,
     });
@@ -133,11 +155,11 @@ export class CreateCompanyComponent
     // console.log(a);
     // formData.append('ad_simple',a);
     // console.log(formData);
-  //  companyProfile.ad_sample = this.urlImageAdSample;
+    //  companyProfile.ad_sample = this.urlImageAdSample;
     return companyProfile as Company;
   }
   fileToUpload: File = null;
-  public onChangeImage(image,files ,a) {
+  public onChangeImage(image, files, a) {
     this.fileToUpload = files.item(0);
     let file = image.target.files;
     // console.log(image1.urlImage);
@@ -165,7 +187,7 @@ export class CreateCompanyComponent
     };
   }
   fileToUpload1: File = null;
-  public onChangeAdSample(image, a,i) {
+  public onChangeAdSample(image, a, i) {
     this.fileToUpload1 = a.item(0);
     let file = image.target.files;
     // console.log(image);
@@ -195,7 +217,7 @@ export class CreateCompanyComponent
     // console.log(this.urlImageBanner);
   }
   public aa = [];
-  public onChangeBanner(image, i:number,e, a) {
+  public onChangeBanner(image, i: number, e, a) {
     var fileToUploadBanner: File = null;
     fileToUploadBanner = e.item(0);
     this.aa.push(fileToUploadBanner);
@@ -233,30 +255,31 @@ export class CreateCompanyComponent
     // category: this.forms.array,
 
     const formdata = new FormData();
-    formdata.set('store_name',a.store_name);
-    formdata.set('address',a.address);
-    formdata.set('phone_number',a.phone_number);
-    formdata.set('legal_name',a.phone_number);
-    formdata.set('site',a.site);
-    formdata.set('business_license',a.business_license);
-    if(this.fileToUpload != null){
-      formdata.append('logo',this.fileToUpload, this.fileToUpload.name);
-    } else formdata.append('logo','');
-    if(this.fileToUpload1 != null){
-      formdata.append('ad_sample',this.fileToUpload1, this.fileToUpload1.name);
-    } else formdata.append('ad_sample','');
-    formdata.set('about',a.about);
-    a.category.forEach((value,i)=>{
-      if(a.category[i] != null){
-        formdata.append('category',a.category[i].toString());
-      }else formdata.append('category','');
-    })
-    a.banner.forEach((value,i)=>{
-      if(this.aa[i] != null){
-        formdata.append('banner',this.aa[i], this.aa[i].name);
-      } else formdata.append('banner','');
-    })
-
+    formdata.set("store_name", a.store_name);
+    formdata.set("address", a.address);
+    formdata.set("phone_number", a.phone_number);
+    formdata.set("legal_name", a.phone_number);
+    formdata.set("site", a.site);
+    formdata.set("business_license", a.business_license);
+    if (this.fileToUpload != null) {
+      formdata.append("logo", this.fileToUpload, this.fileToUpload.name);
+    } else formdata.append("logo", "");
+    if (this.fileToUpload1 != null) {
+      formdata.append("ad_sample", this.fileToUpload1, this.fileToUpload1.name);
+    } else formdata.append("ad_sample", "");
+    formdata.set("about", a.about);
+    if (a.category != null) {
+      a.category.forEach((value, i) => {
+        if (a.category[i] != null) {
+          formdata.append("category", a.category[i].toString());
+        } else formdata.append("category", "");
+      });
+    }
+    a.banner.forEach((value, i) => {
+      if (this.aa[i] != null) {
+        formdata.append("banner", this.aa[i], this.aa[i].name);
+      } else formdata.append("banner", "");
+    });
 
     // formdata.set('category',a.category.toString());
 
@@ -285,23 +308,42 @@ export class CreateCompanyComponent
     //     })
     //   });
 
+    this.http.createCompany(formdata).subscribe(
+      (data) => {
+        console.log(data);
+        // this.router.navigate(["login"]);
+        this.success(this.companyForm.controls.store_name.value);
+      },
+      (error) => {
+        if (error.status == 500) {
+          this.failed(
+            "Internal Server error",
+            "Can the image field may be incorrectly formatted"
+          );
+          console.log(error);
+          console.log("loi 500");
+        } else {
+          Object.entries(error.error).forEach(([key, value]) => {
+            // console.log(`${key}: ${value}`);
+            this.failed(key, value);
+          });
+        }
+        // for (const child of error) {
+        //   console.log(child);
+        // }
+        // error.forEach(data=>{
+        //   console.log(data);
 
-
-    this.http.createCompany(formdata).subscribe((data)=>{
-
-      console.log(data);
-      // this.router.navigate(["login"]);
-      this.success(this.companyForm.controls.store_name.value);
-    }, (error)=>{
-      this.failed();
-    })
+        // })
+      }
+    );
     //  console.log(typeof this.companyForm.controls.category.value);
     //  console.log(this.companyForm.controls.category.value);
     //  console.log(this.category);
     //  console.log(typeof this.companyForm.controls.banner.value);
     //  console.log(this.companyForm.controls.banner.value);
   }
-  public success(a){
+  public success(a) {
     this.snotify.info(`Company ${a} has been created successfully`, "Confirm", {
       position: SnotifyPosition.rightTop,
       timeout: 3000,
@@ -311,13 +353,185 @@ export class CreateCompanyComponent
     });
   }
 
-  public failed(){
-    this.snotify.error(`Create company failed by system error`, "Confirm", {
+  public failed(a, b) {
+    this.snotify.error(`Create company failed by ${a} ${b}`, "Confirm", {
       position: SnotifyPosition.rightTop,
-      timeout: 3000,
-      showProgressBar: false,
+      timeout: 4000,
+      showProgressBar: true,
       closeOnClick: false,
       pauseOnHover: true,
     });
+  }
+
+  public checkNumber(control) {
+    // console.log(control);
+    if (control.value != null) {
+      var so = control.value;
+      // console.log(so);
+      // var pass = control.root.get('password');
+      if (so) {
+        // var password = pass.value;
+        if (so !== "") {
+          let n = so.charAt(0);
+          let m = so.slice(1, so.length);
+          console.log(n);
+          if (isNaN(so) && (n != "+" || isNaN(m))) {
+            return { error: "Passwords do not match" };
+          } else {
+            return null;
+          }
+        }
+      }
+    }
+  }
+  public checkNumber1(control) {
+    // console.log(control);
+    if (control.value != null) {
+      var so = control.value;
+      // console.log(so);
+      // var pass = control.root.get('password');
+      if (so) {
+        // var password = pass.value;
+        if (so !== "") {
+          let n = so.charAt(0);
+          let m = so.slice(1, so.length);
+          console.log(n);
+          console.log(typeof so);
+          if ((isNaN(so)  ) ) {
+            return false;
+          } else if(n != "+" && isNaN(m) && so.length <= 11 && so.length  > 9){
+            return false;
+          }
+          else if( so.length <= 11 && so.length  > 9){
+            return false;
+          }
+          else {
+            return true;
+          }
+        }
+      }
+    }
+  }
+  public error = {
+    store_name : "",
+  address : "",
+  phone_number : "",
+  legal_name :"",
+  site : "",
+  logo : "",
+  business_license : "",
+  ad_sample : "",
+  about : "",
+  banner : "",
+  category : ""
+  };
+
+  public checkValidAccount(){
+    if (this.companyForm.controls.store_name.value === ''){
+      this.error.store_name = 'null';
+    }
+    else  if(this.companyForm.controls.store_name.value.length < 2){
+      this.error.store_name = 'min';
+    }
+    else  if(this.companyForm.controls.store_name.value.length > 20){
+      this.error.store_name = 'max';
+    }
+    else this.error.store_name = '';
+
+
+
+    if (this.companyForm.controls.address.value === ''){
+      this.error.address = 'null';
+    }
+    else  if(this.companyForm.controls.address.value.length < 2){
+      this.error.address = 'min';
+    }
+    else  if(this.companyForm.controls.address.value.length > 20){
+      this.error.address = 'max';
+    }
+    else this.error.address = '';
+
+    if (this.companyForm.controls.site.value === ''){
+      this.error.site = 'null';
+    }
+    else  if(this.companyForm.controls.site.value.length < 2){
+      this.error.site = 'min';
+    }
+    else  if(this.companyForm.controls.site.value.length > 15){
+      this.error.site = 'max';
+    }
+    else this.error.site = '';
+
+
+
+    // console.log(this.companyForm.controls.phone_number.value)
+    // console.log(this.checkNumber1(this.companyForm.controls.phone_number));
+    if (this.companyForm.controls.phone_number.value === ''){
+      this.error.phone_number = 'null';
+    }
+     else if(this.checkNumber1(this.companyForm.controls.phone_number)){
+      this.error.phone_number = 'notphone';
+    }
+    else this.error.phone_number = '';
+
+
+
+    if (this.companyForm.controls.legal_name.value === ''){
+      this.error.legal_name = 'null';
+    }
+    else  if(this.companyForm.controls.legal_name.value.length < 2){
+      this.error.legal_name = 'min';
+    }
+    else  if(this.companyForm.controls.legal_name.value.length > 20){
+      this.error.legal_name = 'max';
+    }
+    else this.error.legal_name = '';
+
+    if (this.companyForm.controls.business_license.value === ''){
+      this.error.business_license = 'null';
+    }
+    else  if(this.companyForm.controls.business_license.value.length < 2){
+      this.error.business_license = 'min';
+    }
+    else  if(this.companyForm.controls.business_license.value.length > 20){
+      this.error.business_license = 'max';
+    }
+    else this.error.business_license = '';
+
+
+    // console.log(this.companyForm.controls.category.value.length);
+    // console.log(this.companyForm.controls.category.value);
+    // console.log(this.cateChoosed);
+    // console.log(this.cateChoosed.length);
+    if(this.cateChoosed.length === 0){
+      this.error.category = 'min';
+    }
+
+    else this.error.category = '';
+
+
+
+    if (this.companyForm.controls.about.value === ''){
+      this.error.about = 'null';
+    }
+    else  if(this.companyForm.controls.about.value.length < 2){
+      this.error.about = 'min';
+    }
+
+    else this.error.about = '';
+
+    if (this.companyForm.controls.ad_sample.value === null){
+      this.error.ad_sample = 'null';
+      this.error.ad_sample = 'null';
+    }
+
+    else this.error.ad_sample = '';
+
+    if (this.companyForm.controls.logo.value == null){
+      this.error.logo = 'null';
+    }
+
+    else this.error.logo = '';
+
   }
 }

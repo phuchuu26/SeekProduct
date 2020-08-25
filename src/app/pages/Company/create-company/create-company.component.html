@@ -116,22 +116,27 @@
                       value=""
                     />
                   </div>
+                  <div *ngIf="error.store_name === 'null'"> <label class="error">Bạn chưa nhập Store Name</label> </div>
+                  <div *ngIf="error.store_name === 'min'"> <label class="error">Trường Store Name yêu cầu 2 ký tự</label> </div>
+                  <div *ngIf="error.store_name === 'max'"> <label class="error">Trường Store Name không vượt quá 20 ký tự</label> </div>
                 </div>
 
                 <div class="col-lg-4 img">
+
                   <div class="form-group img text-center">
+
                     <label class="form-control-label" for="input-image"
-                      >Logo</label
+                    >Logo</label
                     >
 
                     <div>
                       <input
-                        id="image"
-                        type="file"
-                        formControlName="logo"
-                        name="image"
-                        (change)="onChangeImage($event,$event.target.files,this)"
-                        style="display: none;"
+                      id="image"
+                      type="file"
+                      formControlName="logo"
+                      name="image"
+                      (change)="onChangeImage($event,$event.target.files,this)"
+                      style="display: none;"
                       />
                     </div>
                     <label for="image">
@@ -147,6 +152,8 @@
                         height="150px"
                         alt="Image not found"
                       />
+                    <div *ngIf="error.logo === 'null'"> <br> <label class="error">You have not entered Logo</label> </div>
+
                     </label>
                   </div>
                 </div>
@@ -163,6 +170,9 @@
                       value=""
                     />
                   </div>
+                  <div *ngIf="error.legal_name === 'null'"> <label class="error">Bạn chưa nhập Legal Name</label> </div>
+                  <div *ngIf="error.legal_name === 'min'"> <label class="error">Trường Legal Name yêu cầu 2 ký tự</label> </div>
+                  <div *ngIf="error.legal_name === 'max'"> <label class="error">Trường Legal Name không vượt quá 20 ký tự</label> </div>
                 </div>
               </div>
               <div class="row">
@@ -179,6 +189,9 @@
                       value=""
                     />
                   </div>
+                  <div *ngIf="error.site === 'null'"> <label class="error">Bạn chưa nhập Site</label> </div>
+                  <div *ngIf="error.site === 'min'"> <label class="error">Trường Site yêu cầu 2 ký tự</label> </div>
+                  <div *ngIf="error.site === 'max'"> <label class="error">Trường Site không vượt quá 20 ký tự</label> </div>
                 </div>
                 <div class="col-lg-8">
                   <div class="form-group a">
@@ -186,13 +199,16 @@
                       >Business License</label
                     >
                     <input
-                      type="text"
+                      type="number"
                       id="input-last-name"
                       formControlName="business_license"
                       class="form-control form-control-alternative"
                       value=""
                     />
                   </div>
+                  <div *ngIf="error.business_license === 'null'"> <label class="error">Bạn chưa nhập Business License</label> </div>
+                  <div *ngIf="error.business_license === 'min'"> <label class="error">Trường Business License yêu cầu 2 ký tự</label> </div>
+                  <div *ngIf="error.business_license === 'max'"> <label class="error">Trường Business License không vượt quá 20 ký tự</label> </div>
                 </div>
               </div>
             </div>
@@ -206,14 +222,16 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Address</label>
-                    <input id="input-address"  class="form-control form-control-alternative" formControlName="phone_number"  placeholder="Address" value="" type="text">
+                    <input id="input-address"  class="form-control form-control-alternative" formControlName="address"  placeholder="Address" value="" type="text">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Phone Number</label>
-                    <input id="input-address" class="form-control form-control-alternative" formControlName="address"  placeholder="Phone Number" value="" type="text">
+                    <input id="input-address" class="form-control form-control-alternative" formControlName="phone_number"  placeholder="Phone Number" value="" type="text">
                   </div>
+                  <div *ngIf="error.phone_number === 'null'"> <label class="error">You have not entered Phone Number</label> </div>
+                  <div *ngIf="error.phone_number === 'notphone'"> <label class="error">Required to enter the correct format phone number : + (XX) (XXXXXXXX) </label> </div>
                 </div>
               </div>
 
@@ -237,6 +255,7 @@
                         Add Category
                       </button>
                     </div>
+                    <div style="float: left;" *ngIf="error.category == 'min'"><br>  <label class="error">You have not entered Category</label> </div>
 
                     <mat-form-field
                       class="cate"
@@ -265,6 +284,7 @@
                         >
                       </mat-select>
                     </mat-form-field>
+
                     <div *ngIf="cateChoosed.length > 0" class="b">
                       <div *ngFor="let cate of cateChoosed" >
                         <button
@@ -312,6 +332,7 @@
                         [src]="urlImageAdSample"
                         alt="Image not found"
                       />
+                      <div style="padding-right: 189px;" *ngIf="error.ad_sample === 'null'"> <br> <label class="error">You have not entered Advertising Sample</label> </div>
                     </label>
                   </div>
                 </div>
