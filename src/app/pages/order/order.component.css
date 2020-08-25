@@ -1,0 +1,107 @@
+
+.btn {
+  background-color:white;
+  border: none;
+  color: rgb(104, 91, 224);
+  font-size: 10px;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 10px;
+}
+.btn:hover {
+  background-color: #ccc;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 0px;
+  bottom: 0px;
+  right: 4px;
+  background-color: rgb(123, 248, 21);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.my-pagination /deep/ .ngx-pagination .current {
+  background: red;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn-select {
+  font-size: 15px;
+  font-weight: bold;
+  border-color: black;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 50px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  box-shadow: 0 0 5pt 0.5pt #D3D3D3;
+  border-radius: 5px;
+border: solid 1.5px #D3D3D3;
+}
+
+.single-checkbox{
+  height: 20px !important;
+  box-sizing: unset;
+  padding: 0;
+  width: 20px !important;
+
+}
