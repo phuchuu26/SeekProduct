@@ -1,25 +1,29 @@
-import { profileUser } from './../../models/user';
+import { profileUser, Company } from './../../models/user';
 import { ServerHttpService } from './../../Services/server-http.service';
 import { Router } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { user } from 'src/app/models/user';
 import {SnotifyService} from 'ng-snotify';
 import { SnotifyPosition } from "ng-snotify";
 import Swal from 'sweetalert2'
+// import * as console from 'console';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy, DoCheck {
   constructor( private router: Router,
     private server: ServerHttpService,
     private snotify: SnotifyService,
     ) {
 
   }
-
+  ngDoCheck(){
+    // console.log(this.Com);
+    // localStorage.setItem("ALLCOMPANY",JSON.stringify( this.Com ));
+  }
   ngOnInit() {
   }
   ngOnDestroy() {
@@ -44,8 +48,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     ]),
 
   });
-
-  public save(){
+  public Com;
+  public async save(){
 
       this.server.login(this.submit()).subscribe((  data )=>{
         this.server.tokenLogin = data.token;
@@ -57,11 +61,32 @@ export class LoginComponent implements OnInit, OnDestroy {
             // console.log(this.server.profileUser);
             this.success(this.server.profileUser.first_name,this.server.profileUser.last_name);
           })
+          let i =2;
+          let test :Company[];
+           this.server.GetAllMyCompany(1).subscribe( async (data)=>{
+            console.log(data);
+            test = data.results;
+            if(data.results != null){
+              for(let j = 10; j < +data.count; j=j+10){
+                this.server.GetAllMyCompany(i).subscribe(async(data1)=>{
+                  console.log(data1);
+                  data1.results.forEach((res)=>{
+                    test.push(res);
+                  })
 
-          this.server.GetAllMyCompany().subscribe((data)=>{
+                })
+                i++;
 
+              }
+              console.log(test);
+              this.Com = await test;
+              await localStorage.setItem("ALLMYCOMPANY",JSON.stringify( await this.Com ));
+
+              await console.log(this.Com);
+            }
           });
         }
+
         this.router.navigate(["dashboard"]);
 
      },
@@ -70,6 +95,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.failed();
     }
     );
+
 
     }
     public submit(){

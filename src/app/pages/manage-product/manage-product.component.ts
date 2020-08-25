@@ -494,6 +494,7 @@ export class ManageProductComponent implements OnInit {
     console.log(this.category);
     if(this.name.length > 0 && this.description.length > 0 && this.downloads.length > 0 && this.faq.length > 0 
 
+
       && this.full_description.length > 0 && this.in_stock > 0 && this.model.length > 0 && this.price > 0 &&
       this.tag.length > 0 && this.vat.length > 0 && this.productgroup != '' && this.category != ''){
         if(this.checkEdit === false){
@@ -779,7 +780,7 @@ checkEditOption: boolean = false;
       this.checkOption = false;
       this.productOpp.product_id = temp.id;
       this.productOpp.site = temp.site;
-      this.productOpp.package_id = this.package[0].id;    
+      this.productOpp.package_id = this.package[0].id;
     }
   }
   UpdateProductOption(id: any){
@@ -800,7 +801,7 @@ checkEditOption: boolean = false;
       this.checkOption = false;
       this.productOpp.product_id = temp.id;
       this.productOpp.site = temp.site;
-      this.productOpp.package_id = temp.options.package.id;    
+      this.productOpp.package_id = temp.options.package.id;
       this.productOptions_id = temp.options.id;
 
     }
@@ -821,7 +822,7 @@ checkEditOption: boolean = false;
           timer: 1500
         });
     } else if(temp.options != null) {
-      
+
       formdata.set('product_id',temp.id);
       formdata.set('site',temp.site);
       Swal.fire({
@@ -853,7 +854,7 @@ checkEditOption: boolean = false;
                 showConfirmButton: false,
                 timer: 1500
               });
-            } 
+            }
           , err =>{
             Swal.fire({
               position: 'center',
@@ -911,7 +912,7 @@ checkEditOption: boolean = false;
           timer: 1500
         })
       });
-    } else 
+    } else
       if(this.checkEditOption === true){
         this.http.put<any>('https://seekproduct-api.misavu.net/api/user/product/options/update/'+this.productOptions_id, formdata, {
       headers: new HttpHeaders({

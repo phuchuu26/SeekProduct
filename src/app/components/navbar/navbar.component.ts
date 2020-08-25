@@ -8,6 +8,7 @@ import {
 import { Router, Route } from "@angular/router";
 import { ServerHttpService } from "src/app/Services/server-http.service";
 import { SnotifyService, SnotifyPosition } from "ng-snotify";
+import { profileUser } from "src/app/models/user";
 
 @Component({
   selector: "app-navbar",
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit {
   // public listTitles: any[];
   public location: Location;
   public menuItems: any[];
+  public ten:profileUser;
   constructor(
     location: Location,
     private element: ElementRef,
@@ -39,9 +41,16 @@ export class NavbarComponent implements OnInit {
     { path: '/allmycompany', title: 'List Of My Companies',  icon:'ni-building text-info', class: '' }
   ];
   ngOnInit() {
+    this.service_http.getProfile().subscribe((data)=>{
+      this.ten = data;
+    })
+  //  var a = localStorage.getItem("USER");
+  //  this.ten = JSON.parse(a);
 
+    // console.log(this.ten);
   }
   getTitle() {
+
 
     var titlee = this.location.prepareExternalUrl(this.location.path());
     if (titlee.charAt(0) === "#") {

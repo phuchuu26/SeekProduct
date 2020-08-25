@@ -205,4 +205,8 @@ export class DetailCompanyComponent implements OnInit {
   public buttonToggleAddCategory() {
     this.toggleAddCategory = !this.toggleAddCategory;
   }
+  public index =0;
+  public addbanner(index){
+
+  }
 }
