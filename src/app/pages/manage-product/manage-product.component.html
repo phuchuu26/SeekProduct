@@ -148,7 +148,7 @@
                                   {{product.model}}
                                 </td>
                                 <td class="budget">
-                                  {{product.category.name}}
+                                  {{product.category[0].name}}
                                 </td>
                                 <td class="budget">
                                   {{product.price}}
@@ -243,10 +243,7 @@
                             </div>
                             <div class="form-group">
                               <label for="color">Color</label>
-                              <select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectColor" class="form-control" id="color" (change)="onChange($event)" required>
-                                <option class="option" *ngFor="let color of colors" [value]="color.name">
-                                  {{color.name}}</option>
-                              </select>
+                              <input class="form-control" (colorPickerChange)="changeColor($event)" [value]="color" [(colorPicker)]="color" [style.background]="color"/>
                             </div>
                             <div class="form-group">
                               <label for="tag">Tag</label>

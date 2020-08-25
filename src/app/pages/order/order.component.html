@@ -1,0 +1,261 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+      <div class="header-body">
+        <!-- Card stats -->
+        <div class="row">
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
+                    <span class="h2 font-weight-bold mb-0">350,897</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                      <i class="fas fa-chart-bar"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                  <span class="text-nowrap">Since last month</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
+                    <span class="h2 font-weight-bold mb-0">2,356</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                      <i class="fas fa-chart-pie"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
+                  <span class="text-nowrap">Since last week</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
+                    <span class="h2 font-weight-bold mb-0">924</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                      <i class="fas fa-users"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
+                  <span class="text-nowrap">Since yesterday</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
+                    <span class="h2 font-weight-bold mb-0">49,65%</span>
+                  </div>
+                  <div class="col-auto">
+                    <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                      <i class="fas fa-percent"></i>
+                    </div>
+                  </div>
+                </div>
+                <p class="mt-3 mb-0 text-muted text-sm">
+                  <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                  <span class="text-nowrap">Since last month</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---------------------------------------------------------------------------------------------->
+  <div class="container-fluid mt--6">
+    
+    <!------------------------------------------------------------------------------------>
+    
+  
+    <!------------------------------------------------------------------------------------>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+            <div>
+            <mat-form-field appearance="fill" style="width: fit-content;">
+                <mat-label>Manage Product</mat-label>
+                <mat-select [(value)]="selectedValue" [(ngModel)]="selectedValue" name="company" (selectionChange)="changeCompany($event)">
+                  <mat-option *ngFor="let com of company_Arr" [value]="com.site">
+                    {{com.store_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div style="float: right;">
+                <button style="font-size: 20px;" (click)="openDialog()" type="button" class="btn btn-danger">
+                  <i class="fas fa-plus-circle" aria-hidden="true"></i> Add Order
+                </button>
+              </div>
+              </div>
+          <!-- Light table -->
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Company</th>
+                  <th scope="col" class="sort" data-sort="name">Product ID</th>
+                  <th scope="col" class="sort" data-sort="name">Name</th>
+                  <th scope="col" class="sort" data-sort="status">Phone</th>
+                  <th scope="col">Mail</th>
+                  <th scope="col" class="sort" data-sort="completion">Address</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody class="list" *ngFor="let order of order_Arr | paginate: { itemsPerPage: 5, currentPage: page, id: 'order' }">
+                <tr>
+                    <td class="budget">
+                        {{order.company}}
+                      </td>
+                  <td class="budget">
+                    {{order.product_id}}
+                  </td>
+                  <td class="budget">
+                    {{order.last_name +' '+ order.first_name}}
+                  </td>
+                  <td class="budget">
+                    {{order.phone}}
+                  </td>
+                  <td class="budget">
+                    {{order.email}}
+                  </td>
+                  <td class="budget">
+                    {{order.address_line_1}}
+                  </td>
+                  <td class="text-right">
+                    <button (click)="Info(order.id)" data-toggle="tooltip" data-placement="top" title="Info"
+                      class="btn btn-sm"><i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top"
+                        title="Info"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="row align-items-center justify-content-center">
+                <pagination-controls id="order" (pageChange)="pageChanged($event)" autoHide="true" class="my-pagination"></pagination-controls>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="check === true" class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form>
+        <div class="modal-body">
+          <div class="form-group">
+              <mat-form-field appearance="fill">
+                  <mat-label>Products</mat-label>
+                  <mat-select [formControl]="myProduct" multiple>
+                    <mat-select-trigger>
+                      {{myProduct.value ? nameca : ""}}
+                      <span *ngIf="myProduct.value?.length > 1" class="example-additional-selection">
+                        (+{{myProduct.value.length - 1}} {{myProduct.value?.length === 2 ? 'other' : 'others'}})
+                      </span>
+                    </mat-select-trigger>
+                    <mat-option (click)="productArray()" *ngFor="let myproduct of toppingList" [value]="myproduct.id">{{myproduct.name + '(site:' + myproduct.site + ')'}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </div>
+          <div class="form-group">
+            <h3><label for="email">Email</label></h3>
+            <input ([ngModel])="email" [value]="email" (keyup)="changeData($event)" type="text" class="form-control"
+              id="email">
+              <div *ngIf="email.length < 1 && checkSubmit == true"> <label style="color: red;">Email is required</label> </div>
+
+          </div>
+          <div class="form-group">
+              <h3><label for="phone">Phone</label></h3>
+              <input ([ngModel])="phone" [value]="phone" (keyup)="changeData($event)" type="number" class="form-control"
+                id="phone">
+                <div *ngIf="phone.length < 1 && checkSubmit == true"> <label style="color: red;">Phone is required</label> </div>
+              </div>
+            <div class="form-group">
+              <h3><label for="first_name">First Name</label></h3>
+              <input ([ngModel])="first_name" [value]="first_name" (keyup)="changeData($event)" type="text" class="form-control"
+                id="first_name">
+                <div *ngIf="first_name.length < 1 && checkSubmit == true"> <label style="color: red;">First Name is required</label> </div>
+
+            </div>
+            <div class="form-group">
+              <h3><label for="last_name">Last Name</label></h3>
+              <input ([ngModel])="last_name" [value]="last_name" (keyup)="changeData($event)" type="text" class="form-control"
+                id="last_name">
+                <div *ngIf="last_name.length < 1 && checkSubmit == true"> <label style="color: red;">Last Name is required</label> </div>
+
+            </div>
+            <div class="form-group">
+              <h3><label for="address_line_1">Address 1</label></h3>
+              <input ([ngModel])="address_line_1" [value]="address_line_1" (keyup)="changeData($event)" type="text" class="form-control"
+                id="address_line_1">
+                <div *ngIf="address_line_1.length < 1 && checkSubmit == true"> <label style="color: red;">Address is required</label> </div>
+
+            </div>
+            <div class="form-group">
+              <h3><label for="address_line_2">Address 2</label></h3>
+              <input ([ngModel])="address_line_2" [value]="address_line_2" (keyup)="changeData($event)" type="text" class="form-control"
+                id="address_line_2">
+                <div *ngIf="address_line_2.length < 1 && checkSubmit == true"> <label style="color: red;">Address is required</label> </div>
+
+            </div>
+            <div class="form-group">
+              <h3><label for="postcode">Post Code</label></h3>
+              <input ([ngModel])="postcode" [value]="postcode" (keyup)="changeData($event)" type="number" class="form-control"
+                id="postcode">
+                <div *ngIf="postcode.length < 1 && checkSubmit == true"> <label style="color: red;">Post Code is required</label> </div>
+
+            </div>
+            <div class="form-group">
+              <h3><label for="suburb">Suburb</label></h3>
+              <input ([ngModel])="suburb" [value]="suburb" (keyup)="changeData($event)" type="text" class="form-control"
+                id="suburb">
+                <div *ngIf="suburb.length < 1 && checkSubmit == true"> <label style="color: red;">Suburb is required</label> </div>
+
+            </div>
+            <div class="form-group">
+              <h3><label for="state">State</label></h3>
+              <input ([ngModel])="state" [value]="state" (keyup)="changeData($event)" type="text" class="form-control"
+                id="state">
+                <div *ngIf="state.length < 1 && checkSubmit == true"> <label style="color: red;">State is required</label> </div>
+
+            </div>
+            <div class="form-group">
+              <h3><label for="country">Country</label></h3>
+              <input ([ngModel])="country" [value]="country" (keyup)="changeData($event)" type="text" class="form-control"
+                id="country">
+                <div *ngIf="country.length < 1 && checkSubmit == true"> <label style="color: red;">Country is required</label> </div>
+            </div>
+        </div>
+      </form>
+      <div class="modal-footer border-top-0 d-flex justify-content-center">
+        <button style="font-size: 20px;" (click)="submit()" type="submit" class="btn btn-success">Submit</button>
+      </div>
+    </div>
+  </div>

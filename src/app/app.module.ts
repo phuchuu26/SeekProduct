@@ -69,7 +69,7 @@ import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
     IndexCompanyComponent,
     EditCompanyComponent,
     CreateCompanyComponent,
-    DetailCompanyComponent,
+    DetailCompanyComponent
 
 
     // MatSliderModule,
