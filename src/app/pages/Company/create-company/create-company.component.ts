@@ -19,6 +19,7 @@ import {
   DoCheck,
   AfterViewChecked,
 } from "@angular/core";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-create-company",
@@ -127,15 +128,17 @@ export class CreateCompanyComponent
         companyProfile[a] = this.companyForm.controls[a].value;
       }
     }
-    let a = this.companyForm.get("ad_sample").value;
-    const formData: FormData = new FormData();
-    console.log(a);
-    formData.append('ad_simple',a);
-    console.log(formData);
+    // let a = this.companyForm.get("ad_sample").value;
+    // const formData: FormData = new FormData();
+    // console.log(a);
+    // formData.append('ad_simple',a);
+    // console.log(formData);
   //  companyProfile.ad_sample = this.urlImageAdSample;
     return companyProfile as Company;
   }
-  public onChangeImage(image, a) {
+  fileToUpload: File = null;
+  public onChangeImage(image,files ,a) {
+    this.fileToUpload = files.item(0);
     let file = image.target.files;
     // console.log(image1.urlImage);
     let reader = new FileReader();
@@ -161,7 +164,9 @@ export class CreateCompanyComponent
       // this.avt = image.target.result;
     };
   }
-  public onChangeAdSample(image, i) {
+  fileToUpload1: File = null;
+  public onChangeAdSample(image, a,i) {
+    this.fileToUpload1 = a.item(0);
     let file = image.target.files;
     // console.log(image);
     // console.log(i);
@@ -189,7 +194,12 @@ export class CreateCompanyComponent
     // console.log(i);
     // console.log(this.urlImageBanner);
   }
-  public onChangeBanner(image, i, a) {
+  public aa = [];
+  public onChangeBanner(image, i:number,e, a) {
+    var fileToUploadBanner: File = null;
+    fileToUploadBanner = e.item(0);
+    this.aa.push(fileToUploadBanner);
+
     let file = image.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(file[0]);
@@ -210,10 +220,74 @@ export class CreateCompanyComponent
 
   public save() {
     this.companyForm.controls.category.setValue(this.category.value);
-    // this.submit();
-    console.log(this.submit());
+    let a = this.submit();
+    console.log(a.category);
+    // phone_number: new FormControl(),
+    // legal_name: new FormControl(),
+    // site: new FormControl(),
+    // business_license: new FormControl(),
+    // logo: new FormControl("", []),
+    // ad_sample: new FormControl(null,[]),
+    // about: new FormControl(),
+    // banner: this.forms.array([this.forms.control("")]),
+    // category: this.forms.array,
 
-    this.http.createCompany(this.submit()).subscribe((data)=>{
+    const formdata = new FormData();
+    formdata.set('store_name',a.store_name);
+    formdata.set('address',a.address);
+    formdata.set('phone_number',a.phone_number);
+    formdata.set('legal_name',a.phone_number);
+    formdata.set('site',a.site);
+    formdata.set('business_license',a.business_license);
+    if(this.fileToUpload != null){
+      formdata.append('logo',this.fileToUpload, this.fileToUpload.name);
+    } else formdata.append('logo','');
+    if(this.fileToUpload1 != null){
+      formdata.append('ad_sample',this.fileToUpload1, this.fileToUpload1.name);
+    } else formdata.append('ad_sample','');
+    formdata.set('about',a.about);
+    a.category.forEach((value,i)=>{
+      if(a.category[i] != null){
+        formdata.append('category',a.category[i].toString());
+      }else formdata.append('category','');
+    })
+    a.banner.forEach((value,i)=>{
+      if(this.aa[i] != null){
+        formdata.append('banner',this.aa[i], this.aa[i].name);
+      } else formdata.append('banner','');
+    })
+
+
+    // formdata.set('category',a.category.toString());
+
+    // this.http.post<any>('https://seekproduct-api.misavu.net/api/user/product/?site='+ this.company_site,formdata,{
+    //     headers: new HttpHeaders({
+    //       Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
+    //     })
+    //   }).subscribe((data)=> {
+    //     console.log(data);
+    //     Swal.fire({
+    //       position: 'center',
+    //       icon: 'success',
+    //       title: 'Your Add Product Success',
+    //       showConfirmButton: false,
+    //       timer: 1500
+    //     });
+    //     this.clearnData();
+    //     this.check = false;
+    //   }, err =>{
+    //     Swal.fire({
+    //       position: 'center',
+    //       icon: 'error',
+    //       title: 'Your Add Product Fail',
+    //       showConfirmButton: false,
+    //       timer: 1500
+    //     })
+    //   });
+
+
+
+    this.http.createCompany(formdata).subscribe((data)=>{
 
       console.log(data);
       // this.router.navigate(["login"]);
