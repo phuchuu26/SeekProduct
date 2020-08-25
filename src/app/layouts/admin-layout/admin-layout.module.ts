@@ -17,6 +17,8 @@ import {SubscriptionComponent} from '../../pages/subscription/subscription.compo
 import {ManageProductComponent} from '../../pages/manage-product/manage-product.component';
 import {ManageProductGroupComponent} from '../../pages/manage-product-group/manage-product-group.component';
 import {DialogOverviewExampleDialog} from '../../pages/manage-product/manage-product.component';
+import { OrderComponent } from '../../pages/order/order.component';
+
 import {NgxPaginationModule} from 'ngx-pagination';
 // import { CustomFormsModule } from 'ngx-custom-validators';
 // import { ToastrModule } from 'ngx-toastr';
@@ -29,6 +31,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
 
 import {MatSliderModule} from '@angular/material/slider';
+import { ColorPickerModule } from 'ngx-color-picker';
 @NgModule({
   imports: [
     CommonModule,
@@ -47,7 +50,8 @@ import {MatSliderModule} from '@angular/material/slider';
     MatDialogModule,
     NgxPaginationModule,
 
-    MatSliderModule
+    MatSliderModule,
+    ColorPickerModule
     // CustomFormsModule
   ],
   declarations: [
@@ -60,6 +64,7 @@ import {MatSliderModule} from '@angular/material/slider';
     ManageProductComponent,
     DialogOverviewExampleDialog,
     ManageProductGroupComponent,
+    OrderComponent,
 
     UpdatePasswordComponent,
 
