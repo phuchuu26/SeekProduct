@@ -29,6 +29,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     // hoale7602@gmail.com
     // phucsteam98@gmail.com
+// <<<<<<< HEAD
+//     // email: new FormControl("hoale7602@gmail.com", [Validators.required, ]),
+//     email: new FormControl("phucsteam98@gmail.com", [Validators.required, ]),
+//     // emailValidator()
+//     // password: new FormControl("adward", [
+//     password: new FormControl("123123", [
+// =======
     email: new FormControl("hoale7602@gmail.com", [Validators.required, ]),
     // emailValidator()
     password: new FormControl("adward", [
@@ -37,6 +44,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     ]),
 
   });
+
   public save(){
 
       this.server.login(this.submit()).subscribe((  data )=>{

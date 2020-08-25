@@ -130,7 +130,7 @@
                         type="file"
                         formControlName="logo"
                         name="image"
-                        (change)="onChangeImage($event,this)"
+                        (change)="onChangeImage($event,$event.target.files,this)"
                         style="display: none;"
                       />
                     </div>
@@ -296,7 +296,7 @@
                       type="file"
                       formControlName="ad_sample"
                       name="image1"
-                      (change)="onChangeAdSample($event,this)"
+                      (change)="onChangeAdSample($event,$event.target.files,this)"
                       style="display: none;"
                     />
                     <label for="image1">
@@ -346,7 +346,7 @@
                           type="file"
                           [formControlName]="i"
                           name="imagee{{ i }}"
-                          (change)="onChangeBanner($event,i,this)"
+                          (change)="onChangeBanner($event,i,$event.target.files,this)"
                           style="display: none;"
                         />
                         <label for="imagee{{ i }}">

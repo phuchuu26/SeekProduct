@@ -18,10 +18,10 @@ export class IndexCompanyComponent implements OnInit {
 
   ngOnInit(): void {
     const a = localStorage.getItem("ALLMYCOMPANY");
-    this.allmycompany1 = JSON.parse(a);
+    this.allmycompany = JSON.parse(a);
     this.http.GetAllMyCompany().subscribe((data) => {
       //   console.log(data);
-      this.allmycompany = data;
+      this.allmycompany1 = data;
     });
 
     this.http.getConnectStripe().subscribe((data)=>{

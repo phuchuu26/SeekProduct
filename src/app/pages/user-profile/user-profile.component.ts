@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ServerHttpService } from "src/app/Services/server-http.service";
 import { profileUser } from "src/app/models/user";
+import Swal from 'sweetalert2';
 import {
   FormBuilder,
   FormGroup,
@@ -84,12 +85,88 @@ export class UserProfileComponent implements OnInit {
  }
 
   public save() {
-    this.http.updateProfile(this.submit()).subscribe(
+    // first_name: new FormControl("", [
+    //   Validators.required,
+    //   Validators.minLength(2),
+    //   Validators.maxLength(10),
+    // ]),
+    // last_name: new FormControl("", [
+    //   Validators.required,
+    //   Validators.minLength(2),
+    //   Validators.maxLength(10),
+    // ]),
+    // email: new FormControl("", [Validators.required, emailValidator()]),
+    // avatar: new FormControl("", []),
+    // username: new FormControl("", []),
+    // phone_number: new FormControl("", []),
+    // work_at: new FormControl("", []),
+    // job: new FormControl("", []),
+    // message: new FormControl("", []),
+    // country: new FormControl("", []),
+    // stripe_customer_id: new FormControl("", []),
+    // city: new FormControl("", []),
+    // vat_number: new FormControl("", []),
+    // twitter: new FormControl("", []),
+    // facebook: new FormControl("", []),
+    // google: new FormControl("", []),
+    // linkedin: new FormControl(""),
+    // show_phone: new FormControl(this.status)
+    let  a = this.submit();
+    console.log(a);
+    const formdata = new FormData();
+    formdata.set('first_name',a.first_name);
+    formdata.set('last_name',a.last_name);
+    formdata.set('email',a.email);
+    formdata.set('avatar',a.avatar);
+    // formdata.set('username',a.username);
+    formdata.set('phone_number',a.phone_number);
+    if(this.fileToUpload != null){
+      formdata.append('avatar',this.fileToUpload, this.fileToUpload.name);
+    } else formdata.append('avatar','');
+    formdata.set('work_at',a.work_at);
+    formdata.set('job',a.job);
+    formdata.set('message',a.message);
+    formdata.set('country',a.country);
+    formdata.set('city',a.city);
+    formdata.set('vat_number',a.vat_number);
+    formdata.set('twitter',a.twitter);
+    formdata.set('facebook',a.facebook);
+    formdata.set('google',a.google);
+    formdata.set('linkedin',a.linkedin);
+    formdata.set('show_phone',a.show_phone.toString());
+    // this.http.post<any>('https://seekproduct-api.misavu.net/api/user/product/?site='+ this.company_site,formdata,{
+    //     headers: new HttpHeaders({
+    //       Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
+    //     })
+    //   }).subscribe((data)=> {
+    //     console.log(data);
+    //     Swal.fire({
+    //       position: 'center',
+    //       icon: 'success',
+    //       title: 'Your Add Product Success',
+    //       showConfirmButton: false,
+    //       timer: 1500
+    //     });
+    //     this.clearnData();
+    //     this.check = false;
+    //   }, err =>{
+    //     Swal.fire({
+    //       position: 'center',
+    //       icon: 'error',
+    //       title: 'Your Add Product Fail',
+    //       showConfirmButton: false,
+    //       timer: 1500
+    //     })
+    //   });
+
+  // console.log(formdata);
+
+    this.http.updateProfile(formdata).subscribe(
       (response) => {
         console.log(response);
-        let a;
-        a = localStorage.getItem("USER");
-        this.userProfile = JSON.parse(a);
+        localStorage.setItem("USER", JSON.stringify(a));
+
+        this.userProfile = a;
         this.loadData();
         this.success();
       },
@@ -118,8 +195,12 @@ export class UserProfileComponent implements OnInit {
     }
     return profile1 as profileUser;
   }
-
-  public onChangeImage(image, a) {
+  fileToUpload: File = null;
+  public onChangeImage(image,files, a) {
+    console.log(image);
+    console.log(files);
+    this.fileToUpload = files.item(0);
+    console.log(this.fileToUpload);
     let file = image.target.files;
     // console.log(image1.urlImage);
     let reader = new FileReader();
