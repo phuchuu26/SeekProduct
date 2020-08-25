@@ -248,9 +248,9 @@ export class ServerHttpService {
 
   // Company
   public temp:[];
-  public GetAllMyCompany(): Observable<AllMyCompany> {
+  public GetAllMyCompany(i): Observable<AllMyCompany> {
 
-    const url = `${this.REST_API_SERVER}api/user/company/all-my-company/`;
+    const url = `${this.REST_API_SERVER}api/user/company/all-my-company/?page=${i}`;
     const httpOptionsChild = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -262,19 +262,19 @@ export class ServerHttpService {
       catchError(this.handleError),
       tap(
         (res) => {
-          localStorage.setItem("ALLMYCOMPANY", JSON.stringify(res));
-          if (res) {
-            if(res.next!=null){
-              // this.temp = res.results;
-              this.temp = res;
-              console.log('a');
-              // this.test1();
-            // console.log(res);
-          }
+          // localStorage.setItem("ALLMYCOMPANY", JSON.stringify(res));
+          // if (res) {
+          //   if(res.next!=null){
+          //     // this.temp = res.results;
+          //     this.temp = res;
+          //     console.log('a');
+          //     // this.test1();
+          //   // console.log(res);
+          // }
 
-            console.log(this.temp);
-            // this.oldPassword = updatePassword.new_password;
-          }
+          //   console.log(this.temp);
+          //   // this.oldPassword = updatePassword.new_password;
+          // }
         },
         (error) => {
           console.log(error);
@@ -282,21 +282,21 @@ export class ServerHttpService {
       )
     );
   }
-  public test2(){
-    // this.http.get(url+'?page=3',httpOptionsChild).pipe(
-    //   catchError(this.handleError),
-    //   tap((res2:Response1)=>{
-    //     if(res2.next!=null){
-    //       if(res2.results){
-    //         res2.results.forEach((data1)=>{
-    //           temp.push(data1);
-    //         })
-    //         console.log(temp);
-    //       }
-    //     }
-    //   })
-    //   )
-  }
+  // public test2(){
+  //   // this.http.get(url+'?page=3',httpOptionsChild).pipe(
+  //   //   catchError(this.handleError),
+  //   //   tap((res2:Response1)=>{
+  //   //     if(res2.next!=null){
+  //   //       if(res2.results){
+  //   //         res2.results.forEach((data1)=>{
+  //   //           temp.push(data1);
+  //   //         })
+  //   //         console.log(temp);
+  //   //       }
+  //   //     }
+  //   //   })
+  //   //   )
+  // }
 
   public test1(){
     const httpOptionsChild = {
