@@ -1,4 +1,4 @@
-import { Company, Category, AccountBtok } from 'src/app/models/user';
+import { Company, Category, AccountBtok, Response1 } from 'src/app/models/user';
 import { Injectable } from "@angular/core";
 import {
   HttpErrorResponse,
@@ -6,7 +6,7 @@ import {
   HttpClient,
 } from "@angular/common/http";
 import { throwError, Observable } from "rxjs";
-import { catchError, map, tap } from "rxjs/operators";
+import {  map, tap, catchError } from "rxjs/operators";
 import {
   user,
   profileUser,
@@ -66,11 +66,11 @@ export class ServerHttpService {
         })
       );
   }
-  public updateProfile(profileUser: profileUser): Observable<any> {
+  public updateProfile(profileUser): Observable<any> {
+    console.log(profileUser);
     const url = `${this.REST_API_SERVER}api/auth/profile`;
     const httpOptionsChild = {
       headers: new HttpHeaders({
-        "Content-Type": "multipart/form-data",
         // Authorization: 'my-auth-token',
         Authorization: "JWT " + this.tokenLogin,
       }),
@@ -80,9 +80,10 @@ export class ServerHttpService {
       tap(
         (res) => {
           if (res) {
+
             // console.log(profileUser);
             // console.log(res);
-            localStorage.setItem("USER", JSON.stringify(profileUser));
+            // localStorage.setItem("USER", JSON.stringify(profileUser));
           }
         },
         (error) => {
@@ -246,7 +247,9 @@ export class ServerHttpService {
   }
 
   // Company
+  public temp:[];
   public GetAllMyCompany(): Observable<AllMyCompany> {
+
     const url = `${this.REST_API_SERVER}api/user/company/all-my-company/`;
     const httpOptionsChild = {
       headers: new HttpHeaders({
@@ -260,8 +263,16 @@ export class ServerHttpService {
       tap(
         (res) => {
           if (res) {
-            localStorage.setItem("ALLMYCOMPANY", JSON.stringify(res));
+            if(res.next!=null){
+              // this.temp = res.results;
+              this.temp = res;
+              console.log('a');
+              this.test1();
             // console.log(res);
+          }
+            localStorage.setItem("ALLMYCOMPANY", JSON.stringify(this.temp));
+
+            console.log(this.temp);
             // this.oldPassword = updatePassword.new_password;
           }
         },
@@ -270,6 +281,53 @@ export class ServerHttpService {
         }
       )
     );
+  }
+  public test2(){
+    // this.http.get(url+'?page=3',httpOptionsChild).pipe(
+    //   catchError(this.handleError),
+    //   tap((res2:Response1)=>{
+    //     if(res2.next!=null){
+    //       if(res2.results){
+    //         res2.results.forEach((data1)=>{
+    //           temp.push(data1);
+    //         })
+    //         console.log(temp);
+    //       }
+    //     }
+    //   })
+    //   )
+  }
+
+  public test1(){
+    const httpOptionsChild = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        // Authorization: 'my-auth-token',
+        Authorization: "JWT " + this.tokenLogin,
+      }),
+    };
+    this.http.get('https://seekproduct-api.misavu.net/api/user/company/all-my-company/?page=2',httpOptionsChild).pipe(
+      catchError(this.handleError),
+      tap((res1:Response1)=>{
+        console.log('b');
+        if(res1.next!=''){
+          // if(res1.results){
+              res1.results.forEach((data)=>{
+                this.temp.push(data);
+              })
+              console.log(this.temp);
+
+
+
+          // }
+        }
+      },
+      (error)=>{
+        console.log(error);
+      }
+      ),
+
+    )
   }
 // get detail company
 public detailCompany(id): Observable<Company> {
@@ -346,15 +404,15 @@ public getAllCategory():Observable<any>{
     )
   );
 }
-public createCompany(data: Company) {
+public createCompany(data) {
   const url = `https://seekproduct-api.misavu.net/api/user/company/`;
   const httpOptionsChild = {
     headers: new HttpHeaders({
-      "Content-Type": 'multipart/form-data',
+      // "Content-Type": 'multipart/form-data',
       // "Content-Type": 'application/x-www-form-urlencoded',
       // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
       // "Content-Length":"<calculated when request is sent>",
-      "Accept" : "application/json",
+      // "Accept" : "application/json",
       // "Accept-Encoding": "gzip, deflate, br",
       // Authorization: 'my-auth-token',
       Authorization: "JWT " + this.tokenLogin,
@@ -363,7 +421,7 @@ public createCompany(data: Company) {
   return this.http.post<any>(url, data, httpOptionsChild).pipe(
     catchError(this.handleError),
     tap((res) => {
-      // console.log(res);
+
     })
   );
 }
