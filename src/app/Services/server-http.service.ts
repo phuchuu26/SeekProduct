@@ -221,6 +221,7 @@ export class ServerHttpService {
         this.tokenLogin = "";
         localStorage.removeItem("TOKEN");
         localStorage.removeItem("USER");
+        localStorage.removeItem("ALLCOMPANY");
         localStorage.removeItem("ALLMYCOMPANY");
       })
     );

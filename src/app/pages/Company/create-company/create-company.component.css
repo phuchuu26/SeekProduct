@@ -131,11 +131,19 @@ input.ng-valid{
    border-right: 7px solid rgb(50, 255, 50);
    /* border: 2px solid rgb(0, 255, 0); */
 }
-
+textarea.ng-invalid{
+  border-right: 7px solid rgb(255, 69, 69);
+  /* border: 2px solid rgb(224, 91, 91); */
+}
+textarea.ng-valid{
+   border-right: 7px solid rgb(50, 255, 50);
+   /* border: 2px solid rgb(0, 255, 0); */
+}
 .error{
   color:rgb(224, 91, 91);
   margin-top: -10px;
   padding-bottom: 10px;
   font-size: 13px;
   float: right;
+  font-weight: bold;
 }

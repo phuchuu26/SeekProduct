@@ -10,6 +10,7 @@ import { AllMyCompany, Company } from "src/app/models/user";
 })
 export class IndexCompanyComponent implements OnInit ,DoCheck{
   public allmycompany: AllMyCompany;
+  public p: number = 1;
   public allmycompany1;
   public companies;
   public linkStripe:string;
@@ -17,33 +18,37 @@ export class IndexCompanyComponent implements OnInit ,DoCheck{
   // public count1 : number;
   constructor(private http: ServerHttpService, private router: Router) {}
   ngDoCheck(): void {
-    console.log(this.Com);
-    localStorage.setItem("ALLCOMPANY",JSON.stringify( this.Com ));
+    // console.log(this.Com);
+    // console.log(this.allmycompany1);
+    localStorage.setItem("ALLCOMPANY",JSON.stringify(this.allmycompany1 ));
   }
   ngOnInit(): void {
     let i =2;
     let test :Company[];
-    this.http.GetAllMyCompany(1).subscribe( async (data)=>{
+    this.http.GetAllMyCompany( 1).subscribe( async (data)=>{
             console.log(data);
             test = data.results;
-            if(data.results != null){
-              for(let j = 10; j < +data.count; j=j+10){
-                this.http.GetAllMyCompany(i).subscribe(async(data1)=>{
+             if( await data.results != null){
+                for(  let j = 10; j < await +data.count; j=j+10){
+                  await  this.http.GetAllMyCompany(i).subscribe( async(data1)=>{
                   console.log(data1);
-                  data1.results.forEach((res)=>{
-                    test.push(res);
+                  await data1.results.forEach((res)=>{
+                      test.push( res);
                   })
 
                 })
                 i++;
-
+                // await localStorage.removeItem("ALLMYCOMPANY");
+                // await localStorage.setItem("ALLMYCOMPANY",JSON.stringify(await test));
               }
               console.log(test);
-              this.allmycompany1 = await test;
-              await localStorage.setItem("ALLMYCOMPANY",JSON.stringify( await this.Com ));
+               this.allmycompany1 = await test;
+              console.log(this.allmycompany1);
 
-              await console.log(this.Com);
+              // await console.log(this.Com);
+              // await localStorage.setItem("ALLMYCOMPANY",JSON.stringify(await test));
             }
+            // await localStorage.setItem("ALLMYCOMPANY",JSON.stringify(await this.allmycompany1 ));
           });
 
         // const a = localStorage.getItem("ALLMYCOMPANY");

@@ -20,7 +20,7 @@ import { EditCompanyComponent } from './pages/Company/edit-company/edit-company.
 import { CreateCompanyComponent } from './pages/Company/create-company/create-company.component';
 import { DetailCompanyComponent } from './pages/Company/detail-company/detail-company.component';
 
-
+import {NgxPaginationModule} from 'ngx-pagination';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -59,7 +59,9 @@ import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
     MatSelectModule,
 
     NgbPaginationModule,
-    NgbAlertModule
+    NgbAlertModule,
+
+    NgxPaginationModule
 
   ],
   declarations: [

@@ -113,3 +113,11 @@ label.show {
 label.show {
   line-height: 45px;
 }
+textarea, input.ng-invalid{
+  border-right: 7px solid rgb(255, 69, 69);
+  /* border: 2px solid rgb(224, 91, 91); */
+}
+textarea, input.ng-valid{
+   border-right: 7px solid rgb(50, 255, 50);
+   /* border: 2px solid rgb(0, 255, 0); */
+}

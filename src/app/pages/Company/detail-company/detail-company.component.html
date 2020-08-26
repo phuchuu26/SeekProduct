@@ -101,7 +101,7 @@
 
 
                     <div>
-                      <input id="image" type="file" formControlName="logo"   name="image" (change)="onChangeImage($event,this)" style="display: none;" >
+                      <input id="image" type="file" formControlName="logo" accept=".png, .jpg, .jpeg"   name="image" (change)="onChangeImage($event,this)" style="display: none;" >
                     </div>
                     <label for="image">
                       <img *ngIf="companyProfile?.logo !== null" style="border-radius: 72px;" [src]="urlImage" width="150px" height="150px"  alt="Image not found">
@@ -212,7 +212,7 @@
 
                 <div class="col-md-12">
                   <div class="form-group ban">
-                    <input id="image1" type="file" formControlName="ad_sample"   name="image1" (change)="onChangeImage2($event,this)" style="display: none;" >
+                    <input id="image1" type="file" formControlName="ad_sample" accept=".png, .jpg, .jpeg"   name="image1" (change)="onChangeImage2($event,this)" style="display: none;" >
                     <label for="image1">
                       <img class="ad_sample" *ngIf="companyProfile?.ad_sample !== null" style="border-radius: 12px;" [src]="urlImageAdSample"   alt="Image not found">
                       <img class="ad_sample" *ngIf="companyProfile?.ad_sample == null"  style="border-radius: 12px;"   [src]="urlImageAdSample"    alt="Image not found">
@@ -239,7 +239,7 @@
                         <ngb-carousel>
                             <ng-template *ngFor="let i of  urlImageBanner | keyvalue" ngbSlide>
                               <div class="picsum-img-wrapper">
-                                <img width="900" height="auto" class="banner1" [src]="i.value" alt="Random third slide">
+                                <img width="900" height="auto"  accept=".png, .jpg, .jpeg" class="banner1" [src]="i.value" alt="Random third slide">
                               </div>
                               <div class="carousel-caption">
 
@@ -279,19 +279,19 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Facebook</label>
-                    <input id="input-address"  class="form-control form-control-alternative" formControlName="business_license"  placeholder="Link Facebook" value="{{companyProfile?.social_link?.facebook}}" type="text">
+                    <input id="input-address"  class="form-control form-control-alternative"   placeholder="Link Facebook" value="{{companyProfile?.social_link?.facebook}}" type="text">
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Twitter</label>
-                    <input id="input-address"  class="form-control form-control-alternative" formControlName="business_license"  placeholder="Link Twitter" value="{{companyProfile?.social_link?.twitter}}" type="text">
+                    <input id="input-address"  class="form-control form-control-alternative"   placeholder="Link Twitter" value="{{companyProfile?.social_link?.twitter}}" type="text">
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-control-label" for="input-address">Instagram</label>
-                    <input id="input-address" class="form-control form-control-alternative" formControlName="business_license"  placeholder="Link Instagram" value="{{companyProfile?.social_link?.instagram}}" type="text">
+                    <input id="input-address" class="form-control form-control-alternative"  placeholder="Link Instagram" value="{{companyProfile?.social_link?.instagram}}" type="text">
                   </div>
                 </div>
               </div>

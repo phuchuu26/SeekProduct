@@ -54,9 +54,10 @@ export class DetailCompanyComponent implements OnInit {
     this.site = this.route.snapshot.paramMap.get("id");
     //get detail by  localStore:
     let com, compa, index;
-    com = localStorage.getItem("ALLMYCOMPANY");
+    com = localStorage.getItem("ALLCOMPANY");
     compa = JSON.parse(com);
-    com = compa.results;
+    com = compa;
+    console.log(com);
     if (this.site) {
       function findIndexByKeyValue(com, site, value) {
         for (var index = 0; index < com.length; index++) {

@@ -51,7 +51,7 @@
             <tbody>
               <!-- let user of (customers$ |async)| paginate: { itemsPerPage: 5, currentPage: p } -->
 
-              <tr *ngFor="let com of allmycompany1">
+              <tr *ngFor="let com of allmycompany1 | paginate: { itemsPerPage: 10, currentPage: p }">
                 <th scope="row">
                   {{ com?.id }}
                 </th>
@@ -103,6 +103,7 @@
           </table>
         </div>
       </div>
+      <pagination-controls class="page" (pageChange)="p = $event"></pagination-controls>
       <!-- <pagination-controls class="page" (pageChange)="p = $event"></pagination-controls> -->
     </div>
   </div>

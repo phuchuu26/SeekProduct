@@ -99,7 +99,11 @@ export class CreateCompanyComponent implements OnInit, DoCheck {
         Validators.minLength(2),
         Validators.maxLength(20),
       ]),
-      address: new FormControl("", ),
+      address: new FormControl("", [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(30),
+      ]),
       phone_number: new FormControl("", [
         Validators.required,
         Validators.minLength(10),
@@ -116,15 +120,16 @@ export class CreateCompanyComponent implements OnInit, DoCheck {
         Validators.minLength(2),
         Validators.maxLength(20),
       ]),
-      business_license: new FormControl("", [
+      business_license: new FormControl('', [
         Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(20),
+        Validators.minLength(10),
+        Validators.maxLength(14),
       ]),
-      logo: new FormControl(null, [Validators.required]),
-      ad_sample: new FormControl(null, [Validators.required]),
+      logo: new FormControl("", [Validators.required]),
+      ad_sample: new FormControl("", [Validators.required]),
       about: new FormControl("", [
-
+        Validators.required,
+        Validators.minLength(5),
       ]),
       banner: this.forms.array([this.forms.control("")]),
       category: this.forms.array,
@@ -313,6 +318,7 @@ export class CreateCompanyComponent implements OnInit, DoCheck {
         console.log(data);
         // this.router.navigate(["login"]);
         this.success(this.companyForm.controls.store_name.value);
+        this.router.navigate(["allmycompany"]);
       },
       (error) => {
         if (error.status == 500) {
@@ -328,6 +334,7 @@ export class CreateCompanyComponent implements OnInit, DoCheck {
             this.failed(key, value);
           });
         }
+
         // for (const child of error) {
         //   console.log(child);
         // }
@@ -397,15 +404,13 @@ export class CreateCompanyComponent implements OnInit, DoCheck {
           let m = so.slice(1, so.length);
           console.log(n);
           console.log(typeof so);
-          if ((isNaN(so)  ) ) {
+          if (isNaN(so)) {
             return false;
-          } else if(n != "+" && isNaN(m) && so.length <= 11 && so.length  > 9){
+          } else if (n != "+" && isNaN(m) && so.length <= 11 && so.length > 9) {
             return false;
-          }
-          else if( so.length <= 11 && so.length  > 9){
+          } else if (so.length <= 11 && so.length > 9) {
             return false;
-          }
-          else {
+          } else {
             return true;
           }
         }
@@ -413,125 +418,102 @@ export class CreateCompanyComponent implements OnInit, DoCheck {
     }
   }
   public error = {
-    store_name : "",
-  address : "",
-  phone_number : "",
-  legal_name :"",
-  site : "",
-  logo : "",
-  business_license : "",
-  ad_sample : "",
-  about : "",
-  banner : "",
-  category : ""
+    store_name: "",
+    address: "",
+    phone_number: "",
+    legal_name: "",
+    site: "",
+    logo: "",
+    business_license: "",
+    ad_sample: "",
+    about: "",
+    banner: "",
+    category: "",
   };
 
-  public checkValidAccount(){
-    if (this.companyForm.controls.store_name.value === ''){
-      this.error.store_name = 'null';
-    }
-    else  if(this.companyForm.controls.store_name.value.length < 2){
-      this.error.store_name = 'min';
-    }
-    else  if(this.companyForm.controls.store_name.value.length > 20){
-      this.error.store_name = 'max';
-    }
-    else this.error.store_name = '';
+  public checkValidAccount() {
+      if (this.companyForm.controls.store_name.value === "") {
+        this.error.store_name = "null";
+      } else if (this.companyForm.controls.store_name.value.length < 2) {
+        this.error.store_name = "min";
+      } else if (this.companyForm.controls.store_name.value.length > 20) {
+        this.error.store_name = "max";
+      } else this.error.store_name = "";
 
+      if (this.companyForm.controls.address.value === "") {
+        this.error.address = "null";
+      } else if (this.companyForm.controls.address.value.length < 2) {
+        this.error.address = "min";
+      } else if (this.companyForm.controls.address.value.length > 20) {
+        this.error.address = "max";
+      } else this.error.address = "";
 
-
-    if (this.companyForm.controls.address.value === ''){
-      this.error.address = 'null';
-    }
-    else  if(this.companyForm.controls.address.value.length < 2){
-      this.error.address = 'min';
-    }
-    else  if(this.companyForm.controls.address.value.length > 20){
-      this.error.address = 'max';
-    }
-    else this.error.address = '';
-
-    if (this.companyForm.controls.site.value === ''){
-      this.error.site = 'null';
-    }
-    else  if(this.companyForm.controls.site.value.length < 2){
-      this.error.site = 'min';
-    }
-    else  if(this.companyForm.controls.site.value.length > 15){
-      this.error.site = 'max';
-    }
-    else this.error.site = '';
-
-
+      if (this.companyForm.controls.site.value === "") {
+        this.error.site = "null";
+      } else if (this.companyForm.controls.site.value.length < 2) {
+        this.error.site = "min";
+      } else if (this.companyForm.controls.site.value.length > 15) {
+        this.error.site = "max";
+      } else this.error.site = "";
 
     // console.log(this.companyForm.controls.phone_number.value)
     // console.log(this.checkNumber1(this.companyForm.controls.phone_number));
-    if (this.companyForm.controls.phone_number.value === ''){
-      this.error.phone_number = 'null';
-    }
-     else if(this.checkNumber1(this.companyForm.controls.phone_number)){
-      this.error.phone_number = 'notphone';
-    }
-    else this.error.phone_number = '';
 
+      if (this.companyForm.controls.phone_number.value === "") {
+        this.error.phone_number = "null";
+      } else if (this.checkNumber1(this.companyForm.controls.phone_number)) {
+        this.error.phone_number = "notphone";
 
+      }
 
-    if (this.companyForm.controls.legal_name.value === ''){
-      this.error.legal_name = 'null';
-    }
-    else  if(this.companyForm.controls.legal_name.value.length < 2){
-      this.error.legal_name = 'min';
-    }
-    else  if(this.companyForm.controls.legal_name.value.length > 20){
-      this.error.legal_name = 'max';
-    }
-    else this.error.legal_name = '';
+      else this.error.phone_number = "";
 
-    if (this.companyForm.controls.business_license.value === ''){
-      this.error.business_license = 'null';
-    }
-    else  if(this.companyForm.controls.business_license.value.length < 2){
-      this.error.business_license = 'min';
-    }
-    else  if(this.companyForm.controls.business_license.value.length > 20){
-      this.error.business_license = 'max';
-    }
-    else this.error.business_license = '';
+      if (this.companyForm.controls.legal_name.value === "") {
+        this.error.legal_name = "null";
+      } else if (this.companyForm.controls.legal_name.value.length < 2) {
+        this.error.legal_name = "min";
+      } else if (this.companyForm.controls.legal_name.value.length > 20) {
+        this.error.legal_name = "max";
+      } else this.error.legal_name = "";
 
+      if (this.companyForm.controls.business_license.value === "") {
+        this.error.business_license = "null";
+      } else if (this.companyForm.controls.business_license.value.length < 10) {
+        this.error.business_license = "min";
+      } else if (this.companyForm.controls.business_license.value.length > 14) {
+        this.error.business_license = "max";
+      } else this.error.business_license = "";
 
     // console.log(this.companyForm.controls.category.value.length);
     // console.log(this.companyForm.controls.category.value);
     // console.log(this.cateChoosed);
     // console.log(this.cateChoosed.length);
-    if(this.cateChoosed.length === 0){
-      this.error.category = 'min';
-    }
+    if (this.cateChoosed.length === 0) {
+      this.error.category = "min";
+    } else this.error.category = "";
 
-    else this.error.category = '';
+      if (this.companyForm.controls.about.value === "") {
+        this.error.about = "null";
+      } else if (this.companyForm.controls.about.value.length < 5) {
+        this.error.about = "min";
+      } else this.error.about = "";
+
+  if (this.companyForm.controls.address.value === "") {
+    this.error.address = "null";
+  } else if (this.companyForm.controls.address.value.length < 5) {
+    this.error.address = "min";
+  } else if (this.companyForm.controls.address.value.length > 30) {
+    this.error.address = "max";
+  } else this.error.address = "";
 
 
+    if (this.companyForm.controls.ad_sample.value === "") {
+      this.error.ad_sample = "null";
+      this.error.ad_sample = "null";
+    } else this.error.ad_sample = "";
 
-    if (this.companyForm.controls.about.value === ''){
-      this.error.about = 'null';
-    }
-    else  if(this.companyForm.controls.about.value.length < 2){
-      this.error.about = 'min';
-    }
-
-    else this.error.about = '';
-
-    if (this.companyForm.controls.ad_sample.value === null){
-      this.error.ad_sample = 'null';
-      this.error.ad_sample = 'null';
-    }
-
-    else this.error.ad_sample = '';
-
-    if (this.companyForm.controls.logo.value == null){
-      this.error.logo = 'null';
-    }
-
-    else this.error.logo = '';
-
+    if (this.companyForm.controls.logo.value == "") {
+      this.error.logo = "null";
+    } else this.error.logo = "";
   }
 }

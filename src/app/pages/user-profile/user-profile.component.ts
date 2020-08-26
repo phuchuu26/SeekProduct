@@ -50,21 +50,21 @@ export class UserProfileComponent implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(10),
       ]),
-      email: new FormControl("", [Validators.required, emailValidator()]),
+      email: new FormControl(null, [Validators.required, emailValidator()]),
       avatar: new FormControl("", []),
-      username: new FormControl("", []),
-      phone_number: new FormControl("", []),
-      work_at: new FormControl("", []),
-      job: new FormControl("", []),
-      message: new FormControl("", []),
-      country: new FormControl("", []),
-      stripe_customer_id: new FormControl("", []),
-      city: new FormControl("", []),
-      vat_number: new FormControl("", []),
-      twitter: new FormControl("", []),
-      facebook: new FormControl("", []),
-      google: new FormControl("", []),
-      linkedin: new FormControl(""),
+      username: new FormControl(null, [ Validators.required]),
+      phone_number: new FormControl(null, [ Validators.required]),
+      work_at: new FormControl(null, [ ]),
+      job: new FormControl(null, []),
+      message: new FormControl(null, []),
+      country: new FormControl(null, [Validators.required]),
+      stripe_customer_id: new FormControl(null, []),
+      city: new FormControl(null, [Validators.required]),
+      vat_number: new FormControl(null, []),
+      twitter: new FormControl(null, [Validators.required]),
+      facebook: new FormControl(null, [Validators.required]),
+      google: new FormControl(null, [Validators.required]),
+      linkedin: new FormControl(null,[Validators.required]),
       show_phone: new FormControl(this.status)
     });
 
@@ -171,8 +171,26 @@ export class UserProfileComponent implements OnInit {
         this.success();
       },
       (error) => {
-        console.log(error);
-        this.failed();
+        if (error.status == 500) {
+          this.failed(
+            "Internal Server error",
+            "Can the image field may be incorrectly formatted"
+          );
+          console.log(error);
+          console.log("loi 500");
+        } else {
+          Object.entries(error.error).forEach(([key, value]) => {
+            // console.log(`${key}: ${value}`);
+            this.failed(key, value);
+          });
+        }
+        // for (const child of error) {
+        //   console.log(child);
+        // }
+        // error.forEach(data=>{
+        //   console.log(data);
+
+        // })
       }
     );
   }
@@ -221,14 +239,14 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  public failed() {
+  public failed(a,b) {
     this.snotify.error(
-      `Không thể cập nhật thông tin cá nhân`,
-      "Xác nhận",
+      `Update profile failed by ${a} ${b}`,
+      "Confirm",
       {
         position: SnotifyPosition.rightTop,
-        timeout: 2000,
-        showProgressBar: false,
+        timeout: 3000,
+        showProgressBar: true,
         closeOnClick: false,
         pauseOnHover: true,
       }
