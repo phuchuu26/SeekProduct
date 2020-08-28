@@ -202,6 +202,7 @@ export class UserProfileComponent implements OnInit {
         );
       }
     }
+    console.log(this.profileForm);
   }
   public submit() {
     const profile1 = {};

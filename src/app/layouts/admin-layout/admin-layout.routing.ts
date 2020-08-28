@@ -1,3 +1,4 @@
+import { EditBannerComponent } from './../../pages/Company/edit-banner/edit-banner.component';
 import { Routes } from '@angular/router';
 
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
@@ -27,6 +28,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'allmycompany', component: IndexCompanyComponent },
     { path: 'detailcompany/:id', component: DetailCompanyComponent },
     { path: 'addcompany', component: CreateCompanyComponent },
-    { path: 'order', component: OrderComponent }
+    { path: 'order', component: OrderComponent },
+    { path: 'editBanner/:id', component: EditBannerComponent },
 
 ];
