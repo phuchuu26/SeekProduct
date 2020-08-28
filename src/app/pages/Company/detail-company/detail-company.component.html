@@ -469,10 +469,10 @@
                     >
                     <input
                       id="input-address"
-                      readonly="readonly"
+                      formControlName="facebook"
                       class="form-control form-control-alternative"
                       placeholder="Link Facebook"
-                      value="{{ companyProfile?.social_link?.facebook }}"
+                      [value]=" companyProfile.social_link.facebook "
                       type="text"
                     />
                   </div>
@@ -484,10 +484,10 @@
                     >
                     <input
                       id="input-address"
-                      readonly
+                      formControlName="twitter"
                       class="form-control form-control-alternative"
                       placeholder="Link Twitter"
-                      value="{{ companyProfile?.social_link?.twitter }}"
+                      [value]=" companyProfile.social_link.twitter"
                       type="text"
                     />
                   </div>
@@ -499,7 +499,7 @@
                     >
                     <input
                       id="input-address "
-                      readonly
+                      formControlName="instagram"
                       class="form-control form-control-alternative"
                       placeholder="Link Instagram"
                       value="{{ companyProfile?.social_link?.instagram }}"
@@ -533,6 +533,14 @@
               >
                 UPDATE
               </button>
+              <button
+                type="button"
+                (click)="save1()"
+                class="btn btn-primary mt-4"
+              >
+                UPDATE1
+              </button>
+
             </div>
           </form>
         </div>

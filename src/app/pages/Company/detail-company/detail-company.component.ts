@@ -124,6 +124,9 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
       // id: new FormControl(),
       // user: new FormControl(),
       store_name: new FormControl(),
+      facebook: new FormControl(),
+      twitter: new FormControl(),
+      instagram: new FormControl(),
       address: new FormControl(),
       phone_number: new FormControl(),
       legal_name: new FormControl(),
@@ -196,6 +199,9 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
         }
       }
     }
+    this.companyForm.controls.facebook.setValue(this.companyProfile.social_link.facebook);
+    this.companyForm.controls.twitter.setValue(this.companyProfile.social_link.twitter);
+    this.companyForm.controls.instagram.setValue(this.companyProfile.social_link.instagram);
   }
 
   public nameCa() {
@@ -216,10 +222,10 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
     // console.log(this.cateChoosed);
     // console.log(this.cateChoosed);
   }
-  logo :  File = null;
+  logo: File = null;
 
-  public onChangeImage(image, a,i) {
-    this.logo =  a.item(0);
+  public onChangeImage(image, a, i) {
+    this.logo = a.item(0);
     let file = image.target.files;
     // console.log(image1.urlImage);
     let reader = new FileReader();
@@ -245,7 +251,7 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
   //   };
   // }
   adSample: File = null;
-  public onChangeAdSample(image,  a,i) {
+  public onChangeAdSample(image, a, i) {
     this.adSample = a.item(0);
     let file = image.target.files;
     // console.log(image1.urlImage);
@@ -273,7 +279,36 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
     // console.log(this.companyProfile);
     // console.log(this.submit());
     this.companyForm.controls.category.setValue(this.category1.value);
-  let a =  this.submit();
+    let a = this.submit();
+
+  let  test = {
+    facebook: this.companyForm.controls.facebook.value,
+    instagram: this.companyForm.controls.instagram.value,
+    twitter: this.companyForm.controls.twitter.value,
+    };
+    console.log(this.companyForm.controls.facebook.value);
+    const formdata1 = new FormData();
+    formdata1.set("facebook", this.companyForm.controls.facebook.value);
+    formdata1.set("instagram", this.companyForm.controls.instagram.value);
+    formdata1.set("twitter", this.companyForm.controls.twitter.value);
+    this.http.addSocialLink(this.companyProfile.id, test).subscribe((data) => {
+      console.log(data);
+    },
+    (error)=>{
+      if (error.status == 500) {
+        this.failed(
+          "Internal Server error",
+          "Can the image field may be incorrectly formatted"
+        );
+        console.log(error);
+        console.log("loi 500");
+      } else {
+        Object.entries(error.error).forEach(([key, value]) => {
+          // console.log(`${key}: ${value}`);
+          this.failed(key, value);
+        });
+      }
+    })
 
     const formdata = new FormData();
     formdata.set("store_name", a.store_name);
@@ -297,27 +332,28 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
       });
     }
 
-    this.http.updateCompany(this.companyProfile.site,formdata).subscribe((data) => {
-      console.log(data);
-      // this.router.navigate(["login"]);
-      this.success(a.store_name);
-    },
-    (error)=>{
-      if (error.status == 500) {
-        this.failed(
-          "Internal Server error",
-          "Can the image field may be incorrectly formatted"
-        );
-        console.log(error);
-        console.log("loi 500");
-      } else {
-        Object.entries(error.error).forEach(([key, value]) => {
-          // console.log(`${key}: ${value}`);
-          this.failed(key, value);
-        });
+    this.http.updateCompany(this.companyProfile.site, formdata).subscribe(
+      (data) => {
+        console.log(data);
+        // this.router.navigate(["login"]);
+        this.success(a.store_name);
+      },
+      (error) => {
+        if (error.status == 500) {
+          this.failed(
+            "Internal Server error",
+            "Can the image field may be incorrectly formatted"
+          );
+          console.log(error);
+          console.log("loi 500");
+        } else {
+          Object.entries(error.error).forEach(([key, value]) => {
+            // console.log(`${key}: ${value}`);
+            this.failed(key, value);
+          });
+        }
       }
-    })
-
+    );
   }
 
   public buttonToggleAddCategory() {
@@ -464,5 +500,5 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
       pauseOnHover: true,
     });
   }
-
+  save1() {}
 }

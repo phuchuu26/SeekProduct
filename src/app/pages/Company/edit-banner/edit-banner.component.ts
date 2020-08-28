@@ -79,7 +79,8 @@ export class EditBannerComponent implements OnInit {
 
     this.http.updateBanner(this.companyProfile.site,formdata).subscribe((data) => {
       this.success(this.companyProfile.store_name);
-      this.router.navigate(["allmycompany"]);
+      // this.router.navigate(["allmycompany"]);
+      this.router.navigate(["detailcompany", this.companyProfile.site]);
     },
     (error) => {
       if (error.status == 500) {

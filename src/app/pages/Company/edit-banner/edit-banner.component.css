@@ -254,3 +254,12 @@ button.tenstore.btn.btn-primary.mt-4 {
   margin-left: 19px;
   margin-bottom: 19px;
 }
+.form-group.banner {
+  text-align-last: center;
+}
+.null{
+  border: 2px dotted rgb(0, 0, 0);
+}
+.notnull{
+  border: 0px ;
+}

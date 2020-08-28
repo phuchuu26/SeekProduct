@@ -491,6 +491,7 @@ public addSocialLink(id_company,data) {
   const url = `https://seekproduct-api.misavu.net/api/user/company/add-social-link/${id_company}`;
   const httpOptionsChild = {
     headers: new HttpHeaders({
+      "Content-Type": "application/json",
       // "Content-Type": 'application/x-www-form-urlencoded',
       // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
       // "Content-Length":"<calculated when request is sent>",
