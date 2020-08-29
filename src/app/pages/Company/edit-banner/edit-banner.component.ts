@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { ServerHttpService } from 'src/app/Services/server-http.service';
 import { SnotifyService, SnotifyPosition } from 'ng-snotify';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-edit-banner',
@@ -20,7 +21,7 @@ export class EditBannerComponent implements OnInit {
     private snotify: SnotifyService,
     private http: ServerHttpService,
     private forms: FormBuilder,
-
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -76,11 +77,15 @@ export class EditBannerComponent implements OnInit {
         formdata.append("banner", this.aa[i], this.aa[i].name);
       } else formdata.append("banner", "");
     });
-
-    this.http.updateBanner(this.companyProfile.site,formdata).subscribe((data) => {
+    this.spinner.show();
+    this.http.updateBanner(this.companyProfile.site,formdata).subscribe(async (data) => {
       this.success(this.companyProfile.store_name);
-      // this.router.navigate(["allmycompany"]);
-      this.router.navigate(["detailcompany", this.companyProfile.site]);
+      await this.router.navigate(["allmycompany"]);
+        await setTimeout(() => {
+          this.router.navigate(["detailcompany", this.companyProfile.site]);
+        }, 200);
+        this.spinner.hide();
+      // this.router.navigate(["detailcompany", this.companyProfile.site]);
     },
     (error) => {
       if (error.status == 500) {
