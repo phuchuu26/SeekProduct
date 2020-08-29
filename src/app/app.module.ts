@@ -19,8 +19,6 @@ import { IndexCompanyComponent } from './pages/Company/index-company/index-compa
 import { EditCompanyComponent } from './pages/Company/edit-company/edit-company.component';
 import { CreateCompanyComponent } from './pages/Company/create-company/create-company.component';
 import { DetailCompanyComponent } from './pages/Company/detail-company/detail-company.component';
-
-
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,6 +31,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSelectModule} from '@angular/material/select';
 import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -59,7 +58,7 @@ import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
     MatSelectModule,
 
     NgbPaginationModule,
-    NgbAlertModule
+    NgbAlertModule,
 
   ],
   declarations: [
@@ -69,9 +68,7 @@ import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
     IndexCompanyComponent,
     EditCompanyComponent,
     CreateCompanyComponent,
-    DetailCompanyComponent
-
-
+    DetailCompanyComponent,
     // MatSliderModule,
     // MatToolbarModule,
     // MatIconModule,
