@@ -7,6 +7,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { filter } from 'rxjs/operators';
 import { catchError, map, tap } from "rxjs/operators";
 import { throwError, Observable } from "rxjs";
+import { NgxSpinnerService } from "ngx-spinner";
 
 interface Manage_Product {
   value: string;
@@ -54,7 +55,7 @@ export class ManageProductComponent implements OnInit {
   checkSubmit : boolean = false;
   fileToUpload : File = null;
   checkEdit : boolean = false;
-  constructor(private http: HttpClient, public dialog: MatDialog) { }
+  constructor(private http: HttpClient, public dialog: MatDialog, private spinner: NgxSpinnerService) { }
 
   manage_product: Manage_Product[] = [
     { value: 'feature_products', viewValue: 'Feature Product' },
@@ -341,6 +342,7 @@ export class ManageProductComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
+        this.spinner.show();
         this.http.delete<any>('https://seekproduct-api.misavu.net/api/user/product/' + id, {
           headers: new HttpHeaders({
             Authorization: 'JWT ' + localStorage.getItem('TOKEN')
@@ -349,6 +351,7 @@ export class ManageProductComponent implements OnInit {
         }).subscribe((event) => {
           console.log(event.status);
           if (event.status == 204) {
+            this.spinner.hide();
             console.log(this.productArray.filter(item => item.id !== id));
             this.productArray = this.productArray.filter(item => item.id !== id);
             Swal.fire({
@@ -359,6 +362,7 @@ export class ManageProductComponent implements OnInit {
               timer: 1500
             });
           } else {
+            this.spinner.hide();
             Swal.fire({
               position: 'center',
               icon: 'error',
@@ -370,7 +374,6 @@ export class ManageProductComponent implements OnInit {
         });
       }
     });
-
   }
 
   addProduct(){
@@ -396,6 +399,7 @@ export class ManageProductComponent implements OnInit {
           Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
         })
       }).subscribe((data)=> {
+        this.spinner.hide();
         console.log(data);
         this.http.get<any>('https://seekproduct-api.misavu.net/api/user/product/' + data.id, {
       headers: new HttpHeaders({
@@ -415,6 +419,7 @@ export class ManageProductComponent implements OnInit {
         this.check = false;
       }, (err : any) =>{
         console.log("Lỗi "+err.status);
+        this.spinner.hide();
         Swal.fire({
           position: 'center',
           icon: 'error',
@@ -447,27 +452,9 @@ export class ManageProductComponent implements OnInit {
           Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
         })
       }).subscribe( async (data)=> {
+        this.spinner.hide();
         console.log(data);
         this.my_products();
-        // await this.productArray.forEach((value)=>{
-        //   if(value.id == this.product_id){
-        //     value.name = formdata.get('name');
-        //     value.description = formdata.get('description');
-        //     value.color = formdata.get('color');
-        //     value.downloads = formdata.get('downloads');
-        //     value.faq = formdata.get('faq');
-        //     value.full_description = formdata.get('full_description');
-        //     value.in_stock = formdata.get('in_stock');
-        //     value.model = formdata.get('model');
-        //     value.price = formdata.get('price');
-        //     value.tag = formdata.get('tag');
-        //     value.vat = formdata.get('vat');
-        //     value.category = this.category_Arr.filter(item => item.id == formdata.get('category'))[0];
-        //     value.productgroup = this.productgroup_Arr.filter(item => item.id == formdata.get('productgroup'))[0];
-        //     console.log(value.category);
-        //     console.log(this.category_Arr.filter(item => item.id == formdata.get('category'))[0]);
-        //   }
-        // });
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -478,6 +465,7 @@ export class ManageProductComponent implements OnInit {
         this.checkEdit = false;
         this.check = false;
       }, err =>{
+        this.spinner.hide();
         Swal.fire({
           position: 'center',
           icon: 'error',
@@ -492,19 +480,26 @@ export class ManageProductComponent implements OnInit {
     this.checkSubmit = true;
     console.log(this.productgroup);
     console.log(this.category);
-    if(this.name.length > 0 && this.description.length > 0 && this.downloads.length > 0 && this.faq.length > 0
+    this.spinner.show();
+    if(this.name.length > 0 && this.description.length > 0 && this.downloads.length > 0 && this.faq.length > 0 
       && this.full_description.length > 0 && this.in_stock > 0 && this.model.length > 0 && this.price > 0 &&
       this.tag.length > 0 && this.vat.length > 0 && this.productgroup != '' && this.category != ''){
         if(this.checkEdit === false){
           this.addProduct();
         }
-        else if(this.checkEdit === true) this.UpdateProduct();
+        else if(this.checkEdit === true){ 
+          this.UpdateProduct();
+          
+        }
         this.checkSubmit = false;
+    } else {
+      this.spinner.hide();
     }
   }
 
   followProduct(id: any) {
     console.log("Follow : " + id);
+    this.spinner.show();
     this.http.post<any>('https://seekproduct-api.misavu.net/api/user/followedproducts/follow/' + id + '/', id, {
       headers: new HttpHeaders({
         Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
@@ -513,6 +508,7 @@ export class ManageProductComponent implements OnInit {
     }).subscribe((event) => {
       console.log(event.status);
       if (event.status === 'ok') {
+        this.spinner.hide();
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -522,6 +518,7 @@ export class ManageProductComponent implements OnInit {
         });
         this.followedproducts_list();
       } else if (event.status === 'error') {
+        this.spinner.hide();
         Swal.fire({
           position: 'center',
           icon: 'error',
@@ -542,6 +539,7 @@ export class ManageProductComponent implements OnInit {
       confirmButtonText: 'Yes, UnFollow it!'
     }).then((result) => {
       if (result.value) {
+        this.spinner.show();
         this.http.delete<any>('https://seekproduct-api.misavu.net/api/user/followedproducts/unfollow/' + id + '/', {
           headers: new HttpHeaders({
             Authorization: 'JWT ' + localStorage.getItem('TOKEN')
@@ -549,6 +547,7 @@ export class ManageProductComponent implements OnInit {
         }).subscribe((data) => {
           console.log(data.status);
           if (data.status == 200) {
+            this.spinner.hide();
             Swal.fire({
               position: 'center',
               icon: 'success',
@@ -559,6 +558,7 @@ export class ManageProductComponent implements OnInit {
             this.productFollowArray = this.productFollowArray.filter(item => item.id != id);
           }
           else if (data.status == 404) {
+            this.spinner.hide();
             Swal.fire({
               position: 'center',
               icon: 'error',
@@ -696,6 +696,7 @@ export class ManageProductComponent implements OnInit {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.value) {
+          this.spinner.show();
           const options = {
             body: formData,
             headers: new HttpHeaders({
@@ -705,6 +706,7 @@ export class ManageProductComponent implements OnInit {
           this.http.delete<any>('https://seekproduct-api.misavu.net/api/user/product/gallery/' + id + '/delete', options)
             .subscribe((event) => {
               this.gallery_Aray = this.gallery_Aray.filter(item => item.id !== id);
+              this.spinner.hide();
               Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -713,6 +715,7 @@ export class ManageProductComponent implements OnInit {
                 timer: 1500
               });
             }, error => {
+              this.spinner.hide();
               Swal.fire({
                 position: 'center',
                 icon: 'error',
@@ -832,6 +835,7 @@ checkEditOption: boolean = false;
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.value) {
+          this.spinner.show();
           const options = {
             body: formdata,
             headers: new HttpHeaders({
@@ -845,6 +849,7 @@ checkEditOption: boolean = false;
                 value.options = null;
               }
             });
+            this.spinner.hide();
               Swal.fire({
                 position: 'center',
                 icon: 'success',
@@ -854,6 +859,7 @@ checkEditOption: boolean = false;
               });
             }
           , err =>{
+            this.spinner.hide();
             Swal.fire({
               position: 'center',
               icon: 'error',
@@ -879,6 +885,7 @@ checkEditOption: boolean = false;
 
   submit(){
     console.log(this.productOpp);
+    this.spinner.show();
     const formdata = new FormData();
     formdata.set('product_id',this.productOpp.product_id);
     formdata.set('package_id',this.productOpp.package_id);
@@ -894,6 +901,7 @@ checkEditOption: boolean = false;
           value.options = event;
         }
       });
+      this.spinner.hide();
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -902,6 +910,7 @@ checkEditOption: boolean = false;
           timer: 1500
         });
       }, err =>  {
+        this.spinner.hide();
         Swal.fire({
           position: 'center',
           icon: 'error',
@@ -922,6 +931,7 @@ checkEditOption: boolean = false;
           value.options.package = this.package.filter(item => item.id == event.package_id)[0];
         }
       });
+      this.spinner.hide();
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -930,6 +940,7 @@ checkEditOption: boolean = false;
           timer: 1500
         });
       }, err =>  {
+        this.spinner.hide();
         Swal.fire({
           position: 'center',
           icon: 'error',
@@ -960,12 +971,11 @@ export class DialogOverviewExampleDialog implements OnInit {
   selectProduct: string;
   site: string = '';
   product_ID: string = '';
-  @ViewChild('labelImport')
   labelImport: ElementRef;
   constructor(
     private http: HttpClient,
     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData, private spinner: NgxSpinnerService) { }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -994,7 +1004,6 @@ export class DialogOverviewExampleDialog implements OnInit {
       }).subscribe((data) => {
         this.site = data.site;
       });
-
     });
   }
 
@@ -1013,12 +1022,10 @@ export class DialogOverviewExampleDialog implements OnInit {
 
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
-    // this.labelImport.nativeElement.innerText = Array.from(files)
-    //   .map(f => f.name)
-    //   .join(', ');
   }
   submit() {
     const formData = new FormData();
+    this.spinner.show();
     if (this.data != null) {
       formData.set('product_id', this.product_ID);
       formData.set('site', this.site);
@@ -1033,6 +1040,7 @@ export class DialogOverviewExampleDialog implements OnInit {
           Authorization: 'JWT ' + localStorage.getItem('TOKEN')
         })
       }).subscribe(data => {
+        this.spinner.hide();
         console.log(data);
         this.dialogRef.close(data);
         this.fileToUpload = null;
@@ -1053,6 +1061,7 @@ export class DialogOverviewExampleDialog implements OnInit {
           Authorization: 'JWT ' + localStorage.getItem('TOKEN')
         })
       }).subscribe((data: any) => {
+        this.spinner.hide();
         this.dialogRef.close(data);
         this.fileToUpload = null;
       });

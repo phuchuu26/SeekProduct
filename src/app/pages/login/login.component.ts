@@ -40,9 +40,9 @@ export class LoginComponent implements OnInit, OnDestroy, DoCheck {
 //     // password: new FormControl("adward", [
 //     password: new FormControl("123123", [
 // =======
-    email: new FormControl("hoale7602@gmail.com", [Validators.required, ]),
+    email: new FormControl("hoale@gmail.com", [Validators.required, ]),
     // emailValidator()
-    password: new FormControl("adward", [
+    password: new FormControl("123123", [
       Validators.required,
       Validators.minLength(5),
     ]),
@@ -61,30 +61,30 @@ export class LoginComponent implements OnInit, OnDestroy, DoCheck {
             // console.log(this.server.profileUser);
             this.success(this.server.profileUser.first_name,this.server.profileUser.last_name);
           })
-          let i =2;
-          let test :Company[];
-           this.server.GetAllMyCompany(1).subscribe( async (data)=>{
-            console.log(data);
-            test = data.results;
-            if(data.results != null){
-              for(let j = 10; j < +data.count; j=j+10){
-                this.server.GetAllMyCompany(i).subscribe(async(data1)=>{
-                  console.log(data1);
-                  data1.results.forEach((res)=>{
-                    test.push(res);
-                  })
+          // let i =2;
+          // let test :Company[];
+          //  this.server.GetAllMyCompany(1).subscribe( async (data)=>{
+          //   console.log(data);
+          //   test = data.results;
+          //   if(data.results != null){
+          //     for(let j = 10; j < +data.count; j=j+10){
+          //       this.server.GetAllMyCompany(i).subscribe(async(data1)=>{
+          //         console.log(data1);
+          //         data1.results.forEach((res)=>{
+          //           test.push(res);
+          //         })
 
-                })
-                i++;
+          //       })
+          //       i++;
 
-              }
-              console.log(test);
-              this.Com = await test;
-              await localStorage.setItem("ALLMYCOMPANY",JSON.stringify( await this.Com ));
+          //     }
+          //     console.log(test);
+          //     this.Com = await test;
+          //     await localStorage.setItem("ALLMYCOMPANY",JSON.stringify( await this.Com ));
 
-              await console.log(this.Com);
-            }
-          });
+          //     await console.log(this.Com);
+          //   }
+          // });
         }
 
         this.router.navigate(["dashboard"]);

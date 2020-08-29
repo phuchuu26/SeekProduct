@@ -93,11 +93,8 @@
 </div>
 <!---------------------------------------------------------------------------------------------->
 <div class="container-fluid mt--6">
-  <div style="display: inline;">
-    <button style="font-size: 20px;" (click)="openDialog()" type="button" class="btn btn-danger">
-      <i class="fa fa-user-plus" aria-hidden="true"></i>
-    </button>
-  </div>
+  
+  
   <!------------------------------------------------------------------------------------>
   <div class="modal-dialog modal-dialog-centered" *ngIf="show === true">
     <div class="modal-content">
@@ -134,6 +131,26 @@
   <div class="row">
     <div class="col">
       <div class="card">
+        <!-- -------------------------------------------------------------------------- -->
+        <div class="row1">
+          <div class="column1">
+            <div style="float: left;">
+              <button style="font-size: 20px;" (click)="openDialog()" type="button" class="btn btn-danger">
+                <i class="fa fa-user-plus" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+          <div class="column3">
+            <button (click)="detachCard()" style="font-size: 20px;" type="button" class="btn btn-danger">
+                <i class="fa fa-credit-card-alt" aria-hidden="true"></i> Detach Card
+              </button>
+              <button style="font-size: 20px;" type="button" class="btn btn-danger" (click)="openPayment()"
+              data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">
+                <i class="fa fa-credit-card-alt" aria-hidden="true"></i> Create Payment
+              </button>
+          </div>
+        </div>
+        <!-- ----------------------------------------------------------------------------- -->
         <!-- Light table -->
         <div class="table-responsive" [class.loading]="(loading$ | async)">
           <table class="table align-items-center table-flush" *ngIf="(subscriptionItems | async)">
@@ -188,3 +205,29 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="checkPayment === true" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form class="form1">
+          <h3>Create Payment</h3>
+          <ngx-stripe-card [options]="cardOptions" [elementsOptions]="elementsOptions"></ngx-stripe-card>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button class="btn btn-secondary" type="button" (click)="createToken()" data-dismiss="modal">
+          CREATE TOKEN
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner bdColor="rgba(0,0,0,0.8)" size = "large" color = "#9c5d5d" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+<script>
+  $('#exampleModal').on('show.bs.modal', function (event) {
+var button = $(event.relatedTarget) // Button that triggered the modal
+})
+</script>

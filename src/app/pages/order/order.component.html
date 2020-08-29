@@ -208,6 +208,7 @@
               <h3><label for="last_name">Last Name</label></h3>
               <input ([ngModel])="last_name" [value]="last_name" (keyup)="changeData($event)" type="text" class="form-control"
                 id="last_name">
+                
                 <div *ngIf="last_name.length < 1 && checkSubmit == true"> <label style="color: red;">Last Name is required</label> </div>
 
             </div>
@@ -259,3 +260,6 @@
       </div>
     </div>
   </div>
+  
+
+  <ngx-spinner bdColor="rgba(0,0,0,0.8)" size = "large" color = "#9c5d5d" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>

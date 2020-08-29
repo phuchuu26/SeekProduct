@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {AppState} from '../store/models/app-state.model';
 import {Subscription} from '../store/models/subscription.model';
 import { LoadSubscriptionAction, DeleteSubscriptionAction, AddSubscriptionAction, UpdateSubscriptionAction } from '../store/actions/subscription.action';
@@ -8,6 +8,12 @@ import { from } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { ServerHttpService } from 'src/app/Services/server-http.service';
 import Swal from 'sweetalert2';
+import { StripeService, StripeCardComponent } from 'ngx-stripe';
+import {
+  StripeCardElementOptions,
+  StripeElementsOptions
+} from '@stripe/stripe-js';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-subscription',
@@ -34,8 +40,127 @@ export class SubscriptionComponent implements OnInit {
 
   constructor(private store: Store<AppState>,
     private http : HttpClient,
-    private httpServer: ServerHttpService) { }
+    private httpServer: ServerHttpService,
+    private stripeService: StripeService, 
+    private spinner: NgxSpinnerService) { }
+    @ViewChild(StripeCardComponent) card: StripeCardComponent;
 
+    cardOptions: StripeCardElementOptions = {
+      hidePostalCode: true,
+      style: {
+        base: {
+          iconColor: '#666EE8',
+          color: '#31325F',
+          fontWeight: '300',
+          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+          fontSize: '18px',
+          '::placeholder': {
+            color: '#CFD7E0'
+          }
+        }
+      }
+    };
+    elementsOptions: StripeElementsOptions = {
+      locale: 'auto'
+    };
+    checkPayment: boolean = false;
+    openPayment(){
+      this.spinner.show();
+      this.http.get<any>('https://seekproduct-api.misavu.net/api/user/payment/check-payment-source',{
+        headers: new HttpHeaders({
+          Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+        })}).subscribe((data)=>{
+          if(data.source == true){
+            this.checkPayment = false;
+            this.spinner.hide();
+            Swal.fire({
+              position: 'center',
+              icon: 'warning',
+              title: 'Payment source already exist.',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          } else if(data.source == false){
+            this.checkPayment = true;
+            this.spinner.hide();
+            
+          }
+        });
+    }
+    createToken(): void {
+      if(this.checkPayment === true){
+        this.spinner.show();
+      this.stripeService
+        .createToken(this.card.element)
+        .subscribe((result) => {
+          console.log(result);
+          if (result.token) {
+            console.log(result.token.id);
+            const source = {source :result.token.id};
+            this.http.post<any>('https://seekproduct-api.misavu.net/api/user/payment/create-payment-source',source,{
+            headers: new HttpHeaders({
+              Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+            })}).subscribe((res)=>{
+              this.spinner.hide();
+              this.checkPayment = false;
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: res.message,
+                showConfirmButton: false,
+                timer: 1500
+              });
+            });
+          } else if (result.error) {
+            console.log(result.error.message);
+          }
+        });
+      }
+    }
+    detachCard(){
+      this.spinner.show();
+      this.http.get<any>('https://seekproduct-api.misavu.net/api/user/payment/check-payment-source',{
+      headers: new HttpHeaders({
+        Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+      })}).subscribe((res)=>{
+        if(res.source == true){
+          this.http.post<any>('https://seekproduct-api.misavu.net/api/user/payment/detach-card','',{
+            headers: new HttpHeaders({
+              Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+            })}).subscribe((data)=>{
+              this.spinner.hide();
+              console.log(data.message);
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: data.message,
+                showConfirmButton: false,
+                timer: 1500
+              });
+            }, err => {
+              this.spinner.hide();
+              console.log(err.message);
+              Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: err.message,
+                showConfirmButton: false,
+                timer: 1500
+              });
+            });
+        } else if(res.source == false){
+          this.spinner.hide();
+          Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Payment source does not exist.\n You need Create Payment.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      });
+      
+    }
     resset(){
       this.subscriptionItems = this.store.select(store => store.user.list);
       this.loading$ = this.store.select(store => store.user.loading);

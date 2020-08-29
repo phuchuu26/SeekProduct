@@ -496,7 +496,7 @@
                   class="form-control" id="site">
               </div>
               <div class="form-group">
-                <h3><label for="package_id"><span class="label label-success">Packege</span></label></h3>
+                <h3><label for="package_id"><span class="label label-success">Package</span></label></h3>
                 <select [ngModelOptions]="{standalone: true}" [(ngModel)]="productOpp.package_id" class="form-control" id="package_id" (change)="changeProductOption($event)" required>
                   <option class="option" *ngFor="let pack of package" [value]="pack.id">
                     {{pack.name}}</option>
@@ -511,7 +511,7 @@
       </div>
     </div>
   </div>
-
+  <ngx-spinner bdColor="rgba(0,0,0,0.8)" size = "large" color = "#9c5d5d" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
   <script>
       $('#exampleModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal

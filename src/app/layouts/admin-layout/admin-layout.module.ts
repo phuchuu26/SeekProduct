@@ -18,7 +18,9 @@ import {ManageProductComponent} from '../../pages/manage-product/manage-product.
 import {ManageProductGroupComponent} from '../../pages/manage-product-group/manage-product-group.component';
 import {DialogOverviewExampleDialog} from '../../pages/manage-product/manage-product.component';
 import { OrderComponent } from '../../pages/order/order.component';
-
+import { CartComponent } from '../../pages/cart/cart.component';
+import { ReviewComponent } from '../../pages/review/review.component';
+import { NgxStripeModule } from 'ngx-stripe';
 import {NgxPaginationModule} from 'ngx-pagination';
 // import { CustomFormsModule } from 'ngx-custom-validators';
 // import { ToastrModule } from 'ngx-toastr';
@@ -29,9 +31,10 @@ import { SubscriptionReducer } from '../../pages/store/reducers/subscription.red
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSliderModule} from '@angular/material/slider';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { NgxSpinnerModule } from "ngx-spinner";
 @NgModule({
   imports: [
     CommonModule,
@@ -49,9 +52,11 @@ import { ColorPickerModule } from 'ngx-color-picker';
     MatSelectModule,
     MatDialogModule,
     NgxPaginationModule,
-
+    MatProgressSpinnerModule,
     MatSliderModule,
-    ColorPickerModule
+    ColorPickerModule,
+    NgxSpinnerModule,
+    NgxStripeModule.forRoot('pk_test_7X4at47jVmUqka7N8HhdO35N') 
     // CustomFormsModule
   ],
   declarations: [
@@ -65,9 +70,9 @@ import { ColorPickerModule } from 'ngx-color-picker';
     DialogOverviewExampleDialog,
     ManageProductGroupComponent,
     OrderComponent,
-
+    CartComponent,
     UpdatePasswordComponent,
-
+    ReviewComponent
   ]
 })
 

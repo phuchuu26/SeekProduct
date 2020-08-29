@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from "ngx-spinner";
 
 interface ProductGroup {
   company: string;
@@ -15,7 +16,7 @@ interface ProductGroup {
 })
 export class ManageProductGroupComponent implements OnInit {
 
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient,private spinner: NgxSpinnerService) { }
   check : boolean = false;
   productGroup_Full_list = [];
   productGroup_list = [];
@@ -70,6 +71,7 @@ export class ManageProductGroupComponent implements OnInit {
     }).subscribe((data)=>{
       console.log(data.results);
         this.my_company = data.results;
+        this.company_id = data.results[0].id
     });
   }
   openDialog(){
@@ -139,7 +141,7 @@ export class ManageProductGroupComponent implements OnInit {
 
   submit(){
     console.log("okok");
-    
+    this.spinner.show();
     if(this.checkEdit === true){
       const proUpdate = {name: this.name, info: this.info};
       console.log();
@@ -149,6 +151,7 @@ export class ManageProductGroupComponent implements OnInit {
             })
           }).subscribe((data)=>{
             console.log(data);
+            
             Swal.fire({
               position: 'center',
               icon: 'success',
@@ -156,6 +159,7 @@ export class ManageProductGroupComponent implements OnInit {
               showConfirmButton: false,
               timer: 1500
             });
+            this.spinner.hide();
             this.productGroup_Full_list.forEach((value)=>{
               if(value.id == data.id){
                 value.name = data.name;
@@ -169,6 +173,7 @@ export class ManageProductGroupComponent implements OnInit {
               }
             });
           }, err => {
+            this.spinner.hide();
             Swal.fire({
               position: 'center',
               icon: 'error',
@@ -186,9 +191,26 @@ export class ManageProductGroupComponent implements OnInit {
             }),
             observe: 'response'
           }).subscribe((data)=>{
+            this.spinner.hide();
             console.log(data);
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'You Add Success',
+              showConfirmButton: false,
+              timer: 1500
+            });
             this.productGroup_Full_list.push(data.body);
             this.productGroup_list.push(data.body);
+          }, err => {
+            this.spinner.hide();
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'You Add FAIL\n',
+              showConfirmButton: false,
+              timer: 1500
+            });
           });
     }
   }
