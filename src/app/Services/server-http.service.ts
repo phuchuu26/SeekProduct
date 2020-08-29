@@ -221,6 +221,7 @@ export class ServerHttpService {
         this.tokenLogin = "";
         localStorage.removeItem("TOKEN");
         localStorage.removeItem("USER");
+        localStorage.removeItem("ALLCOMPANY");
         localStorage.removeItem("ALLMYCOMPANY");
       })
     );
@@ -354,7 +355,7 @@ public detailCompany(id): Observable<Company> {
     );
 }
 // get name category
-public getCategory(site):Observable<Category[]> {
+public getCategory(site):Observable<any> {
   const url = `https://seekproduct-api.misavu.net/api/company/category?site=${site}`;
   const httpOptionsChild = {
     headers: new HttpHeaders({
@@ -424,7 +425,7 @@ public createCompany(data) {
 
     }
     , (err) => {
-      console.error(err);
+      // console.error(err);
     })
   );
 }
@@ -449,8 +450,10 @@ public getBtok(data: AccountBtok):Observable<any>{
   return this.http.post<any>(url, setdata , httpOptionsChild).pipe(
     catchError(this.handleError),
     tap(
-      (res) => {
+     async (res) => {
         if (res) {
+          await localStorage.removeItem("BTOK");
+          await localStorage.setItem("BTOK", res.token)
           // console.log(res);
         }
       },
@@ -484,6 +487,126 @@ public getConnectStripe() {
     })
   );
 }
+// social_link
+public addSocialLink(id_company,data) {
+  const token = localStorage.getItem("TOKEN");
+  const url = `https://seekproduct-api.misavu.net/api/user/company/add-social-link/${id_company}`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      "Content-Type": "application/json",
+      // "Content-Type": 'application/x-www-form-urlencoded',
+      // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+      // "Content-Length":"<calculated when request is sent>",
+      // "Accept-Encoding": "gzip, deflate, br",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + token,
+    }),
+  };
+  return this.http.post<any>(url,data,  httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap((res) => {
+      // console.log(res);
+    }, (err) =>  {
+
+    }
+    )
+  );
+}
+public updateBanner(id_company,data) {
+  const token = localStorage.getItem("TOKEN");
+  const url = `https://seekproduct-api.misavu.net/api/user/company/detail/${id_company}`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      // "Content-Type": 'application/x-www-form-urlencoded',
+      // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+      // "Content-Length":"<calculated when request is sent>",
+      // "Accept-Encoding": "gzip, deflate, br",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + token,
+    }),
+  };
+  return this.http.put<any>(url,data,  httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap((res) => {
+      // console.log(res);
+    }, (err) =>  {
+
+    }
+    )
+  );
+}
+
+public updateCompany(id_company,data) {
+  const token = localStorage.getItem("TOKEN");
+  const url = `https://seekproduct-api.misavu.net/api/user/company/detail/${id_company}`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      // "Content-Type": 'application/x-www-form-urlencoded',
+      // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+      // "Content-Length":"<calculated when request is sent>",
+      // "Accept-Encoding": "gzip, deflate, br",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + token,
+    }),
+  };
+  return this.http.put<any>(url,data,  httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap((res) => {
+      // console.log(res);
+    }, (err) =>  {
+
+    }
+    )
+  );
+}
+
+// delete company
+public deleteCompany(site) {
+  const token = localStorage.getItem("TOKEN");
+  const url = `https://seekproduct-api.misavu.net/api/user/company/detail/${site}`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      // "Content-Type": 'application/x-www-form-urlencoded',
+      // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+      // "Content-Length":"<calculated when request is sent>",
+      // "Accept-Encoding": "gzip, deflate, br",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + token,
+    }),
+  };
+  return this.http.delete<any>(url,  httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap((res) => {
+      // console.log(res);
+    })
+  );
+}
+
+
+// // connect stripe GET request
+// public getConnectStripe() {
+//   const token = localStorage.getItem("TOKEN");
+//   const url = `https://seekproduct-api.misavu.net/api/user/company/oauth-link`;
+//   const httpOptionsChild = {
+//     headers: new HttpHeaders({
+//       "Content-Type": 'multipart/form-data',
+//       // "Content-Type": 'application/x-www-form-urlencoded',
+//       // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+//       // "Content-Length":"<calculated when request is sent>",
+//       "Accept" : "application/json",
+//       // "Accept-Encoding": "gzip, deflate, br",
+//       // Authorization: 'my-auth-token',
+//       Authorization: "JWT " + token,
+//     }),
+//   };
+//   return this.http.get<any>(url,  httpOptionsChild).pipe(
+//     catchError(this.handleError),
+//     tap((res) => {
+//       // console.log(res);
+//     })
+//   );
+// }
+
 
   private handleError(error: HttpErrorResponse) {
     console.log(error.status);

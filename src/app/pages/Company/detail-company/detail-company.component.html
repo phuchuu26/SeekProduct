@@ -1,166 +1,211 @@
-<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
-  <!-- Mask -->
-  <span class="mask bg-gradient-danger opacity-8"></span>
-  <!-- Header container -->
-  <div class="container-fluid d-flex align-items-center">
-    <div class="row">
-      <div class="col-lg-7 col-md-10">
-        <h1 class="display-2 text-white">Hello Jesse</h1>
-        <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
-        <a  class="btn btn-info">Detail & edit Info Company</a>
-      </div>
+
+    <div
+      class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+      style="
+        min-height: 100px;
+        background-image: url(assets/img/theme/profile-cover.jpg);
+        background-size: cover;
+        background-position: center top;
+      "
+    >
+      <!-- Mask -->
+      <span class="mask bg-gradient-danger opacity-8"></span>
+      <!-- Header container -->
+      <!-- <div class="container-fluid d-flex align-items-center">
+        <div class="row">
+          <div class="col-lg-7 col-md-10">
+            <h1 class="display-2 text-white">Hello Jesse</h1>
+            <p class="text-white mt-0 mb-5">
+              This is your profile page. You can see the progress you've made
+              with your work and manage your projects or assigned tasks
+            </p>
+            <a class="btn btn-info">Detail & edit Info Company</a>
+          </div>
+        </div>
+      </div> -->
     </div>
-  </div>
-</div>
-<div class="container-fluid mt--7">
-  <div class="row">
-    <!-- <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
-      <div class="card card-profile shadow">
-        <div class="row justify-content-center">
-          <div class="col-lg-3 order-lg-2">
-            <div class="card-profile-image">
-              <a href="javascript:void(0)">
-                <img src="assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-          <div class="d-flex justify-content-between">
-            <a href="javascript:void(0)" class="btn btn-sm btn-info mr-4">Connect</a>
-            <a href="javascript:void(0)" class="btn btn-sm btn-default float-right">Message</a>
-          </div>
-        </div>
-        <div class="card-body pt-0 pt-md-4">
-          <div class="row">
-            <div class="col">
-              <div class="card-profile-stats d-flex justify-content-center mt-md-5">
-                <div>
-                  <span class="heading">22</span>
-                  <span class="description">Friends</span>
-                </div>
-                <div>
-                  <span class="heading">10</span>
-                  <span class="description">Photos</span>
-                </div>
-                <div>
-                  <span class="heading">89</span>
-                  <span class="description">Comments</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="text-center">
-            <h3>
-              Jessica Jones<span class="font-weight-light">, 27</span>
-            </h3>
-            <div class="h5 font-weight-300">
-              <i class="ni location_pin mr-2"></i>Bucharest, Romania
-            </div>
-            <div class="h5 mt-4">
-              <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
-            </div>
-            <div>
-              <i class="ni education_hat mr-2"></i>University of Computer Science
-            </div>
-            <hr class="my-4" />
-            <p>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music.</p>
-            <a href="javascript:void(0)">Show more</a>
-          </div>
-        </div>
-      </div>
-    </div> -->
+    <div class="container-fluid mt--7">
+      <div class="row">
+
     <div class="col-xl-12 order-xl-1">
-      <div class="card bg-secondary shadow">
-        <div class="card-header bg-white border-0">
-          <div class="row align-items-center">
-            <div class="col-8">
-              <h3 class="mb-0">My Company</h3>
-            </div>
-            <div class="col-4 text-right">
-              <a routerLinkActive="active" [routerLink]="['/allmycompany']" class="btn btn-primary">Back to List My Company</a>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <form  [formGroup]="companyForm" >
-            <h6 class="heading-small text-muted mb-4">User information</h6>
-            <div class="pl-lg-4">
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-username">Store Name</label>
-                    <input type="text" id="input-username" formControlName="store_name"  class="form-control form-control-alternative"  value="{{companyProfile?.store_name}}">
 
-                  </div>
+          <div class="card bg-secondary shadow">
+            <mat-tab-group mat-align-tabs="center">
+              <mat-tab label="Profile Company">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">My Company</h3>
                 </div>
-
-                <div class="col-lg-4 img" >
-                  <div class="form-group img text-center">
-                    <label class="form-control-label"  for="input-image">Logo</label>
-
-
-                    <div>
-                      <input id="image" type="file" formControlName="logo"   name="image" (change)="onChangeImage($event,this)" style="display: none;" >
+                <div class="col-4 text-right">
+                  <a
+                    routerLinkActive="active"
+                    [routerLink]="['/allmycompany']"
+                    class="btn btn-primary"
+                    >Back to List My Company</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="companyForm">
+                <h6 class="heading-small text-muted mb-4">User information</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-username"
+                          >Store Name</label
+                        >
+                        <input
+                          type="text"
+                          id="input-username"
+                          formControlName="store_name"
+                          class="form-control form-control-alternative"
+                          value="{{ companyProfile?.store_name }}"
+                        />
+                      </div>
                     </div>
-                    <label for="image">
-                      <img *ngIf="companyProfile?.logo !== null" style="border-radius: 72px;" [src]="urlImage" width="150px" height="150px"  alt="Image not found">
-                      <img *ngIf="companyProfile?.logo == null"  style="border-radius: 72px;"   [src]="urlImage" width="150px" height="150px"  alt="Image not found">
-                    </label>
 
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-email">Legal Name</label>
-                    <input type="email" id="input-email" formControlName="legal_name"  class="form-control form-control-alternative" value="{{companyProfile?.legal_name}}">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label" for="input-first-name">Site</label>
-                    <input type="text" id="input-first-name" formControlName="site"  class="form-control form-control-alternative"  value="{{companyProfile?.site}}">
-                  </div>
-                </div>
-                <div class="col-lg-8 ">
-                  <div class="form-group a">
-                    <label class="form-control-label" for="input-last-name">Business License</label>
-                    <input type="text"  id="input-last-name" formControlName="business_license"  class="form-control form-control-alternative" value="{{companyProfile?.business_license}}">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr class="my-4" />
-            <!-- Address -->
-            <h6 class="heading-small text-muted mb-4">Management Product</h6>
-            <div class="pl-lg-4">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group productgroup">
-                    <label class="form-control-label" for="input-address">Product Group</label>
-                    <button type="button" class="AddProduct btn btn-sm btn-info">Add Product Group</button>
+                    <div class="col-lg-4 img">
+                      <div class="form-group img text-center">
+                        <label class="form-control-label" for="input-image"
+                          >Logo</label
+                        >
 
-
-
-                    <div class="a">
-                      <div *ngFor="let productGroup of companyProfile?.productgroup">
-                        <button type="button" class="productG btn btn-primary mt-3">{{productGroup?.name}}</button>
-                        <!-- <input id="input-address"  class="form-control form-control-alternative" placeholder="Link Facebook" value="{{cate.name}}" type="text"> -->
+                        <div>
+                          <input
+                            id="image"
+                            type="file"
+                            formControlName="logo"
+                            accept=".png, .jpg, .jpeg"
+                            name="image"
+                            (change)="
+                              onChangeImage($event, $event.target.files, this)
+                            "
+                            style="display: none"
+                          />
+                        </div>
+                        <label for="image">
+                          <img
+                            *ngIf="companyProfile?.logo !== null"
+                            style="border-radius: 72px"
+                            [src]="urlImage"
+                            width="150px"
+                            height="150px"
+                            alt="Image not found"
+                          />
+                          <img
+                            *ngIf="companyProfile?.logo == null"
+                            style="border-radius: 72px"
+                            [src]="urlImage"
+                            width="150px"
+                            height="150px"
+                            alt="Image not found"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email"
+                          >Legal Name</label
+                        >
+                        <input
+                          type="email"
+                          id="input-email"
+                          formControlName="legal_name"
+                          class="form-control form-control-alternative"
+                          value="{{ companyProfile?.legal_name }}"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-first-name"
+                          >Site</label
+                        >
+                        <input
+                          type="text"
+                          id="input-first-name"
+                          formControlName="site"
+                          class="form-control form-control-alternative"
+                          value="{{ companyProfile?.site }}"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-lg-8">
+                      <div class="form-group a">
+                        <label class="form-control-label" for="input-last-name"
+                          >Business License</label
+                        >
+                        <input
+                          type="text"
+                          id="input-last-name"
+                          formControlName="business_license"
+                          class="form-control form-control-alternative"
+                          value="{{ companyProfile?.business_license }}"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
+                <hr class="my-4" />
+                <!-- Address -->
+                <h6 class="heading-small text-muted mb-4">
+                  Management Product
+                </h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group productgroup">
+                        <label class="form-control-label" for="input-address"
+                          >Product Group</label
+                        >
+                        <button
+                          [routerLink]="['/product_group']"
+                          routerLinkActive="router-link-active"
+                          type="button"
+                          class="AddProduct btn btn-sm btn-info"
+                        >
+                          Add Product Group
+                        </button>
 
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <div class="ca">
-
-                      <label class="form-control-label" for="input-address">Category</label>
-                      <button (click)="buttonToggleAddCategory()" type="button" class="AddProduct btn btn-sm btn-info">Add Category</button>
+                        <div class="a">
+                          <div
+                            *ngFor="
+                              let productGroup of companyProfile?.productgroup
+                            "
+                          >
+                            <button
+                              type="button"
+                              class="productG btn btn-primary mt-3"
+                            >
+                              {{ productGroup?.name }}
+                            </button>
+                            <!-- <input id="input-address"  class="form-control form-control-alternative" placeholder="Link Facebook" value="{{cate.name}}" type="text"> -->
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <!-- <form class="example-form">
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="ca">
+                          <label class="form-control-label" for="input-address"
+                            >Category</label
+                          >
+                          <button
+                            (click)="buttonToggleAddCategory()"
+                            type="button"
+                            class="AddProduct btn btn-sm btn-info"
+                          >
+                            Add Category
+                          </button>
+                        </div>
+                        <!-- <form class="example-form">
                       <mat-form-field class="example-full-width">
                         <input type="text"
                                placeholder="Pick one"
@@ -175,144 +220,479 @@
                         </mat-autocomplete>
                       </mat-form-field>
                     </form> -->
-                    <mat-form-field *ngIf="toggleAddCategory" appearance="fill">
+                        <!-- <mat-form-field *ngIf="toggleAddCategory" appearance="fill">
                       <mat-label>Toppings</mat-label>
-                      <mat-select [formControl]="toppings" multiple>
+                      <mat-select [formControl]="category" multiple>
                         <mat-select-trigger>
-                          {{toppings.value ? toppings.value[0] : ''}}
+                          {{ category.value ? nameca : "" }}
                           <span *ngIf="toppings.value?.length > 1" class="example-additional-selection">
                             (+{{toppings.value.length - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
                           </span>
                         </mat-select-trigger>
-                        <mat-option *ngFor="let topping of toppingList" [value]="topping.name">{{topping.name}}</mat-option>
+                        <mat-option (click)="nameCa()" *ngFor="let topping of toppingList" [value]="topping.id">{{topping.name}}</mat-option>
                       </mat-select>
-                    </mat-form-field>
+                    </mat-form-field> -->
+                        <mat-form-field
+                          class="cate"
+                          *ngIf="toggleAddCategory"
+                          appearance="fill"
+                        >
+                          <mat-label>Type</mat-label>
+                          <mat-select [formControl]="category1" multiple>
+                            <mat-select-trigger>
+                              {{ category1.value ? nameca : "" }}
+                              <span
+                                *ngIf="category1.value?.length > 1"
+                                class="example-additional-selection"
+                              >
+                                (+{{ category1.value.length - 1 }}
+                                {{
+                                  category1.value?.length === 2
+                                    ? "other"
+                                    : "others"
+                                }})
+                              </span>
+                            </mat-select-trigger>
+                            <mat-option
+                              (click)="nameCa()"
+                              *ngFor="let topping of toppingList"
+                              [value]="topping.id"
+                              >{{ topping.name }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
+                        <!-- <div *ngIf="cateChoosed.length > 0" class="b"> -->
+                        <div *ngFor="let cate of cateChoosed">
+                          <button
+                            type="button"
+                            class="categoryG btn btn-primary mt-3"
+                          >
+                            {{ cate }}
+                          </button>
+                          <!-- <input id="input-address"  class="form-control form-control-alternative" placeholder="Link Facebook" value="{{cate.name}}" type="text"> -->
+                        </div>
+                        <!-- </div> -->
 
-                    <div class="b">
-
+                        <!-- <div class="b">
                       <div *ngFor="let cate of category">
-                        <button type="button" class="categoryG btn btn-primary mt-3">{{cate?.name}}</button>
-                        <!-- <input id="input-address"  class="form-control form-control-alternative" placeholder="Link Facebook" value="{{cate.name}}" type="text"> -->
+                        <button
+                          type="button"
+                          class="categoryG btn btn-primary mt-3"
+                        >
+                          {{ cate?.name }}
+                        </button>
+                      </div>
+                    </div> -->
                       </div>
                     </div>
-
                   </div>
                 </div>
+                <hr class="my-4" />
+                <!-- Address -->
+                <h6 class="heading-small text-muted mb-4">Image Of Company</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <label class="form-control-label" for="input-address"
+                      >Advertising Sample</label
+                    >
 
-              </div>
-
-            </div>
-            <hr class="my-4" />
-            <!-- Address -->
-            <h6 class="heading-small text-muted mb-4">Image Of Company</h6>
-            <div class="pl-lg-4">
-              <div class="row">
-                <label class="form-control-label" for="input-address">Advertising Sample</label>
-
-
-                <div class="col-md-12">
-                  <div class="form-group ban">
-                    <input id="image1" type="file" formControlName="ad_sample"   name="image1" (change)="onChangeImage2($event,this)" style="display: none;" >
-                    <label for="image1">
-                      <img class="ad_sample" *ngIf="companyProfile?.ad_sample !== null" style="border-radius: 12px;" [src]="urlImageAdSample"   alt="Image not found">
-                      <img class="ad_sample" *ngIf="companyProfile?.ad_sample == null"  style="border-radius: 12px;"   [src]="urlImageAdSample"    alt="Image not found">
-                    </label>
+                    <div class="col-md-12">
+                      <div class="form-group ban">
+                        <input
+                          id="image1"
+                          type="file"
+                          formControlName="ad_sample"
+                          accept=".png, .jpg, .jpeg"
+                          name="image1"
+                          (change)="
+                            onChangeAdSample($event, $event.target.files, this)
+                          "
+                          style="display: none"
+                        />
+                        <label for="image1">
+                          <img
+                            class="ad_sample"
+                            *ngIf="companyProfile?.ad_sample !== null"
+                            style="border-radius: 12px"
+                            [src]="urlImageAdSample"
+                            alt="Image not found"
+                          />
+                          <img
+                            class="ad_sample"
+                            *ngIf="companyProfile?.ad_sample == null"
+                            style="border-radius: 12px"
+                            [src]="urlImageAdSample"
+                            alt="Image not found"
+                          />
+                        </label>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-                <div class="row">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label class="form-control-label" for="input-address"
+                        >Banner</label
+                      >
+                      <br />
+                      <button
+                        (click)="pass(companyProfile.site)"
+                        type="button"
+                        class="AddProduct btn btn-info"
+                      >
+                        Change Banner
+                      </button>
+                      <div class="form-group banner">
+                        <br />
+                        <label>
+                          <div *ngIf="companyProfile?.banner.length !== 0">
+                            <ngb-carousel>
+                              <ng-template
+                                *ngFor="let i of urlImageBanner | keyvalue"
+                                ngbSlide
+                              >
+                                <div class="picsum-img-wrapper">
+                                  <img
+                                    width="900"
+                                    height="auto"
+                                    accept=".png, .jpg, .jpeg"
+                                    class="banner1"
+                                    [src]="i.value"
+                                    alt="Random third slide"
+                                  />
+                                </div>
+                                <div class="carousel-caption">
+                                  <span class="h3 font-weight-bold mb-0"
+                                    >Slide {{ +i.key + 1 }} label</span
+                                  >
+                                </div>
+                              </ng-template>
+                            </ngb-carousel>
 
-                <div class="col-md-12">
-                  <label class="form-control-label" for="input-address">Banner</label>
-                  <button
-                  (click)="addbanner(index)"
-                  type="button"
-                  class="AddProduct btn btn-sm btn-info"
-                >
-                  Add Banner
-                </button>
-                  <div class="form-group banner">
-                    <br>
-                    <!-- <input id="image2" type="file" formControlName="banner"   name="image2" (change)="onChangeImage2($event,this)" style="display: none;" > -->
-                    <label >
-                      <div  *ngIf="companyProfile?.banner.length !== 0 ">
-                        <ngb-carousel>
-                            <ng-template *ngFor="let i of  urlImageBanner | keyvalue" ngbSlide>
-                              <div class="picsum-img-wrapper">
-                                <img width="900" height="auto" class="banner1" [src]="i.value" alt="Random third slide">
-                              </div>
-                              <div class="carousel-caption">
-
-                                <span class="h3 font-weight-bold mb-0">Slide {{i.key}} label</span>
-                              </div>
-                            </ng-template>
-                      </ngb-carousel>
-
-
-                        <!-- <div *ngFor="let i of  urlImageBanner | keyvalue">
+                            <!-- <div *ngFor="let i of  urlImageBanner | keyvalue">
 
 
                           <img  style="border-radius: 12px;" [src]="i.value"  height="150px"  alt="Image not found">
                         </div> -->
-
+                          </div>
+                        </label>
+                        <div
+                          *ngIf="companyProfile?.banner.length == 0"
+                          class="nullBan"
+                        >
+                          <img
+                            class="nullbanner"
+                            style="border-radius: 12px"
+                            src="https://www.osustuff.org/images/placeholder.png"
+                            width="900"
+                            height="auto"
+                            alt="Image not found"
+                          />
+                          <br />
+                          <span class="h3 font-weight-bold mb-0"
+                            >You do not have a banner photo, please choose</span
+                          >
+                        </div>
                       </div>
-                    </label>
-                      <div *ngIf="companyProfile?.banner.length == 0" class="nullBan">
-                        <img  class="nullbanner"   style="border-radius: 12px;"   src ="https://www.osustuff.org/images/placeholder.png" width="900" height="auto"  alt="Image not found">
-                          <br>
-                        <span class="h3 font-weight-bold mb-0">You do not have a banner photo, please choose</span>
-
-                      </div>
+                    </div>
                   </div>
                 </div>
 
-              </div>
+                <hr class="my-4" />
+                <!-- Address -->
+                <h6 class="heading-small text-muted mb-4">
+                  Contact Information
+                </h6>
+                <!-- <button
+            type="button"
+            class="link btn btn-sm btn-info"
 
+          >
+           Edit Social Links
+          </button> -->
+                <button
+                  mat-button
+                  class="link btn btn-sm btn-info"
+                  data-toggle="modal"
+                  data-target="#exampleModal"
+                  data-whatever="@getbootstrap"
+                >
+                  Edit Social Links
+                </button>
+                <br />
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-address"
+                          >Facebook</label
+                        >
+                        <input
+                          id="input-address"
+                          formControlName="facebook"
+                          class="form-control form-control-alternative"
+                          placeholder="Link Facebook"
+                          [value]="companyProfile.social_link.facebook"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-address"
+                          >Twitter</label
+                        >
+                        <input
+                          id="input-address"
+                          formControlName="twitter"
+                          class="form-control form-control-alternative"
+                          placeholder="Link Twitter"
+                          [value]="companyProfile.social_link.twitter"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-address"
+                          >Instagram</label
+                        >
+                        <input
+                          id="input-address "
+                          formControlName="instagram"
+                          class="form-control form-control-alternative"
+                          placeholder="Link Instagram"
+                          value="{{ companyProfile?.social_link?.instagram }}"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4" />
+                <!-- Description -->
+                <h6 class="heading-small text-muted mb-4">About Company</h6>
+                <div class="pl-lg-4">
+                  <div class="form-group">
+                    <label>About</label>
+                    <textarea
+                      rows="10"
+                      formControlName="about"
+                      class="form-control form-control-alternative about"
+                      placeholder="A few words about you ..."
+                      >{{ companyProfile?.about }}</textarea
+                    >
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button
+                    type="button"
+                    [disabled]="!companyForm.valid"
+                    (click)="save()"
+                    class="btn btn-primary mt-4"
+                  >
+                    UPDATE
+                  </button>
+                  <!-- <button
+                type="button"
+                (click)="save1()"
+                class="btn btn-primary mt-4"
+              >
+                UPDATE1
+              </button> -->
+                </div>
+              </form>
             </div>
+
+
+
+      </mat-tab>
+      <mat-tab label="Profile Social Link Company">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">My Company</h3>
+            </div>
+            <div class="col-4 text-right">
+              <a
+                routerLinkActive="active"
+                [routerLink]="['/allmycompany']"
+                class="btn btn-primary"
+                >Back to List My Company</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="companyForm">
+
 
             <hr class="my-4" />
             <!-- Address -->
-            <h6 class="heading-small text-muted mb-4">Contact Information</h6>
+            <h6 class="heading-small text-muted mb-4">
+              Contact Information
+            </h6>
+            <!-- <button
+        type="button"
+        class="link btn btn-sm btn-info"
+
+      >
+       Edit Social Links
+      </button> -->
+            <button
+              mat-button
+              class="link btn btn-sm btn-info"
+              data-toggle="modal"
+              data-target="#exampleModal"
+              data-whatever="@getbootstrap"
+            >
+              Edit Social Links
+            </button>
+            <br />
             <div class="pl-lg-4">
               <div class="row">
-
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-address">Facebook</label>
-                    <input id="input-address"  class="form-control form-control-alternative" formControlName="business_license"  placeholder="Link Facebook" value="{{companyProfile?.social_link?.facebook}}" type="text">
+                    <label class="form-control-label" for="input-address"
+                      >Facebook</label
+                    >
+                    <input
+                      id="input-address"
+                      formControlName="facebook"
+                      class="form-control form-control-alternative"
+                      placeholder="Link Facebook"
+                      [value]="companyProfile.social_link.facebook"
+                      type="text"
+                    />
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-address">Twitter</label>
-                    <input id="input-address"  class="form-control form-control-alternative" formControlName="business_license"  placeholder="Link Twitter" value="{{companyProfile?.social_link?.twitter}}" type="text">
+                    <label class="form-control-label" for="input-address"
+                      >Twitter</label
+                    >
+                    <input
+                      id="input-address"
+                      formControlName="twitter"
+                      class="form-control form-control-alternative"
+                      placeholder="Link Twitter"
+                      [value]="companyProfile.social_link.twitter"
+                      type="text"
+                    />
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-address">Instagram</label>
-                    <input id="input-address" class="form-control form-control-alternative" formControlName="business_license"  placeholder="Link Instagram" value="{{companyProfile?.social_link?.instagram}}" type="text">
+                    <label class="form-control-label" for="input-address"
+                      >Instagram</label
+                    >
+                    <input
+                      id="input-address "
+                      formControlName="instagram"
+                      class="form-control form-control-alternative"
+                      placeholder="Link Instagram"
+                      value="{{ companyProfile?.social_link?.instagram }}"
+                      type="text"
+                    />
                   </div>
                 </div>
-              </div>
-
-            </div>
-            <hr class="my-4" />
-            <!-- Description -->
-            <h6 class="heading-small text-muted mb-4">About Company</h6>
-            <div class="pl-lg-4">
-
-              <div class="form-group">
-                <label>About</label>
-                <textarea rows="10" formControlName="about"  class="form-control form-control-alternative about" placeholder="A few words about you ...">{{companyProfile?.about}}</textarea>
               </div>
             </div>
             <div class="text-center">
-              <button type="button" [disabled]="!companyForm.valid" (click)="save()" class="btn btn-primary mt-4">UPDATE</button>
+              <button
+                type="button"
+                [disabled]="!companyForm.valid"
+                (click)="save1()"
+                class="btn btn-primary mt-4"
+              >
+                UPDATE
+              </button>
+              <!-- <button
+            type="button"
+            (click)="save1()"
+            class="btn btn-primary mt-4"
+          >
+            UPDATE1
+          </button> -->
             </div>
           </form>
         </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  </div>
+
+      </div>
+    </div>
+
+    <!-- <div  class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+        <div>
+          <h1>Edit Social Links</h1>
+          <div class="form-group">
+            <label for="product_ID">Company</label>
+            <button
+            type="button"
+            class="tenstore btn btn-primary mt-4"
+          >
+          {{companyProfile?.store_name}}
+          </button>
+          </div>
+          <form [formGroup]="test" >
+
+            <div class="form-group">
+              <label >Link Facebook</label>
+            <input formControlName="facebook" [(ngModel)]="facebook" type="text" class="form-control" >
+          </div>
+          <div class="form-group">
+            <label >Link Instagram</label>
+            <input [(ngModel)]="instagram" formControlName="instagram" type="text" class="form-control" >
+          </div>
+          <div class="form-group">
+            <label >Link Twitter</label>
+            <input [(ngModel)]="twitter" [value]="twitter" formControlName="twitter"  type="text" class="form-control"  >
+          </div>
+
+        </form>
+        </div>
+        <div mat-dialog-actions>
+        <div class="form-group" style="margin-top: 10px;">
+          <button  data-dismiss="modal" style="font-size: 10px;" type="button" class="btn btn-danger">
+            Cancel
+          </button>
+          <button data-dismiss="modal" (click)="submit1()"  style="font-size: 10px;" type="button" class="btn btn-danger">
+            OK
+          </button>
+
+        </div>
+        </div> -->
+
+    <!-- </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" (click)="submit1()" class="btn btn-primary" data-dismiss="modal">Submit</button>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+    $('#exampleModal').on('show.bs.modal', function (event) {
+var button = $(event.relatedTarget) // Button that triggered the modal
+//   var recipient = button.data('whatever') // Extract info from data-* attributes
+//   // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+//   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+//   var modal = $(this)
+//   modal.find('.modal-title').text('New message to ' + recipient)
+//   modal.find('.modal-body input').val(recipient)
+})
+</script> -->
+

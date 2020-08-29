@@ -2,6 +2,7 @@ import { Router } from "@angular/router";
 import { Component, OnInit, DoCheck } from "@angular/core";
 import { ServerHttpService } from "src/app/Services/server-http.service";
 import { AllMyCompany, Company } from "src/app/models/user";
+import { SnotifyService, SnotifyPosition } from "ng-snotify";
 
 @Component({
   selector: "app-index-company",
@@ -10,40 +11,48 @@ import { AllMyCompany, Company } from "src/app/models/user";
 })
 export class IndexCompanyComponent implements OnInit ,DoCheck{
   public allmycompany: AllMyCompany;
+  public p: number = 1;
   public allmycompany1;
   public companies;
   public linkStripe:string;
   public Com;
   // public count1 : number;
-  constructor(private http: ServerHttpService, private router: Router) {}
+  constructor(private http: ServerHttpService, private router: Router
+    ,
+    private snotify: SnotifyService,
+    ) {}
   ngDoCheck(): void {
-    console.log(this.Com);
-    localStorage.setItem("ALLCOMPANY",JSON.stringify( this.Com ));
+    // console.log(this.Com);
+    // console.log(this.allmycompany1);
+    localStorage.setItem("ALLCOMPANY",JSON.stringify(this.allmycompany1 ));
   }
   ngOnInit(): void {
     let i =2;
     let test :Company[];
-    this.http.GetAllMyCompany(1).subscribe( async (data)=>{
+    this.http.GetAllMyCompany( 1).subscribe( async (data)=>{
             console.log(data);
             test = data.results;
-            if(data.results != null){
-              for(let j = 10; j < +data.count; j=j+10){
-                this.http.GetAllMyCompany(i).subscribe(async(data1)=>{
+             if( await data.results != null){
+                for(  let j = 10; j < await +data.count; j=j+10){
+                  await  this.http.GetAllMyCompany(i).subscribe( async(data1)=>{
                   console.log(data1);
-                  data1.results.forEach((res)=>{
-                    test.push(res);
+                  await data1.results.forEach((res)=>{
+                      test.push( res);
                   })
 
                 })
                 i++;
-
+                // await localStorage.removeItem("ALLMYCOMPANY");
+                // await localStorage.setItem("ALLMYCOMPANY",JSON.stringify(await test));
               }
               console.log(test);
-              this.allmycompany1 = await test;
-              await localStorage.setItem("ALLMYCOMPANY",JSON.stringify( await this.Com ));
+               this.allmycompany1 = await test;
+              console.log(this.allmycompany1);
 
-              await console.log(this.Com);
+              // await console.log(this.Com);
+              // await localStorage.setItem("ALLMYCOMPANY",JSON.stringify(await test));
             }
+            // await localStorage.setItem("ALLMYCOMPANY",JSON.stringify(await this.allmycompany1 ));
           });
 
         // const a = localStorage.getItem("ALLMYCOMPANY");
@@ -98,5 +107,47 @@ export class IndexCompanyComponent implements OnInit ,DoCheck{
   public detailUser(site) {
     // console.log(id);
     this.router.navigate(["detailcompany", site]);
+  }
+  deleteComany(site,name){
+    this.http.deleteCompany(site).subscribe(async(data) =>{
+      await this.router.navigate(["dashboard"]);
+      this.success(name);
+      await this.router.navigate(["allmycompany"]);
+    },
+    (error) => {
+      if (error.status == 500) {
+        this.failed(
+          "Internal Server error",
+          "Can the image field may be incorrectly formatted"
+        );
+        console.log(error);
+        console.log("loi 500");
+      } else {
+        Object.entries(error.error).forEach(([key, value]) => {
+          // console.log(`${key}: ${value}`);
+          this.failed(key, value);
+        });
+      }
+    })
+  }
+
+  public success(a) {
+    this.snotify.info(`Company ${a} has been deleted successfully`, "Confirm", {
+      position: SnotifyPosition.rightTop,
+      timeout: 3000,
+      showProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+    });
+  }
+
+  public failed(a, b) {
+    this.snotify.error(`Deleted company failed by ${a} ${b}`, "Confirm", {
+      position: SnotifyPosition.rightTop,
+      timeout: 4000,
+      showProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+    });
   }
 }

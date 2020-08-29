@@ -116,9 +116,9 @@
                       value=""
                     />
                   </div>
-                  <div *ngIf="error.store_name === 'null'"> <label class="error">Bạn chưa nhập Store Name</label> </div>
-                  <div *ngIf="error.store_name === 'min'"> <label class="error">Trường Store Name yêu cầu 2 ký tự</label> </div>
-                  <div *ngIf="error.store_name === 'max'"> <label class="error">Trường Store Name không vượt quá 20 ký tự</label> </div>
+                  <div *ngIf="error.store_name === 'null'"> <label class="error">You have not entered Store Name</label> </div>
+                  <div *ngIf="error.store_name === 'min'"> <label class="error">Store Name field requires 2 characters</label> </div>
+                  <div *ngIf="error.store_name === 'max'"> <label class="error">Store Name field cannot exceed 20 characters</label> </div>
                 </div>
 
                 <div class="col-lg-4 img">
@@ -134,6 +134,7 @@
                       id="image"
                       type="file"
                       formControlName="logo"
+                      accept=".png, .jpg, .jpeg"
                       name="image"
                       (change)="onChangeImage($event,$event.target.files,this)"
                       style="display: none;"
@@ -170,9 +171,9 @@
                       value=""
                     />
                   </div>
-                  <div *ngIf="error.legal_name === 'null'"> <label class="error">Bạn chưa nhập Legal Name</label> </div>
-                  <div *ngIf="error.legal_name === 'min'"> <label class="error">Trường Legal Name yêu cầu 2 ký tự</label> </div>
-                  <div *ngIf="error.legal_name === 'max'"> <label class="error">Trường Legal Name không vượt quá 20 ký tự</label> </div>
+                  <div *ngIf="error.legal_name === 'null'"> <label class="error">You have not entered Legal Name</label> </div>
+                  <div *ngIf="error.legal_name === 'min'"> <label class="error">Legal Name field requires 2 characters</label> </div>
+                  <div *ngIf="error.legal_name === 'max'"> <label class="error">Legal Name field cannot exceed 20 characters</label> </div>
                 </div>
               </div>
               <div class="row">
@@ -189,9 +190,9 @@
                       value=""
                     />
                   </div>
-                  <div *ngIf="error.site === 'null'"> <label class="error">Bạn chưa nhập Site</label> </div>
-                  <div *ngIf="error.site === 'min'"> <label class="error">Trường Site yêu cầu 2 ký tự</label> </div>
-                  <div *ngIf="error.site === 'max'"> <label class="error">Trường Site không vượt quá 20 ký tự</label> </div>
+                  <div *ngIf="error.site === 'null'"> <label class="error">You have not entered Site</label> </div>
+                  <div *ngIf="error.site === 'min'"> <label class="error">Site field requires 2 characters</label> </div>
+                  <div *ngIf="error.site === 'max'"> <label class="error">The Site field cannot exceed 15 characters</label> </div>
                 </div>
                 <div class="col-lg-8">
                   <div class="form-group a">
@@ -206,9 +207,9 @@
                       value=""
                     />
                   </div>
-                  <div *ngIf="error.business_license === 'null'"> <label class="error">Bạn chưa nhập Business License</label> </div>
-                  <div *ngIf="error.business_license === 'min'"> <label class="error">Trường Business License yêu cầu 2 ký tự</label> </div>
-                  <div *ngIf="error.business_license === 'max'"> <label class="error">Trường Business License không vượt quá 20 ký tự</label> </div>
+                  <div *ngIf="error.business_license === 'null'"> <label class="error">You have not entered Business License</label> </div>
+                  <div *ngIf="error.business_license === 'min'"> <label class="error">Business License field requires 10 characters</label> </div>
+                  <div *ngIf="error.business_license === 'max'"> <label class="error">The Address field cannot exceed 14 characters</label> </div>
                 </div>
               </div>
             </div>
@@ -224,6 +225,9 @@
                     <label class="form-control-label" for="input-address">Address</label>
                     <input id="input-address"  class="form-control form-control-alternative" formControlName="address"  placeholder="Address" value="" type="text">
                   </div>
+                  <div *ngIf="error.address === 'null'"> <label class="error">You have not entered Address</label> </div>
+                  <div *ngIf="error.address === 'min'"> <label class="error">The Address field requires 5 characters</label> </div>
+                  <div *ngIf="error.address === 'max'"> <label class="error">The Address field cannot exceed 30 characters</label> </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
@@ -314,6 +318,7 @@
                     <input
                       id="image1"
                       type="file"
+                      accept=".png, .jpg, .jpeg"
                       formControlName="ad_sample"
                       name="image1"
                       (change)="onChangeAdSample($event,$event.target.files,this)"
@@ -369,6 +374,7 @@
                           name="imagee{{ i }}"
                           (change)="onChangeBanner($event,i,$event.target.files,this)"
                           style="display: none;"
+                          accept=".png, .jpg, .jpeg"
                         />
                         <label for="imagee{{ i }}">
                           <img
@@ -419,6 +425,9 @@
                   ></textarea
                 >
               </div>
+              <div *ngIf="error.about === 'null'"> <label class="error">Bạn chưa nhập About</label> </div>
+              <div *ngIf="error.about === 'min'"> <label class="error">Trường About yêu cầu 5 ký tự</label> </div>
+              <div *ngIf="error.about === 'max'"> <label class="error">Trường About không vượt quá 200 ký tự</label> </div>
             </div>
             <div class="text-center">
               <button
@@ -427,7 +436,7 @@
                 (click)="save()"
                 class="btn btn-primary mt-4"
               >
-                UPDATE
+                CREATE
               </button>
             </div>
           </form>

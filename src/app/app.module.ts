@@ -19,6 +19,7 @@ import { IndexCompanyComponent } from './pages/Company/index-company/index-compa
 import { EditCompanyComponent } from './pages/Company/edit-company/edit-company.component';
 import { CreateCompanyComponent } from './pages/Company/create-company/create-company.component';
 import { DetailCompanyComponent } from './pages/Company/detail-company/detail-company.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,7 +31,10 @@ import { MatInputModule } from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
+import { EditBannerComponent } from './pages/Company/edit-banner/edit-banner.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -59,6 +63,9 @@ import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
 
     NgbPaginationModule,
     NgbAlertModule,
+    MatDialogModule,
+    NgxPaginationModule,
+    MatTabsModule
 
   ],
   declarations: [
@@ -69,6 +76,9 @@ import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
     EditCompanyComponent,
     CreateCompanyComponent,
     DetailCompanyComponent,
+    EditBannerComponent
+
+
     // MatSliderModule,
     // MatToolbarModule,
     // MatIconModule,
