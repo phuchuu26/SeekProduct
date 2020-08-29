@@ -2,6 +2,7 @@ import { Router } from "@angular/router";
 import { Component, OnInit, DoCheck } from "@angular/core";
 import { ServerHttpService } from "src/app/Services/server-http.service";
 import { AllMyCompany, Company } from "src/app/models/user";
+import { SnotifyService, SnotifyPosition } from "ng-snotify";
 
 @Component({
   selector: "app-index-company",
@@ -16,7 +17,10 @@ export class IndexCompanyComponent implements OnInit ,DoCheck{
   public linkStripe:string;
   public Com;
   // public count1 : number;
-  constructor(private http: ServerHttpService, private router: Router) {}
+  constructor(private http: ServerHttpService, private router: Router
+    ,
+    private snotify: SnotifyService,
+    ) {}
   ngDoCheck(): void {
     // console.log(this.Com);
     // console.log(this.allmycompany1);
@@ -103,5 +107,47 @@ export class IndexCompanyComponent implements OnInit ,DoCheck{
   public detailUser(site) {
     // console.log(id);
     this.router.navigate(["detailcompany", site]);
+  }
+  deleteComany(site,name){
+    this.http.deleteCompany(site).subscribe(async(data) =>{
+      await this.router.navigate(["dashboard"]);
+      this.success(name);
+      await this.router.navigate(["allmycompany"]);
+    },
+    (error) => {
+      if (error.status == 500) {
+        this.failed(
+          "Internal Server error",
+          "Can the image field may be incorrectly formatted"
+        );
+        console.log(error);
+        console.log("loi 500");
+      } else {
+        Object.entries(error.error).forEach(([key, value]) => {
+          // console.log(`${key}: ${value}`);
+          this.failed(key, value);
+        });
+      }
+    })
+  }
+
+  public success(a) {
+    this.snotify.info(`Company ${a} has been deleted successfully`, "Confirm", {
+      position: SnotifyPosition.rightTop,
+      timeout: 3000,
+      showProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+    });
+  }
+
+  public failed(a, b) {
+    this.snotify.error(`Deleted company failed by ${a} ${b}`, "Confirm", {
+      position: SnotifyPosition.rightTop,
+      timeout: 4000,
+      showProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+    });
   }
 }

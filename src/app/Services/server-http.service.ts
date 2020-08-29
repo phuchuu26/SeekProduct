@@ -557,6 +557,28 @@ public updateCompany(id_company,data) {
     )
   );
 }
+
+// delete company
+public deleteCompany(site) {
+  const token = localStorage.getItem("TOKEN");
+  const url = `https://seekproduct-api.misavu.net/api/user/company/detail/${site}`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      // "Content-Type": 'application/x-www-form-urlencoded',
+      // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+      // "Content-Length":"<calculated when request is sent>",
+      // "Accept-Encoding": "gzip, deflate, br",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + token,
+    }),
+  };
+  return this.http.delete<any>(url,  httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap((res) => {
+      // console.log(res);
+    })
+  );
+}
   private handleError(error: HttpErrorResponse) {
     console.log(error.status);
     if (error.error instanceof ErrorEvent) {
