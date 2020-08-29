@@ -450,8 +450,10 @@ public getBtok(data: AccountBtok):Observable<any>{
   return this.http.post<any>(url, setdata , httpOptionsChild).pipe(
     catchError(this.handleError),
     tap(
-      (res) => {
+     async (res) => {
         if (res) {
+          await localStorage.removeItem("BTOK");
+          await localStorage.setItem("BTOK", res.token)
           // console.log(res);
         }
       },
@@ -579,6 +581,33 @@ public deleteCompany(site) {
     })
   );
 }
+
+
+// // connect stripe GET request
+// public getConnectStripe() {
+//   const token = localStorage.getItem("TOKEN");
+//   const url = `https://seekproduct-api.misavu.net/api/user/company/oauth-link`;
+//   const httpOptionsChild = {
+//     headers: new HttpHeaders({
+//       "Content-Type": 'multipart/form-data',
+//       // "Content-Type": 'application/x-www-form-urlencoded',
+//       // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+//       // "Content-Length":"<calculated when request is sent>",
+//       "Accept" : "application/json",
+//       // "Accept-Encoding": "gzip, deflate, br",
+//       // Authorization: 'my-auth-token',
+//       Authorization: "JWT " + token,
+//     }),
+//   };
+//   return this.http.get<any>(url,  httpOptionsChild).pipe(
+//     catchError(this.handleError),
+//     tap((res) => {
+//       // console.log(res);
+//     })
+//   );
+// }
+
+
   private handleError(error: HttpErrorResponse) {
     console.log(error.status);
     if (error.error instanceof ErrorEvent) {
