@@ -19,6 +19,10 @@ export const ROUTES: RouteInfo[] = [
     // { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
     { path: '/allmycompany', title: 'List Of My Companies',  icon:'ni-building text-info', class: '' },
     { path: '/order', title: 'Order Product',  icon:'ni-building text-info', class: '' },
+    { path: '/cart', title: 'Cart',  icon:'ni-building text-info', class: '' },
+    { path: '/review', title: 'Review',  icon:'ni-building text-info', class: '' },
+
+
     // { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' }
 ];
 @Component({

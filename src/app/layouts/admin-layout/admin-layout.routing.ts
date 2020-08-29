@@ -10,6 +10,8 @@ import {SubscriptionComponent} from '../../pages/subscription/subscription.compo
 import {ManageProductComponent} from '../../pages/manage-product/manage-product.component';
 import { ManageProductGroupComponent } from '../../pages/manage-product-group/manage-product-group.component';
 import { OrderComponent } from '../../pages/order/order.component';
+import { CartComponent } from '../../pages/cart/cart.component';
+import { ReviewComponent } from '../../pages/review/review.component';
 
 import { UpdatePasswordComponent } from 'src/app/pages/update-password/update-password.component';
 import { IndexCompanyComponent } from 'src/app/pages/Company/index-company/index-company.component';
@@ -30,5 +32,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'addcompany', component: CreateCompanyComponent },
     { path: 'order', component: OrderComponent },
     { path: 'editBanner/:id', component: EditBannerComponent },
+    { path: 'cart', component: CartComponent },
+    { path: 'review', component: ReviewComponent }
 
 ];

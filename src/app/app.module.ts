@@ -35,6 +35,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
 import { EditBannerComponent } from './pages/Company/edit-banner/edit-banner.component';
 import {MatTabsModule} from '@angular/material/tabs';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,

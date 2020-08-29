@@ -1,6 +1,9 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {FormControl} from '@angular/forms';
+import { NgxSpinnerService } from "ngx-spinner";
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -26,7 +29,7 @@ export class OrderComponent implements OnInit, DoCheck {
   check : boolean = false;
   selectedValue: string = '';
   checkSubmit: boolean = false;
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient,private spinner: NgxSpinnerService) { }
 
   openDialog(){
     this.check = !this.check;
@@ -160,6 +163,14 @@ export class OrderComponent implements OnInit, DoCheck {
           Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
         })
       }).subscribe((data)=>{
+        this.spinner.hide();
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'You Order Success',
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.http.get<any>('https://seekproduct-api.misavu.net/api/user/order/list?page=1&page_size=10&site='+this.selectedValue, {
       headers: new HttpHeaders({
         Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
@@ -198,12 +209,13 @@ export class OrderComponent implements OnInit, DoCheck {
   }
 
   submit(){
+    
     this.checkSubmit = true;
-
     if(this.email != '' && this.phone != '' && this.first_name != '' &&
     this.last_name != '' && this.address_line_1 != '' &&
     this.address_line_2 != '' && this.postcode != '' && this.suburb != '' &&
     this.state != '' && this.country != ''){
+      this.spinner.show();
       this.addOrder();
     }
   }
