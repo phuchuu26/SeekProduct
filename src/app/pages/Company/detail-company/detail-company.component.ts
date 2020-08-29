@@ -275,40 +275,13 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
     return profile1 as Company;
   }
   public save() {
+    // this.save1();
     // console.log(this.companyForm);
     // console.log(this.companyProfile);
     // console.log(this.submit());
     this.companyForm.controls.category.setValue(this.category1.value);
     let a = this.submit();
 
-  let  test = {
-    facebook: this.companyForm.controls.facebook.value,
-    instagram: this.companyForm.controls.instagram.value,
-    twitter: this.companyForm.controls.twitter.value,
-    };
-    console.log(this.companyForm.controls.facebook.value);
-    const formdata1 = new FormData();
-    formdata1.set("facebook", this.companyForm.controls.facebook.value);
-    formdata1.set("instagram", this.companyForm.controls.instagram.value);
-    formdata1.set("twitter", this.companyForm.controls.twitter.value);
-    this.http.addSocialLink(this.companyProfile.id, test).subscribe((data) => {
-      console.log(data);
-    },
-    (error)=>{
-      if (error.status == 500) {
-        this.failed(
-          "Internal Server error",
-          "Can the image field may be incorrectly formatted"
-        );
-        console.log(error);
-        console.log("loi 500");
-      } else {
-        Object.entries(error.error).forEach(([key, value]) => {
-          // console.log(`${key}: ${value}`);
-          this.failed(key, value);
-        });
-      }
-    })
 
     const formdata = new FormData();
     formdata.set("store_name", a.store_name);
@@ -500,5 +473,37 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
       pauseOnHover: true,
     });
   }
-  save1() {}
+  save1() {
+    // this.save();
+    let  test = {
+      facebook: this.companyForm.controls.facebook.value,
+      instagram: this.companyForm.controls.instagram.value,
+      twitter: this.companyForm.controls.twitter.value,
+      };
+      // console.log(test);
+      // const formdata1 = new FormData();
+      // formdata1.set("facebook", this.companyForm.controls.facebook.value);
+      // formdata1.set("instagram", this.companyForm.controls.instagram.value);
+      // formdata1.set("twitter", this.companyForm.controls.twitter.value);
+      this.http.addSocialLink(this.companyProfile.id, test).subscribe((data) => {
+        console.log(data);
+        this.success(this.companyForm.controls.store_name.value);
+      },
+      (error)=>{
+        if (error.status == 500) {
+          this.failed(
+            "Internal Server error",
+            "Can the image field may be incorrectly formatted"
+          );
+          console.log(error);
+          console.log("loi 500");
+        } else {
+          Object.entries(error.error).forEach(([key, value]) => {
+            // console.log(`${key}: ${value}`);
+            this.failed(key, value);
+          });
+        }
+      })
+
+  }
 }
