@@ -35,7 +35,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
 import { EditBannerComponent } from './pages/Company/edit-banner/edit-banner.component';
 import {MatTabsModule} from '@angular/material/tabs';
-
+import { NgxSpinnerModule } from "ngx-spinner";
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -65,8 +65,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     NgbAlertModule,
     MatDialogModule,
     NgxPaginationModule,
-    MatTabsModule
-
+    MatTabsModule,
+    NgxSpinnerModule
   ],
   declarations: [
     AppComponent,

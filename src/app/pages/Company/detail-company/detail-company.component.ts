@@ -27,6 +27,7 @@ import {
   DialogData,
   DialogOverviewExampleDialog,
 } from "../../manage-product/manage-product.component";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-detail-company",
@@ -57,7 +58,9 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
     private http: ServerHttpService,
     private forms: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+
+    private spinner: NgxSpinnerService
   ) {}
   // private _filter(value: string): string[] {
   //   const filterValue = value.toLowerCase();
@@ -304,10 +307,11 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
         } else formdata.append("category", "");
       });
     }
-
+    this.spinner.show();
     this.http.updateCompany(this.companyProfile.site, formdata).subscribe(
       (data) => {
         console.log(data);
+        this.spinner.hide();
         // this.router.navigate(["login"]);
         this.success(a.store_name);
       },

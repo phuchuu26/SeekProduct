@@ -46,6 +46,7 @@ export class ServerHttpService {
   //   .pipe(catchError(this.handleError));
   // };
   public login(user: user): Observable<any> {
+
     const url = `${this.REST_API_SERVER}user/login/`;
     this.lastCallAPI = new Date().getTime();
     return this.http
@@ -67,12 +68,13 @@ export class ServerHttpService {
       );
   }
   public updateProfile(profileUser): Observable<any> {
+    const token = localStorage.getItem("TOKEN");
     console.log(profileUser);
     const url = `${this.REST_API_SERVER}api/auth/profile`;
     const httpOptionsChild = {
       headers: new HttpHeaders({
         // Authorization: 'my-auth-token',
-        Authorization: "JWT " + this.tokenLogin,
+        Authorization: "JWT " + token,
       }),
     };
     return this.http.put<any>(url, profileUser, httpOptionsChild).pipe(
@@ -149,12 +151,13 @@ export class ServerHttpService {
     );
   }
   public updatePassword(updatePassword: updatePassword): Observable<any> {
+    const token = localStorage.getItem("TOKEN");
     const url = `${this.REST_API_SERVER}api/auth/change_pass`;
     const httpOptionsChild = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         // Authorization: 'my-auth-token',
-        Authorization: "JWT " + this.tokenLogin,
+        Authorization: "JWT " + token,
       }),
     };
     return this.http.put<any>(url, updatePassword, httpOptionsChild).pipe(
@@ -174,14 +177,15 @@ export class ServerHttpService {
   }
 
   public getProfile(): Observable<profileUser> {
-    if (this.tokenLogin) {
+    const token = localStorage.getItem("TOKEN");
+    // if (this.tokenLogin) {
       var httpOptions1 = {
         headers: new HttpHeaders({
           "Content-Type": "application/json",
           // Authorization: 'my-auth-token',
-          Authorization: "JWT " + this.tokenLogin,
+          Authorization: "JWT " + token,
         }),
-      };
+      // };
       // this.httpOptions.headers.append('Authorization','JWT ' + this.tokenLogin);
     }
     const url = `${this.REST_API_SERVER}api/auth/profile`;
@@ -250,13 +254,13 @@ export class ServerHttpService {
   // Company
   public temp:[];
   public GetAllMyCompany(i): Observable<AllMyCompany> {
-
+    const token = localStorage.getItem("TOKEN");
     const url = `${this.REST_API_SERVER}api/user/company/all-my-company/?page=${i}`;
     const httpOptionsChild = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         // Authorization: 'my-auth-token',
-        Authorization: "JWT " + this.tokenLogin,
+        Authorization: "JWT " + token,
       }),
     };
     return this.http.get<any>(url,  httpOptionsChild).pipe(
@@ -332,12 +336,13 @@ export class ServerHttpService {
   }
 // get detail company
 public detailCompany(id): Observable<Company> {
+  const token = localStorage.getItem("TOKEN");
   const url = ` https://seekproduct-api.misavu.net/api/user/company/detail/${id}`;
     const httpOptionsChild = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         // Authorization: 'my-auth-token',
-        Authorization: "JWT " + this.tokenLogin,
+        Authorization: "JWT " + token,
       }),
     };
     return this.http.get<any>(url,  httpOptionsChild).pipe(
