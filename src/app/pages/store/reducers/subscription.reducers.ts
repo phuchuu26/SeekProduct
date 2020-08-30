@@ -109,10 +109,15 @@ export interface SubscriptionState {
           showConfirmButton: false,
           timer: 1500
         })
-        console.log("ID tra ve : " + action.payload.company.store_name);
+        console.log(action.payload.company_id);
         return {
           ...state,
-          list: state.list.map(item => item.plan.id !== action.payload.plan.id ? action.payload : item),
+          list: state.list.map((value,key) => {
+            console.log("lần " + value.company.id);
+            if(value.company.id == action.payload.company_id){
+              value[key] = action.payload;
+            }
+          }),
           loading: false
         };
       case SubscriptionActionTypes.UPDATE_SUBSCRIPTION_FAILURE:
