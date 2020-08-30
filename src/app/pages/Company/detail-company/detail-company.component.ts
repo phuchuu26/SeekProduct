@@ -39,7 +39,7 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
   // myControl = new FormControl();
   // filteredOptions: Observable<string[]>;
   public cateChoosed: string[] = [];
-  category1 = new FormControl();
+  category1 : any = new FormControl();
   public nameca: string;
   toppings = new FormControl();
   public companyForm: FormGroup;
