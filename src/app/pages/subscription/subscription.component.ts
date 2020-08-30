@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {AppState} from '../store/models/app-state.model';
 import {Subscription} from '../store/models/subscription.model';
-import { LoadSubscriptionAction, DeleteSubscriptionAction, AddSubscriptionAction, UpdateSubscriptionAction } from '../store/actions/subscription.action';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { from } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
@@ -21,9 +19,7 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./subscription.component.css']
 })
 export class SubscriptionComponent implements OnInit {
-  subscriptionItems: Observable<Array<Subscription>>;
-  loading$: Observable<Boolean>;
-  error$: Observable<Error>
+  subscriptionItems = [];
   company = [];
   planArr = [];
   show : boolean = false;
@@ -40,7 +36,6 @@ export class SubscriptionComponent implements OnInit {
 
   constructor(private store: Store<AppState>,
     private http : HttpClient,
-    private httpServer: ServerHttpService,
     private stripeService: StripeService, 
     private spinner: NgxSpinnerService) { }
     @ViewChild(StripeCardComponent) card: StripeCardComponent;
@@ -161,19 +156,14 @@ export class SubscriptionComponent implements OnInit {
       });
       
     }
-    resset(){
-      this.subscriptionItems = this.store.select(store => store.user.list);
-      this.loading$ = this.store.select(store => store.user.loading);
-      this.error$ = this.store.select(store => store.user.error);
-      this.store.dispatch(new LoadSubscriptionAction());
-      this.subscriptionItems.subscribe(data => console.log(data));
-    }
   ngOnInit() {
-    this.subscriptionItems = this.store.select(store => store.user.list);
-    this.loading$ = this.store.select(store => store.user.loading);
-    this.error$ = this.store.select(store => store.user.error);
-    this.store.dispatch(new LoadSubscriptionAction());
-    this.subscriptionItems.subscribe(data => console.log(data));
+    this.http.get<any>('https://seekproduct-api.misavu.net/api/user/subscription/', {
+      headers: new HttpHeaders({
+        Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
+      }),
+    }).subscribe((data)=>{
+      this.subscriptionItems = data
+    });
     this.http.get<any>('https://seekproduct-api.misavu.net/api/user/company/my-company/',{
       headers: new HttpHeaders({
       Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
@@ -194,7 +184,6 @@ export class SubscriptionComponent implements OnInit {
 
   deleteSubscriptionItem(id : any){
     console.log("company id : " + id);
-
     Swal.fire({
       title: 'Are you sure?',
       icon: 'warning',
@@ -204,23 +193,64 @@ export class SubscriptionComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        this.store.dispatch(new DeleteSubscriptionAction(id));
+        this.spinner.show();
+        const body = {company_id: id};
+    return this.http.post('https://seekproduct-api.misavu.net/api/user/subscription/cancel-plan',body, {
+      headers: new HttpHeaders({ 
+        Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
+        }),    
+        }).subscribe( (data)=>{
+          console.log(data);
+          this.spinner.hide();
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'You delete Success',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.subscriptionItems = this.subscriptionItems.filter(item => item.company.id != id);
+        }, err => {
+          this.spinner.hide();
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'You delete FAIL\n',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        });
       }
     });
-    
   }
   openDialog(){
-    this.show = !this.show;
+    this.checkEdit = false;
+    this.selectCompany = this.company[0].id;
+    this.selectPlan = this.planArr[0].id;
+    this.http.get<any>('https://seekproduct-api.misavu.net/api/user/payment/check-payment-source',{
+        headers: new HttpHeaders({
+          Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+        })}).subscribe((data)=>{
+          if(data.source == true){
+            this.show = !this.show;            
+          } else if(data.source == false){
+            Swal.fire({
+              position: 'center',
+              icon: 'warning',
+              title: 'Payment source does not exist.',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+        });
   }
   changeData (event : any){
     this[event.target.id] = event.target.value;
     console.log(event.target.id + ": " + this[event.target.id]);
     if(event.target.id == 'company_id'){
-      this.subscriptionItems.subscribe(data => {
-
-        for(var i = 0; i < data.length ; i++){
-          if(data[i].company.id == event.target.value){
-            console.log(data[i].company.id);
+        for(var i = 0; i < this.subscriptionItems.length ; i++){
+          if(this.subscriptionItems[i].company.id == event.target.value){
+            console.log(this.subscriptionItems[i].company.id);
             this.err = true;
             break;
           }
@@ -228,17 +258,13 @@ export class SubscriptionComponent implements OnInit {
             this.err = false;
           }
         }
-        // data.forEach((value : any,key)=> {
-        //   if(value.company.id == event.target.value){
-        //     this.err = true;
-        //   }
-        // });
-      });
-    }
+      };
+    
   }
   submit(){
     console.log(this.item);
     if(this.checkEdit === false){
+      this.spinner.show();
       this.company.forEach((value,key)=>{
         if(value.id == this.company_id){
           console.log(value);
@@ -260,7 +286,37 @@ export class SubscriptionComponent implements OnInit {
       this.item.company_id = parseInt(this.company_id);
       this.item.plan_id = this.plan_id;
       this.item.trial_period_days = this.trial_period_days;
-      this.store.dispatch(new AddSubscriptionAction(this.item));
+      this.http.post('https://seekproduct-api.misavu.net/api/user/subscription/', this.item,{
+        headers: new HttpHeaders({ 
+          Authorization: `JWT ${localStorage.getItem('TOKEN')}`
+      })
+      }).subscribe((data)=>{
+        console.log(data);
+        this.http.get<any>('https://seekproduct-api.misavu.net/api/user/subscription/', {
+          headers: new HttpHeaders({
+          Authorization:`JWT ${localStorage.getItem('TOKEN')}`
+              }),
+            }).subscribe((data)=>{
+              this.subscriptionItems = data
+              this.spinner.hide();
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'You Add Success',
+                showConfirmButton: false,
+                timer: 1500
+              });
+            });
+      }, err => {
+        this.spinner.hide();
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'You Add FAIL\n',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      });
       this.item = {company:{id:0,address:'',logo:'',phone_number:'',store_name:''}, 
         company_id:0,plan_id:'', trial_period_days:'',plan:{id:0,name:'',price:0}};
     } else if(this.checkEdit === true){
@@ -286,18 +342,48 @@ export class SubscriptionComponent implements OnInit {
                 confirmButtonText: 'Yes, Update it!'
               }).then((result) => {
                 if (result.value) {
-                  this.store.dispatch(new UpdateSubscriptionAction(this.item));
+                  this.spinner.show();
+                  this.http.post('https://seekproduct-api.misavu.net/api/user/subscription/change-plan',this.item,{
+                    headers: new HttpHeaders({ 
+                    Authorization: 'JWT ' + localStorage.getItem('TOKEN')
+                    })
+                    }).subscribe((data)=>{
+                      console.log(data);
+                      this.http.get<any>('https://seekproduct-api.misavu.net/api/user/subscription/', {
+                          headers: new HttpHeaders({
+                            Authorization:`JWT ${localStorage.getItem('TOKEN')}`
+                          }),
+                        }).subscribe((data)=>{
+                          this.subscriptionItems = data
+                          this.spinner.hide();
+                          Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'You Update Success',
+                            showConfirmButton: false,
+                            timer: 1500
+                          });
+                        });
+                    }, err => {
+                      this.spinner.hide();
+                      Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'You delete FAIL\n',
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                    });
                   this.item = {company:{id:0,address:'',logo:'',phone_number:'',store_name:''}, 
                         company_id:0,plan_id:'', trial_period_days:'',plan:{id:0,name:'',price:0}};
                 }
               });     
               this.checkEdit = false;
             }
-             
             this.company_id = '';
             this.plan_id = '';
             this.trial_period_days = '';
-            this.openDialog();
+            this.show = false;
   }
 
   selectPlan : number;
@@ -305,20 +391,11 @@ export class SubscriptionComponent implements OnInit {
   EditSubscriptionItem(id : any){
     console.log(id);
     this.checkEdit = true;
-    this.subscriptionItems.subscribe(data => {
-      data.forEach((value : any,key)=> {
-        if(value.id == id){
-          this.subscriptionEdit = value;
-        }
-      });
-    });
+    this.subscriptionEdit = this.subscriptionItems.filter(item => item.id == id)[0];
     this.selectPlan = this.subscriptionEdit.plan.id;
     this.selectCompany =this.subscriptionEdit.company.id;
     this.company_id =this.subscriptionEdit.company.id + '';
-
-    if(this.show === false){
-      this.openDialog();
-    }
+    this.show = true;
     console.log(this.subscriptionEdit);
   }
 }

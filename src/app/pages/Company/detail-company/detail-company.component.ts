@@ -43,6 +43,7 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
   public checkAccount:string;
   public cateChoosed: string[] = [];
   category1:any = new FormControl();
+
   public nameca: string;
   toppings = new FormControl();
   public companyForm: FormGroup;

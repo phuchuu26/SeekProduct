@@ -8,6 +8,7 @@ import { filter } from 'rxjs/operators';
 import { catchError, map, tap } from "rxjs/operators";
 import { throwError, Observable } from "rxjs";
 import { NgxSpinnerService } from "ngx-spinner";
+import { async } from '@angular/core/testing';
 
 interface Manage_Product {
   value: string;
@@ -180,23 +181,20 @@ export class ManageProductComponent implements OnInit {
       }
       this.company_site = this.company[0].site;
   }
-  ngOnInit(): void {
+    ngOnInit() {
     this.selectedValue = this.manage_product[0].value;
     this.color = '#ffffff';
-    this.http.get<any>('https://seekproduct-api.misavu.net/api/category').subscribe((data) => {
-      this.Full_category_Arr = data.results;
-    }
-    );
-    this.feature_products();
-    this.http.get<any>('https://seekproduct-api.misavu.net/api/user/company/my-company/', {
+    this.http.get<any>('https://seekproduct-api.misavu.net/api/category').subscribe((res) => {
+      this.Full_category_Arr = res.results;
+      this.http.get<any>('https://seekproduct-api.misavu.net/api/user/company/my-company/', {
       headers: new HttpHeaders({
         Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
       })
-    }).subscribe(data => {
+    }).subscribe((data) => {
       this.company = data.results;
       this.company_id = data.results[0].id;
       this.selectCompany = data.results[0].id;
-      const companySelect = this.company.filter(item => item.id == data.results[0].id);
+      const companySelect = data.results.filter(item => item.id == data.results[0].id);
       this.productgroup_Arr = companySelect[0].productgroup;
       this.selectProduct = companySelect[0].productgroup[0].id;
       this.company_site = companySelect[0].site;
@@ -204,21 +202,24 @@ export class ManageProductComponent implements OnInit {
       const ca = companySelect[0].category;
       console.log(companySelect[0].category);
       if (ca.length > 0) {
-        console.log(ca[0]);
+        console.log(ca);
         this.selectCategory = ca[0];
         this.category = ca[0];
         for (var i = 0; i < ca.length; i++) {
-          console.log(this.Full_category_Arr.filter(item => item.id == ca[i]));
-          this.category_Arr.push(this.Full_category_Arr.filter(item => item.id == ca[i])[0]);
+          console.log(ca[i]);
+          console.log(res.results.filter(item => item.id == ca[i]));
+          this.category_Arr.push(res.results.filter(item => item.id == ca[i])[0]);
         };
       }
-      //this.category = this.category_Arr[0];
       this.company_site = data.results[0].site;
       console.log(data.results[0].site);
-      console.log(this.category_Arr[0]);
+      console.log(this.category_Arr);
       console.log(this.company_site);
-
     });
+    }
+    );
+    this.feature_products();
+     
     this.followedproducts_list();
     this.package_list();
   }
@@ -278,8 +279,6 @@ export class ManageProductComponent implements OnInit {
   changeColor(event : any){
     console.log(event);
   }
-
-
    EditProduct(id: any) {
     console.log("Product id : " + id);
      this.http.get<any>('https://seekproduct-api.misavu.net/api/user/product/' + id, {
@@ -407,6 +406,7 @@ export class ManageProductComponent implements OnInit {
       }), observe: 'response'
     }).subscribe((res)=>{
       this.productArray.push(res);
+      this.check = false;
     });
         Swal.fire({
           position: 'center',
@@ -416,7 +416,7 @@ export class ManageProductComponent implements OnInit {
           timer: 1500
         });
         this.clearnData();
-        this.check = false;
+        
       }, (err : any) =>{
         console.log("Lỗi "+err.status);
         this.spinner.hide();
