@@ -265,9 +265,9 @@ export class VerificationCompanyComponent implements OnInit, DoCheck {
     this.http.VerificationCompany(formdata).subscribe( async(data) => {
       this.success(this.companyProfile.store_name);
       await this.router.navigate(["allmycompany"]);
-      await setTimeout(() => {
-        this.router.navigate(["detailcompany", this.companyProfile.site]);
-      }, 600);
+      // await setTimeout(() => {
+      //   this.router.navigate(["detailcompany", this.companyProfile.site]);
+      // }, 600);
       this.spinner.hide();
     }
     , (error)=>{

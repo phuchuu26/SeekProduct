@@ -81,9 +81,9 @@ export class EditBannerComponent implements OnInit {
     this.http.updateBanner(this.companyProfile.site,formdata).subscribe(async (data) => {
       this.success(this.companyProfile.store_name);
       await this.router.navigate(["allmycompany"]);
-        await setTimeout(() => {
-          this.router.navigate(["detailcompany", this.companyProfile.site]);
-        }, 200);
+        // await setTimeout(() => {
+        //   this.router.navigate(["detailcompany", this.companyProfile.site]);
+        // }, 200);
         this.spinner.hide();
       // this.router.navigate(["detailcompany", this.companyProfile.site]);
     },
