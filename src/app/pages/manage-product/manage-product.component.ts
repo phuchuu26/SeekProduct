@@ -325,6 +325,7 @@ export class ManageProductComponent implements OnInit {
         if(this.check === false){
           this.check = true;
         }
+        this.checkEdit = true;
     }, err => {
       Swal.fire({
         position: 'center',
@@ -335,9 +336,6 @@ export class ManageProductComponent implements OnInit {
       });
     }
     );
-    
-    this.checkEdit = true;
-
   }
   deleteProduct(id: any) {
     console.log("Product id : " + id);
