@@ -101,6 +101,7 @@ export class ManageProductGroupComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
+        this.spinner.show();
         this.http.delete<any>('https://seekproduct-api.misavu.net/api/user/productgroup/'+id+'/', {
           headers: new HttpHeaders({
             Authorization: 'JWT ' + localStorage.getItem('TOKEN')
@@ -117,6 +118,7 @@ export class ManageProductGroupComponent implements OnInit {
               showConfirmButton: false,
               timer: 1500
             });
+            this.spinner.hide();
           } else if (event.status == 200) {
             Swal.fire({
               position: 'center',
@@ -125,8 +127,10 @@ export class ManageProductGroupComponent implements OnInit {
               showConfirmButton: false,
               timer: 1500
             });
+            this.spinner.hide();
           }
         }, err =>{
+          this.spinner.hide();
           Swal.fire({
             position: 'center',
             icon: 'error',
