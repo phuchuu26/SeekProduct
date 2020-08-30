@@ -322,11 +322,20 @@ export class ManageProductComponent implements OnInit {
             this.category_Arr.push(this.Full_category_Arr.filter(item => item.id == ca[i])[0]);
           };
         }
+        if(this.check === false){
+          this.check = true;
+        }
+    }, err => {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'You Unauthorized\n',
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
     );
-    if(this.check === false){
-      this.check = true;
-    }
+    
     this.checkEdit = true;
 
   }
@@ -405,7 +414,8 @@ export class ManageProductComponent implements OnInit {
         Authorization: 'JWT ' + localStorage.getItem('TOKEN')
       }), observe: 'response'
     }).subscribe((res)=>{
-      this.productArray.push(res);
+      //this.productArray.push(res);
+      this.my_products();
       this.check = false;
     });
         Swal.fire({
@@ -464,6 +474,7 @@ export class ManageProductComponent implements OnInit {
         });
         this.checkEdit = false;
         this.check = false;
+        this.clearnData();
       }, err =>{
         this.spinner.hide();
         Swal.fire({
@@ -489,7 +500,6 @@ export class ManageProductComponent implements OnInit {
         }
         else if(this.checkEdit === true){ 
           this.UpdateProduct();
-          
         }
         this.checkSubmit = false;
     } else {
