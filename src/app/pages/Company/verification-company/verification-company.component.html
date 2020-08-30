@@ -1,0 +1,277 @@
+<div
+  class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+  style="
+    min-height: 300px;
+    background-image: url(assets/img/theme/profile-cover.jpg);
+    background-size: cover;
+    background-position: center top;
+  "
+>
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <!-- <div class="row">
+      <div class="col-lg-7 col-md-10">
+        <h1 class="display-2 text-white">Hello Jesse</h1>
+        <p class="text-white mt-0 mb-5">
+          This is your profile page. You can see the progress you've made with
+          your work and manage your projects or assigned tasks
+        </p>
+      </div>
+    </div> -->
+    <a class="btn btn-info">Create Company</a>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">My Company</h3>
+            </div>
+            <div class="col-4 text-right">
+              <a
+                routerLinkActive="active"
+                [routerLink]="['/allmycompany']"
+                class="btn btn-primary"
+                >Back to List My Company</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="companyForm">
+            <h6 class="heading-small text-muted mb-4">User information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">First Name</label>
+                    <input id="input-address" class="form-control form-control-alternative" formControlName="first_name"  placeholder="First Name" value="" type="text">
+                  </div>
+                  <div *ngIf="error.first_name === 'null'"> <label class="error">You have not entered First Name</label> </div>
+                  <div *ngIf="error.first_name === 'min'"> <label class="error">First Name field requires 2 characters</label> </div>
+                  <div *ngIf="error.first_name === 'max'"> <label class="error">First Name field cannot exceed 20 characters</label> </div>
+
+                </div>
+
+
+                <div class="col-lg-4 img">
+
+                  <div class="form-group img text-center">
+
+                    <label class="form-control-label" for="input-image"
+                    >Photo Id Card Front</label
+                    >
+
+                    <div>
+                      <input
+                      formControlName="logo"
+                      id="image"
+                      type="file"
+                      accept=".png, .jpg, .jpeg"
+                      name="image"
+                      (change)="onChangeImage($event,$event.target.files,this)"
+                      style="display: none;"
+                      />
+                    </div>
+                    <label for="image">
+                      <img
+
+                        style="border-radius: 72px;"
+                        [class]="
+                          this.urlImage == 'assets\\img\\1.png'
+                            ? 'null'
+                            : 'notnull'
+                        "
+                        [src]="urlImage"
+                        width="150px"
+                        height="150px"
+                        alt="Image not found"
+                      />
+                      <div *ngIf="error.logo === 'null'"> <br> <label class="error">You have not entered Logo</label> </div>
+
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Last Name</label>
+                    <input id="input-address" class="form-control form-control-alternative" formControlName="last_name"  placeholder="Last Name" value="" type="text">
+                  </div>
+                  <div *ngIf="error.last_name === 'null'"> <label class="error">You have not entered Last Name</label> </div>
+                  <div *ngIf="error.last_name === 'min'"> <label class="error">Last Name field requires 2 characters</label> </div>
+                  <div *ngIf="error.last_name === 'max'"> <label class="error">Last Name field cannot exceed 20 characters</label> </div>
+
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-lg-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name"
+                      >Postal Code</label
+                    >
+                    <input
+                      type="number"
+                      id="input-first-name"
+                      formControlName="postal_code"
+                      class="form-control form-control-alternative"
+                      value=""
+                      placeholder="Postal Code"
+                    />
+                  </div>
+                  <div *ngIf="error.postal_code === 'null'"> <label class="error">You have not entered Postal Code</label> </div>
+                  <div *ngIf="error.postal_code === 'min'"> <label class="error">Postal Code field requires 4 characters</label> </div>
+                  <div *ngIf="error.postal_code === 'max'"> <label class="error">Postal Code field cannot exceed 4 characters</label> </div>
+
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Date Of Birth</label>
+                    <form class="form-inline">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <input class="form-control" placeholder="yyyy-mm-dd"
+                          name="dp" [(ngModel)]="date" ngbDatepicker #d="ngbDatepicker">
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-success calendar" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="error.date === 'null'"> <br> <label class="error">You have not entered Date of Birth</label> </div>
+                    </form>
+                  </div>
+
+
+
+              </div>
+
+
+                <div class="col-lg-3">
+                  <div class="form-group a">
+                    <label class="form-control-label" for="input-last-name"
+                      >State</label
+                    >
+                    <input
+                      type="text"
+                      id="input-last-name"
+                      formControlName="state"
+                      class="form-control form-control-alternative"
+                      value=""
+                      placeholder="State"
+                    />
+                  </div>
+                  <div *ngIf="error.state == 'null'"> <label class="error">You have not entered State</label> </div>
+                  <div *ngIf="error.state === 'min'"> <label class="error">State field requires 2 characters</label> </div>
+                  <div *ngIf="error.state === 'max'"> <label class="error">State field cannot exceed 20 characters</label> </div>
+
+                </div>
+                 <div class="col-lg-3">
+                  <div class="form-group a">
+                    <label class="form-control-label" for="input-last-name"
+                      >Bussiness Name</label
+                    >
+                    <input
+                      type="text"
+                      id="input-last-name"
+                      formControlName="bussiness_name"
+                      class="form-control form-control-alternative"
+                      value=""
+                      placeholder="Bussiness Name"
+                    />
+                  </div>
+                  <div *ngIf="error.bussiness_name === 'null'"> <label class="error">You have not entered Bussiness Name</label> </div>
+                  <div *ngIf="error.bussiness_name === 'min'"> <label class="error">Bussiness Name field requires 2 characters</label> </div>
+                  <div *ngIf="error.bussiness_name === 'max'"> <label class="error">Bussiness Name field cannot exceed 20 characters</label> </div>
+                </div>
+              </div>
+            </div>
+            <!-- <hr class="my-4" />
+            <h6 class="heading-small text-muted mb-4">Contact Information</h6> -->
+            <div class="pl-lg-4">
+              <div class="row">
+
+
+
+
+
+
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-username"
+                      >City</label
+                    >
+                    <input
+                      type="text"
+                      id="input-username"
+                      formControlName="city"
+                      class="form-control form-control-alternative"
+                      value=""
+                      placeholder="City"
+                    />
+                  </div>
+                  <div *ngIf="error.city === 'null'"> <label class="error">You have not entered City</label> </div>
+                  <div *ngIf="error.city === 'min'"> <label class="error">City field requires 2 characters</label> </div>
+                  <div *ngIf="error.city === 'max'"> <label class="error">City field cannot exceed 20 characters</label> </div>
+
+                </div>
+
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-email"
+                      >Line1</label
+                    >
+                    <input
+                      type="email"
+                      id="input-email"
+                      formControlName="line1"
+                      class="form-control form-control-alternative"
+                      value=""
+                      placeholder="Line1"
+                    />
+                  </div>
+
+                  <div *ngIf="error.line1 === 'null'"> <label class="error">You have not entered Line1</label> </div>
+                  <div *ngIf="error.line1 === 'min'"> <label class="error">Line1 field requires 2 characters</label> </div>
+                  <div *ngIf="error.line1 === 'max'"> <label class="error">Line1 field cannot exceed 20 characters</label> </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-address">Bussiness Tax Id</label>
+                    <input id="input-address"  class="form-control form-control-alternative" formControlName="bussiness_tax_id"  placeholder="Bussiness Tax Id" value="" type="number">
+                  </div>
+                  <div *ngIf="error.bussiness_tax_id === 'null'"> <label class="error">You have not entered Bussiness Tax Id</label> </div>
+                  <div *ngIf="error.bussiness_tax_id === 'min'"> <label class="error">Bussiness Tax Id field requires 8 characters</label> </div>
+                  <div *ngIf="error.bussiness_tax_id === 'max'"> <label class="error">Bussiness Tax Id field cannot exceed 8 characters</label> </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="text-center">
+              <button
+                type="button"
+                [disabled]="!companyForm.valid"
+                (click)="save()"
+                class="btn btn-primary mt-4"
+              >
+                CREATE
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(0,0,0,0.8)" size = "large" color = "#9c5d5d" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>

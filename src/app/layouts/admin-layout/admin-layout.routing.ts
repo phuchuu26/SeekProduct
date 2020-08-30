@@ -17,6 +17,7 @@ import { UpdatePasswordComponent } from 'src/app/pages/update-password/update-pa
 import { IndexCompanyComponent } from 'src/app/pages/Company/index-company/index-company.component';
 import { DetailCompanyComponent } from 'src/app/pages/Company/detail-company/detail-company.component';
 import { CreateCompanyComponent } from 'src/app/pages/Company/create-company/create-company.component';
+import { VerificationCompanyComponent } from 'src/app/pages/Company/verification-company/verification-company.component';
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'user-profile',   component: UserProfileComponent },
@@ -33,6 +34,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'order', component: OrderComponent },
     { path: 'editBanner/:id', component: EditBannerComponent },
     { path: 'cart', component: CartComponent },
-    { path: 'review', component: ReviewComponent }
+    { path: 'review', component: ReviewComponent },
+    { path: 'verification/:id', component: VerificationCompanyComponent }
 
 ];

@@ -335,7 +335,7 @@ export class ServerHttpService {
     )
   }
 // get detail company
-public detailCompany(id): Observable<Company> {
+public detailCompany(id): Observable<any> {
   const token = localStorage.getItem("TOKEN");
   const url = ` https://seekproduct-api.misavu.net/api/user/company/detail/${id}`;
     const httpOptionsChild = {
@@ -436,8 +436,8 @@ public createCompany(data) {
 }
 
 // bank token (btok)
-public getBtok(data: AccountBtok):Observable<any>{
-  const url = `https://seekproduct-api.misavu.net/api/category`;
+public getBtok():Observable<any>{
+  const url = `https://seekproduct-api.misavu.net/api/user/payment/bank-token`;
   const setdata:AccountBtok = {
     country :"AU",
     name : "Dave",
@@ -586,8 +586,58 @@ public deleteCompany(site) {
     })
   );
 }
+// delete company
+public check(id_company) {
+  const token = localStorage.getItem("TOKEN");
+  const data={
+    company_id:id_company
+  }
+  const url = `https://seekproduct-api.misavu.net/api/user/company/check-verification/`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      "Content-Type": "application/json",
+      // "Content-Type": 'application/x-www-form-urlencoded',
+      // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+      // "Content-Length":"<calculated when request is sent>",
+      // "Accept-Encoding": "gzip, deflate, br",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + token,
+    }),
+  };
+  return this.http.post<any>(url, data, httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap((res) => {
+      // console.log(res);
+    })
+  );
+}
 
 
+//xac thuc Company
+public VerificationCompany(data) {
+  const token = localStorage.getItem("TOKEN");
+  const url = `https://seekproduct-api.misavu.net/api/user/company/verification/`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      // "Content-Type": "application/json",
+      // "Content-Type": 'application/x-www-form-urlencoded',
+      // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+      // "Content-Length":"<calculated when request is sent>",
+      // "Accept-Encoding": "gzip, deflate, br",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + token,
+    }),
+  };
+  return this.http.post<any>(url,data,  httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap((res) => {
+      // console.log(res);
+    }, (err) =>  {
+
+    }
+    )
+  );
+}
 // // connect stripe GET request
 // public getConnectStripe() {
 //   const token = localStorage.getItem("TOKEN");
@@ -611,7 +661,56 @@ public deleteCompany(site) {
 //     })
 //   );
 // }
+//follow
+public follow(site) {
+  const token = localStorage.getItem("TOKEN");
+  const url = `https://seekproduct-api.misavu.net/api/user/followedcompanies/follow?site=${site}`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      // "Content-Type": "application/json",
+      // "Content-Type": 'application/x-www-form-urlencoded',
+      // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+      // "Content-Length":"<calculated when request is sent>",
+      // "Accept-Encoding": "gzip, deflate, br",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + token,
+    }),
+  };
+  return this.http.post<any>(url, {}, httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap((res) => {
+      console.log(res);
+    }, (err) =>  {
 
+      console.log(err);
+    }
+    )
+  );
+}
+public unfollow(site) {
+  const token = localStorage.getItem("TOKEN");
+  const url = `https://seekproduct-api.misavu.net/api/user/followedcompanies/unfollow?site=${site}`;
+  const httpOptionsChild = {
+    headers: new HttpHeaders({
+      // "Content-Type": "application/json",
+      // "Content-Type": 'application/x-www-form-urlencoded',
+      // "Content-Type": 'application/json; boundary=<calculated when request is sent>',
+      // "Content-Length":"<calculated when request is sent>",
+      // "Accept-Encoding": "gzip, deflate, br",
+      // Authorization: 'my-auth-token',
+      Authorization: "JWT " + token,
+    }),
+  };
+  return this.http.delete<any>(url,  httpOptionsChild).pipe(
+    catchError(this.handleError),
+    tap((res) => {
+      console.log(res);
+    }, (err) =>  {
+      console.log(err);
+    }
+    )
+  );
+}
 
   private handleError(error: HttpErrorResponse) {
     console.log(error.status);

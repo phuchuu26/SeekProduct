@@ -16,7 +16,6 @@ import { ComponentsModule } from './components/components.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { IndexCompanyComponent } from './pages/Company/index-company/index-company.component';
-import { EditCompanyComponent } from './pages/Company/edit-company/edit-company.component';
 import { CreateCompanyComponent } from './pages/Company/create-company/create-company.component';
 import { DetailCompanyComponent } from './pages/Company/detail-company/detail-company.component';
 import {NgxPaginationModule} from 'ngx-pagination';
@@ -36,8 +35,12 @@ import {NgbPaginationModule, NgbAlertModule,} from '@ng-bootstrap/ng-bootstrap';
 import { EditBannerComponent } from './pages/Company/edit-banner/edit-banner.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { NgxSpinnerModule } from "ngx-spinner";
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { VerificationCompanyComponent } from './pages/Company/verification-company/verification-company.component';
+
 @NgModule({
   imports: [
+    MatDatepickerModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
@@ -66,17 +69,17 @@ import { NgxSpinnerModule } from "ngx-spinner";
     MatDialogModule,
     NgxPaginationModule,
     MatTabsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
     IndexCompanyComponent,
-    EditCompanyComponent,
     CreateCompanyComponent,
     DetailCompanyComponent,
-    EditBannerComponent
+    EditBannerComponent,
+    VerificationCompanyComponent
 
 
     // MatSliderModule,

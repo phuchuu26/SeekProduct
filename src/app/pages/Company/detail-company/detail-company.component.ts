@@ -28,6 +28,7 @@ import {
   DialogOverviewExampleDialog,
 } from "../../manage-product/manage-product.component";
 import { NgxSpinnerService } from "ngx-spinner";
+import { NgbPopoverConfig } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-detail-company",
@@ -38,8 +39,10 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
   // options: string[] = ['One', 'Two', 'Three'];
   // myControl = new FormControl();
   // filteredOptions: Observable<string[]>;
+  public follow:boolean;
+  public checkAccount:string;
   public cateChoosed: string[] = [];
-  category1 = new FormControl();
+  category1:any = new FormControl();
   public nameca: string;
   toppings = new FormControl();
   public companyForm: FormGroup;
@@ -59,9 +62,12 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
     private forms: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-
+    config: NgbPopoverConfig,
     private spinner: NgxSpinnerService
-  ) {}
+  ) {
+    config.placement = 'left';
+    config.triggers = 'hover';
+  }
   // private _filter(value: string): string[] {
   //   const filterValue = value.toLowerCase();
 
@@ -69,6 +75,7 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
   // }
 
   ngOnInit(): void {
+
     // this.nameCa();
     // this.filteredOptions = this.myControl.valueChanges
     //   .pipe(
@@ -100,6 +107,7 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
 
     //get detail by API
     this.http.detailCompany(this.site).subscribe((data) => {
+      this.follow = data.follow;
       // this.companyProfile = data;
       // console.log(data);
       // console.log(this.companyProfile);
@@ -122,6 +130,9 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
     // } else {
     //   this.urlImage = this.userProfile.avatar;
     // }
+    this.http.check(this.companyProfile.id).subscribe((data) => {
+      this.checkAccount = data.status;
+    })
 
     this.companyForm = this.forms.group({
       // id: new FormControl(),
@@ -290,7 +301,7 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
     formdata.set("store_name", a.store_name);
     formdata.set("address", a.address);
     formdata.set("phone_number", a.phone_number);
-    formdata.set("legal_name", a.phone_number);
+    formdata.set("legal_name", a.legal_name);
     formdata.set("site", a.site);
     formdata.set("business_license", a.business_license);
     if (this.logo != null) {
@@ -316,6 +327,7 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
         this.success(a.store_name);
       },
       (error) => {
+        this.spinner.hide();
         if (error.status == 500) {
           this.failed(
             "Internal Server error",
@@ -458,6 +470,9 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
     } else this.error.logo = "";
   }
 
+  xacthuc(site){
+    this.router.navigate(["verification", site]);
+  }
   public success(a) {
     this.snotify.info(`Company ${a} has been updated successfully`, "Confirm", {
       position: SnotifyPosition.rightTop,
@@ -509,5 +524,72 @@ export class DetailCompanyComponent implements DoCheck, OnInit {
         }
       })
 
+  }
+
+  unf(){
+    this.follow = !this.follow;
+    this.http.unfollow(this.companyProfile.site).subscribe((data)=>{
+      this.success1(this.companyProfile.store_name,"Unfollow");
+    }
+    , (error)=>{
+      if (error.status == 500) {
+        this.failed1(
+          "Internal Server error",
+          "Can the image field may be incorrectly formatted","Unfollow"
+        );
+        console.log(error);
+        console.log("loi 500");
+      } else {
+        Object.entries(error.error).forEach(([key, value]) => {
+          // console.log(`${key}: ${value}`);
+          this.failed1(key, value,"Unfollow");
+        });
+      }
+    })
+
+  }
+
+
+  public success1(a,c) {
+    this.snotify.info(`Company ${a} has been ${c} successfully`, "Confirm", {
+      position: SnotifyPosition.rightTop,
+      timeout: 3000,
+      showProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+    });
+  }
+  public failed1(a, b,c) {
+    this.snotify.error(`${c} company failed by ${a} ${b}`, "Confirm", {
+      position: SnotifyPosition.rightTop,
+      timeout: 4000,
+      showProgressBar: true,
+      closeOnClick: false,
+      pauseOnHover: true,
+    });
+  }
+
+
+  fo(){
+    this.follow = !this.follow;
+    this.http.follow(this.companyProfile.site).subscribe((data)=>{
+      console.log(data);
+      this.success1(this.companyProfile.store_name,'Follow');
+    }
+    , (error)=>{
+      if (error.status == 500) {
+        this.failed1(
+          "Internal Server error",
+          "Can the image field may be incorrectly formatted","Follow"
+        );
+        console.log(error);
+        console.log("loi 500");
+      } else {
+        Object.entries(error.error).forEach(([key, value]) => {
+          // console.log(`${key}: ${value}`);
+          this.failed1(key, value,'Follow');
+        });
+      }
+    })
   }
 }

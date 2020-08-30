@@ -3,6 +3,7 @@ import { Component, OnInit, DoCheck } from "@angular/core";
 import { ServerHttpService } from "src/app/Services/server-http.service";
 import { AllMyCompany, Company } from "src/app/models/user";
 import { SnotifyService, SnotifyPosition } from "ng-snotify";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-index-company",
@@ -20,6 +21,7 @@ export class IndexCompanyComponent implements OnInit ,DoCheck{
   constructor(private http: ServerHttpService, private router: Router
     ,
     private snotify: SnotifyService,
+    private spinner: NgxSpinnerService
     ) {}
   ngDoCheck(): void {
     // console.log(this.Com);
@@ -27,8 +29,10 @@ export class IndexCompanyComponent implements OnInit ,DoCheck{
     localStorage.setItem("ALLCOMPANY",JSON.stringify(this.allmycompany1 ));
   }
   ngOnInit(): void {
+
     let i =2;
     let test :Company[];
+    // this.spinner.show();
     this.http.GetAllMyCompany( 1).subscribe( async (data)=>{
             console.log(data);
             test = data.results;
@@ -52,6 +56,7 @@ export class IndexCompanyComponent implements OnInit ,DoCheck{
               // await console.log(this.Com);
               // await localStorage.setItem("ALLMYCOMPANY",JSON.stringify(await test));
             }
+            // this.spinner.hide();
             // await localStorage.setItem("ALLMYCOMPANY",JSON.stringify(await this.allmycompany1 ));
           });
 
@@ -108,13 +113,17 @@ export class IndexCompanyComponent implements OnInit ,DoCheck{
     // console.log(id);
     this.router.navigate(["detailcompany", site]);
   }
+
   deleteComany(site,name){
+    this.spinner.show();
     this.http.deleteCompany(site).subscribe(async(data) =>{
       await this.router.navigate(["dashboard"]);
       this.success(name);
       await this.router.navigate(["allmycompany"]);
+      this.spinner.hide();
     },
     (error) => {
+      this.spinner.hide();
       if (error.status == 500) {
         this.failed(
           "Internal Server error",

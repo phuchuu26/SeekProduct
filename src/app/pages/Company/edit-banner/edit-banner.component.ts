@@ -88,6 +88,7 @@ export class EditBannerComponent implements OnInit {
       // this.router.navigate(["detailcompany", this.companyProfile.site]);
     },
     (error) => {
+      this.spinner.hide();
       if (error.status == 500) {
         this.failed(
           "Internal Server error",
