@@ -20,6 +20,7 @@ import {
   AfterViewChecked,
 } from "@angular/core";
 import Swal from "sweetalert2";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: "app-create-company",
@@ -49,7 +50,8 @@ export class CreateCompanyComponent implements OnInit, DoCheck {
     private http: ServerHttpService,
     private forms: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) {}
   // private _filter(value: string): string[] {
   //   const filterValue = value.toLowerCase();
@@ -289,13 +291,13 @@ export class CreateCompanyComponent implements OnInit, DoCheck {
     // formdata.set('category',a.category.toString());
 
     // this.http.post<any>('https://seekproduct-api.misavu.net/api/user/product/?site='+ this.company_site,formdata,{
-    //     headers: new HttpHeaders({
-    //       Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
-    //     })
-    //   }).subscribe((data)=> {
-    //     console.log(data);
-    //     Swal.fire({
-    //       position: 'center',
+      //     headers: new HttpHeaders({
+        //       Authorization: 'JWT ' + localStorage.getItem('TOKEN'),
+        //     })
+        //   }).subscribe((data)=> {
+          //     console.log(data);
+          //     Swal.fire({
+            //       position: 'center',
     //       icon: 'success',
     //       title: 'Your Add Product Success',
     //       showConfirmButton: false,
@@ -304,24 +306,27 @@ export class CreateCompanyComponent implements OnInit, DoCheck {
     //     this.clearnData();
     //     this.check = false;
     //   }, err =>{
-    //     Swal.fire({
-    //       position: 'center',
-    //       icon: 'error',
-    //       title: 'Your Add Product Fail',
-    //       showConfirmButton: false,
-    //       timer: 1500
-    //     })
-    //   });
+      //     Swal.fire({
+        //       position: 'center',
+        //       icon: 'error',
+        //       title: 'Your Add Product Fail',
+        //       showConfirmButton: false,
+        //       timer: 1500
+        //     })
+        //   });
 
-    this.http.createCompany(formdata).subscribe(
+        this.spinner.show();
+        this.http.createCompany(formdata).subscribe(
       (data) => {
         console.log(data);
         // this.router.navigate(["login"]);
         this.success(this.companyForm.controls.store_name.value);
-        this.router.navigate(["allmycompany"]);
-      },
-      (error) => {
-        if (error.status == 500) {
+          this.spinner.hide();
+          this.router.navigate(["allmycompany"]);
+        },
+        (error) => {
+          this.spinner.hide();
+          if (error.status == 500) {
           this.failed(
             "Internal Server error",
             "Can the image field may be incorrectly formatted"

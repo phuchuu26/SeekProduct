@@ -20,7 +20,7 @@
         </p>
       </div>
     </div> -->
-    <a class="btn btn-info">Add Company</a>
+    <a class="btn btn-info">Create Company</a>
   </div>
 </div>
 <div class="container-fluid mt--7">
@@ -425,9 +425,10 @@
                   ></textarea
                 >
               </div>
-              <div *ngIf="error.about === 'null'"> <label class="error">Bạn chưa nhập About</label> </div>
-              <div *ngIf="error.about === 'min'"> <label class="error">Trường About yêu cầu 5 ký tự</label> </div>
-              <div *ngIf="error.about === 'max'"> <label class="error">Trường About không vượt quá 200 ký tự</label> </div>
+
+              <div *ngIf="error.about === 'null'"> <label class="error">You have not entered About</label> </div>
+              <div *ngIf="error.about === 'min'"> <label class="error">About field requires 5 characters</label> </div>
+              <div *ngIf="error.about === 'max'"> <label class="error">About field cannot exceed 500 characters</label> </div>
             </div>
             <div class="text-center">
               <button

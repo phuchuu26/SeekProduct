@@ -91,3 +91,14 @@ export interface AccountBtok{
   previous ?:string;
   results?:[];
 }
+
+export interface VerificationCompany{
+  city: string,
+  line1: string,
+  postal_code: number,
+  state: string,
+  bussiness_name: string,
+  bussiness_tax_id: number,
+  first_name: string,
+  last_name: string,
+}
